@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Chart, registerables } from 'chart.js';
+Chart.register(...registerables);
 
 const API = import.meta.env.VITE_API_URL || 'https://zylumia-backend-kmbrxbidkq-uc.a.run.app';
 const API_BASE = `${API}/api/admin`;
@@ -317,14 +319,7 @@ export default function Admin() {
     if (!reportsData || !dashboardData || activeTab !== 'Dashboard') return;
     
     const run = async () => {
-    // Aguarda Chart.js estar disponível (já carregado no index.html)
-    let attempts = 0;
-    while (!(window as any).Chart && attempts < 20) {
-      await new Promise(r => setTimeout(r, 100));
-      attempts++;
-    }
-    if (!(window as any).Chart) return;
-    const Chart = (window as any).Chart;
+    // Chart.js importado via npm - disponível imediatamente
     
     setTimeout(() => {
       // Destrói gráficos anteriores
