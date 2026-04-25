@@ -4,6 +4,7 @@ Chart.register(...registerables);
 
 const API = import.meta.env.VITE_API_URL || 'https://zylumia-backend-kmbrxbidkq-uc.a.run.app';
 const API_BASE = `${API}/api/admin`;
+const ADMIN_KEY = 'zylumia-admin-2026';
 
 let _adminToken = '';
 
@@ -465,33 +466,48 @@ export default function Admin() {
   async function dispararRecuperacao() {
     setRecoveryLoading(true)
     setRecoveryMsg('')
-    
-    // Primeiro busca estatísticas
-    const stats = await adminFetch(
-      `${API}/api/recovery/stats`
-    )
-    
-    // Depois dispara os e-mails
-    const result = await adminFetch(
-      `${API}/api/admin/recovery/trigger`,
-      { method: 'POST' }
-    )
-    
-    if (stats?.success) {
-      setRecoveryMsg(
-        `📊 Estatísticas de recuperação:\n` +
-        `• Total de carrinhos abandonados: ${stats.stats.total}\n` +
-        `• E-mails enviados: ${stats.stats.emailsSent}\n` +
-        `• Carrinhos recuperados: ${stats.stats.recovered}\n` +
-        `• Taxa de recuperação: ${stats.stats.recoveryRate}\n\n` +
-        (result?.sent > 0 
-          ? `✅ ${result.sent} novo(s) e-mail(s) enviado(s) agora!`
-          : `ℹ️ Nenhum carrinho elegível no momento (mínimo 1 hora de abandono)`)
-      )
-    } else {
-      setRecoveryMsg('ℹ️ Estatísticas não disponíveis. Tente novamente.')
+
+    try {
+      // Busca estatísticas — rota exige x-admin-key
+      const statsRes = await fetch(`${API}/api/recovery/stats`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${_adminToken}`,
+          'x-admin-key': ADMIN_KEY,
+        }
+      });
+      const stats = await statsRes.json();
+
+      // Dispara envio de e-mails — rota correta é /api/recovery/send-emails
+      const sendRes = await fetch(`${API}/api/recovery/send-emails`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${_adminToken}`,
+          'x-admin-key': ADMIN_KEY,
+        }
+      });
+      const result = await sendRes.json();
+
+      if (stats?.success) {
+        setRecoveryMsg(
+          `📊 Estatísticas de recuperação:\n` +
+          `• Total de carrinhos abandonados: ${stats.stats.total}\n` +
+          `• Pendentes de e-mail: ${stats.stats.pending}\n` +
+          `• E-mails já enviados: ${stats.stats.emailsSent}\n` +
+          `• Carrinhos recuperados: ${stats.stats.recovered}\n` +
+          `• Taxa de recuperação: ${stats.stats.recoveryRate}\n\n` +
+          (result?.sent > 0
+            ? `✅ ${result.sent} novo(s) e-mail(s) enviado(s) agora!`
+            : `ℹ️ Nenhum carrinho elegível no momento (mínimo 1h de abandono)`)
+        )
+      } else {
+        setRecoveryMsg(`⚠️ ${stats?.message || 'Erro ao buscar estatísticas.'}`)
+      }
+    } catch(e) {
+      setRecoveryMsg('❌ Erro de conexão com o servidor.')
     }
-    
+
     setRecoveryLoading(false)
   }
 
@@ -519,25 +535,31 @@ export default function Admin() {
   };
 
   async function limparDados() {
+    if (!window.confirm('Confirma a limpeza de dados antigos? Esta ação não pode ser desfeita.')) return;
     setCleanLoading(true)
-    
-    const data = await adminFetch(
-      `${API}/api/maintenance/cleanup`,
-      { method: 'POST' }
-    )
-    
-    if (data?.success) {
-      alert(
-        `✅ Limpeza concluída!\n\n` +
-        `• Códigos OTP removidos: ${data.deleted.otpCodes}\n` +
-        `• Carrinhos removidos: ${data.deleted.carts}\n` +
-        `• Carrinhos abandonados: ${data.deleted.abandonedCarts}\n` +
-        `• Cupons expirados: ${data.deleted.expiredCoupons}`
-      )
-    } else {
-      alert('Erro ao limpar dados. Tente novamente.')
+    try {
+      const r = await fetch(`${API}/api/maintenance/cleanup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${_adminToken}`,
+        }
+      });
+      const data = await r.json();
+      if (data?.success) {
+        alert(
+          `✅ Limpeza concluída!\n\n` +
+          `• Códigos OTP removidos: ${data.deleted.otpCodes}\n` +
+          `• Carrinhos removidos: ${data.deleted.carts}\n` +
+          `• Carrinhos abandonados: ${data.deleted.abandonedCarts}\n` +
+          `• Cupons expirados: ${data.deleted.expiredCoupons}`
+        )
+      } else {
+        alert(`❌ Erro: ${data?.message || 'Tente novamente.'}`)
+      }
+    } catch(e) {
+      alert('❌ Erro de conexão com o servidor.')
     }
-    
     setCleanLoading(false)
   }
 
