@@ -10,7 +10,7 @@ function loadPayPalSDK(): Promise<void> {
     if (existing) { existing.addEventListener('load', () => resolve()); return; }
     const script = document.createElement('script');
     script.id = 'paypal-sdk';
-    script.src = `https://www.paypal.com/sdk/js?client-id=${PAYPAL_CLIENT_ID}&currency=USD&locale=pt_BR`;
+    script.src = `https://www.paypal.com/sdk/js?client-id=${PAYPAL_CLIENT_ID}&currency=USD&intent=capture&components=buttons`;
     script.async = true;
     script.onload = () => resolve();
     script.onerror = () => reject(new Error('Falha ao carregar PayPal SDK'));
@@ -62,18 +62,20 @@ export default function ZylumiaPayPalButton({ produto, customerName, customerEma
           return data.paypalOrderId;
         },
 
-        onApprove: async (data: any, actions: any) => {
+        onApprove: async (data: any) => {
           try {
-            const details = await actions.order.capture();
-            const paypalEmail = details?.payer?.email_address;
-            const paypalName = details?.payer?.name?.given_name + ' ' + details?.payer?.name?.surname;
+            // Capture is done server-side — frontend just sends orderID
             const u = JSON.parse(localStorage.getItem('zylumia_user') || 'null');
-            const emailFinal = u?.email || paypalEmail || customerEmailRef.current || 'guest@zylumia.com';
-            const nameFinal = u?.name || paypalName || customerNameRef.current || 'Cliente';
-            if (!u && paypalEmail) localStorage.setItem('zylumia_paypal_email', paypalEmail);
+            const emailFinal = u?.email || customerEmailRef.current || 'guest@zylumia.com';
+            const nameFinal = u?.name || customerNameRef.current || 'Cliente';
             const r = await fetch(`${API}/api/paypal/capture-order`, {
               method: 'POST', headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ paypalOrderId: data.orderID, customerEmail: emailFinal, customerName: nameFinal, sessionId: localStorage.getItem('zylumia_session_id') })
+              body: JSON.stringify({
+                paypalOrderId: data.orderID,
+                customerEmail: emailFinal,
+                customerName: nameFinal,
+                sessionId: localStorage.getItem('zylumia_session_id')
+              })
             });
             const result = await r.json();
             if (result.success) {
