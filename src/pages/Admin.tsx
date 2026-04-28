@@ -67,6 +67,20 @@ export default function Admin() {
   const [recoveryMsg, setRecoveryMsg] = useState('');
   const [cleanLoading, setCleanLoading] = useState(false);
 
+  // Broadcast email states
+  const [showBroadcast, setShowBroadcast] = useState(false);
+  const [broadcastSelected, setBroadcastSelected] = useState<string[]>([]);
+  const [broadcastSubject, setBroadcastSubject] = useState('');
+  const [broadcastTitle, setBroadcastTitle] = useState('');
+  const [broadcastBody, setBroadcastBody] = useState('');
+  const [broadcastImageUrl, setBroadcastImageUrl] = useState('');
+  const [broadcastLink, setBroadcastLink] = useState('');
+  const [broadcastLinkLabel, setBroadcastLinkLabel] = useState('');
+  const [broadcastCoupon, setBroadcastCoupon] = useState('');
+  const [broadcastSending, setBroadcastSending] = useState(false);
+  const [broadcastResult, setBroadcastResult] = useState('');
+  const [selectAll, setSelectAll] = useState(false);
+
   // Messages states
   const [adminMessages, setAdminMessages] = useState<any[]>([]);
   const [replyTexts, setReplyTexts] = useState<Record<string, string>>({});
@@ -463,6 +477,64 @@ export default function Admin() {
     }
   };
 
+  async function enviarBroadcast() {
+    if (broadcastSelected.length === 0) { alert('Selecione pelo menos um cliente.'); return; }
+    if (!broadcastSubject.trim()) { alert('Preencha o assunto do e-mail.'); return; }
+    if (!broadcastTitle.trim() && !broadcastBody.trim()) { alert('Preencha o título ou a mensagem.'); return; }
+    if (!window.confirm(`Enviar e-mail para ${broadcastSelected.length} cliente(s)?`)) return;
+
+    setBroadcastSending(true);
+    setBroadcastResult('');
+
+    try {
+      const r = await fetch(`${API}/api/admin/broadcast`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${_adminToken}`,
+          'x-admin-key': ADMIN_KEY,
+        },
+        body: JSON.stringify({
+          emails: broadcastSelected,
+          subject: broadcastSubject,
+          title: broadcastTitle,
+          body: broadcastBody,
+          imageUrl: broadcastImageUrl,
+          link: broadcastLink,
+          linkLabel: broadcastLinkLabel || 'Ver oferta',
+          coupon: broadcastCoupon,
+        })
+      });
+      const data = await r.json();
+      if (data?.success) {
+        setBroadcastResult(`✅ E-mail enviado para ${data.sent} cliente(s) com sucesso!`);
+        setBroadcastSelected([]);
+        setSelectAll(false);
+      } else {
+        setBroadcastResult(`❌ Erro: ${data?.message || 'Falha no envio.'}`);
+      }
+    } catch(e) {
+      setBroadcastResult('❌ Erro de conexão com o servidor.');
+    }
+    setBroadcastSending(false);
+  }
+
+  function toggleSelectAll() {
+    if (selectAll) {
+      setBroadcastSelected([]);
+      setSelectAll(false);
+    } else {
+      setBroadcastSelected(customers.map((c: any) => c.email));
+      setSelectAll(true);
+    }
+  }
+
+  function toggleCustomer(email: string) {
+    setBroadcastSelected(prev =>
+      prev.includes(email) ? prev.filter(e => e !== email) : [...prev, email]
+    );
+  }
+
   async function dispararRecuperacao() {
     setRecoveryLoading(true)
     setRecoveryMsg('')
@@ -796,41 +868,192 @@ export default function Admin() {
 
         {activeTab === 'Clientes' && (
           <div>
-            <h2 style={{ color: '#1a0533', marginBottom: '24px' }}>Clientes</h2>
+            {/* Header */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
+              <h2 style={{ color: '#1a0533', margin: 0 }}>Clientes ({customers.length})</h2>
+              <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                {broadcastSelected.length > 0 && (
+                  <span style={{ fontSize: '13px', background: '#ede9fe', color: '#6d28d9', padding: '4px 12px', borderRadius: '20px', fontWeight: 500 }}>
+                    {broadcastSelected.length} selecionado(s)
+                  </span>
+                )}
+                <button
+                  onClick={() => { setShowBroadcast(true); setBroadcastResult(''); }}
+                  title="Enviar e-mail em massa"
+                  style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'linear-gradient(135deg,#6d28d9,#7c3aed)', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '8px', cursor: 'pointer', fontWeight: 600, fontSize: '14px', boxShadow: '0 2px 8px rgba(109,40,217,0.3)' }}
+                >
+                  <span style={{ fontSize: '18px' }}>✉️</span> Enviar E-mail
+                </button>
+              </div>
+            </div>
+
+            {/* Tabela de clientes */}
             <div style={{ background: 'white', border: '1px solid #ede9fe', borderRadius: '12px', padding: '24px', overflowX: 'auto' }}>
               <table style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse', fontFamily: 'sans-serif', fontSize: '14px' }}>
                 <thead>
                   <tr style={{ borderBottom: '2px solid #eee' }}>
+                    <th style={{ padding: '12px', width: '40px' }}>
+                      <input type="checkbox" checked={selectAll} onChange={toggleSelectAll} title="Selecionar todos" style={{ cursor: 'pointer', width: '16px', height: '16px', accentColor: '#6d28d9' }} />
+                    </th>
                     <th style={{ padding: '12px' }}>E-mail</th>
                     <th style={{ padding: '12px' }}>Último login</th>
                     <th style={{ padding: '12px' }}>Último pedido</th>
-                    <th style={{ padding: '12px' }}>Detalhes</th>
+                    <th style={{ padding: '12px' }}>Ações</th>
                   </tr>
                 </thead>
                 <tbody>
                   {customers.map((customer, i) => (
-                    <tr key={i} style={{ borderBottom: '1px solid #eee' }}>
-                      <td style={{ padding: '12px' }}>{customer.email}</td>
-                      <td style={{ padding: '12px' }}>{customer.lastLogin ? new Date(customer.lastLogin).toLocaleString() : '-'}</td>
-                      <td style={{ padding: '12px' }}>{customer.lastOrderDate ? new Date(customer.lastOrderDate).toLocaleString() : '-'}</td>
+                    <tr key={i} style={{ borderBottom: '1px solid #eee', background: broadcastSelected.includes(customer.email) ? '#faf5ff' : 'white', transition: 'background 0.15s' }}>
                       <td style={{ padding: '12px' }}>
-                        <button
-                          onClick={() => handleViewCustomerDetails(customer)}
-                          style={{ background: '#f3f4f6', border: '1px solid #d1d5db', padding: '4px 8px', borderRadius: '4px', cursor: 'pointer', fontSize: '12px' }}
-                        >
-                          👁 Ver
-                        </button>
+                        <input type="checkbox" checked={broadcastSelected.includes(customer.email)} onChange={() => toggleCustomer(customer.email)} style={{ cursor: 'pointer', width: '16px', height: '16px', accentColor: '#6d28d9' }} />
+                      </td>
+                      <td style={{ padding: '12px', fontWeight: 500, color: '#1a0533' }}>{customer.email}</td>
+                      <td style={{ padding: '12px', color: '#666' }}>{customer.lastLogin ? new Date(customer.lastLogin).toLocaleString('pt-BR') : '-'}</td>
+                      <td style={{ padding: '12px', color: '#666' }}>{customer.lastOrderDate ? new Date(customer.lastOrderDate).toLocaleString('pt-BR') : '-'}</td>
+                      <td style={{ padding: '12px' }}>
+                        <div style={{ display: 'flex', gap: '6px' }}>
+                          <button onClick={() => handleViewCustomerDetails(customer)} title="Ver detalhes" style={{ background: '#f3f4f6', border: '1px solid #d1d5db', padding: '5px 10px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px' }}>👁 Ver</button>
+                          <button onClick={() => { setBroadcastSelected([customer.email]); setShowBroadcast(true); setBroadcastResult(''); }} title="Enviar e-mail para este cliente" style={{ background: '#ede9fe', border: '1px solid #c4b5fd', padding: '5px 10px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', color: '#6d28d9' }}>✉️</button>
+                        </div>
                       </td>
                     </tr>
                   ))}
                   {customers.length === 0 && (
-                    <tr>
-                      <td colSpan={4} style={{ padding: '24px', textAlign: 'center', color: '#888' }}>Nenhum cliente encontrado.</td>
-                    </tr>
+                    <tr><td colSpan={5} style={{ padding: '24px', textAlign: 'center', color: '#888' }}>Nenhum cliente encontrado.</td></tr>
                   )}
                 </tbody>
               </table>
             </div>
+
+            {/* Modal Broadcast */}
+            {showBroadcast && (
+              <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+                <div style={{ background: 'white', borderRadius: '16px', padding: '32px', width: '100%', maxWidth: '700px', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 20px 60px rgba(0,0,0,0.3)' }}>
+                  
+                  {/* Modal Header */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                    <div>
+                      <h3 style={{ margin: '0 0 4px 0', color: '#1a0533', fontSize: '20px' }}>✉️ Enviar E-mail em Massa</h3>
+                      <p style={{ margin: 0, color: '#666', fontSize: '14px' }}>
+                        {broadcastSelected.length === 0 ? '⚠️ Nenhum cliente selecionado' : `📤 Será enviado para ${broadcastSelected.length} cliente(s)`}
+                      </p>
+                    </div>
+                    <button onClick={() => setShowBroadcast(false)} style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#666', lineHeight: 1 }}>✕</button>
+                  </div>
+
+                  {/* Destinatários selecionados */}
+                  {broadcastSelected.length > 0 && (
+                    <div style={{ background: '#faf5ff', border: '1px solid #ede9fe', borderRadius: '8px', padding: '12px 16px', marginBottom: '20px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                        <span style={{ fontSize: '13px', fontWeight: 600, color: '#6d28d9' }}>Destinatários ({broadcastSelected.length})</span>
+                        <button onClick={() => { setBroadcastSelected([]); setSelectAll(false); }} style={{ fontSize: '11px', color: '#ef4444', background: 'none', border: 'none', cursor: 'pointer' }}>Limpar seleção</button>
+                      </div>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', maxHeight: '80px', overflowY: 'auto' }}>
+                        {broadcastSelected.map(email => (
+                          <span key={email} style={{ background: '#ede9fe', color: '#5b21b6', padding: '2px 10px', borderRadius: '20px', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            {email}
+                            <button onClick={() => toggleCustomer(email)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#7c3aed', fontWeight: 'bold', padding: '0', lineHeight: 1, fontSize: '14px' }}>×</button>
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Campos do e-mail */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <div>
+                      <label style={{ fontSize: '13px', fontWeight: 600, color: '#374151', display: 'block', marginBottom: '6px' }}>Assunto *</label>
+                      <input value={broadcastSubject} onChange={e => setBroadcastSubject(e.target.value)} placeholder="Ex: Oferta exclusiva para você 🎁" style={{ width: '100%', padding: '10px 14px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box', outline: 'none' }} />
+                    </div>
+
+                    <div>
+                      <label style={{ fontSize: '13px', fontWeight: 600, color: '#374151', display: 'block', marginBottom: '6px' }}>Título do E-mail</label>
+                      <input value={broadcastTitle} onChange={e => setBroadcastTitle(e.target.value)} placeholder="Ex: Desconto especial só para você!" style={{ width: '100%', padding: '10px 14px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box', outline: 'none' }} />
+                    </div>
+
+                    <div>
+                      <label style={{ fontSize: '13px', fontWeight: 600, color: '#374151', display: 'block', marginBottom: '6px' }}>Mensagem *</label>
+                      <textarea value={broadcastBody} onChange={e => setBroadcastBody(e.target.value)} placeholder="Escreva aqui o corpo do e-mail. Pode usar quebras de linha." rows={5} style={{ width: '100%', padding: '10px 14px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box', resize: 'vertical', outline: 'none', fontFamily: 'sans-serif' }} />
+                    </div>
+
+                    <div>
+                      <label style={{ fontSize: '13px', fontWeight: 600, color: '#374151', display: 'block', marginBottom: '6px' }}>🖼️ URL da Imagem <span style={{ fontWeight: 400, color: '#9ca3af' }}>(opcional)</span></label>
+                      <input value={broadcastImageUrl} onChange={e => setBroadcastImageUrl(e.target.value)} placeholder="https://..." style={{ width: '100%', padding: '10px 14px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box', outline: 'none' }} />
+                      {broadcastImageUrl && (
+                        <div style={{ marginTop: '8px', border: '1px solid #e5e7eb', borderRadius: '8px', overflow: 'hidden', maxHeight: '120px' }}>
+                          <img src={broadcastImageUrl} alt="preview" style={{ width: '100%', objectFit: 'cover', maxHeight: '120px' }} onError={e => (e.currentTarget.style.display = 'none')} />
+                        </div>
+                      )}
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                      <div>
+                        <label style={{ fontSize: '13px', fontWeight: 600, color: '#374151', display: 'block', marginBottom: '6px' }}>🔗 Link do Botão <span style={{ fontWeight: 400, color: '#9ca3af' }}>(opcional)</span></label>
+                        <input value={broadcastLink} onChange={e => setBroadcastLink(e.target.value)} placeholder="https://zylumia.com/..." style={{ width: '100%', padding: '10px 14px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box', outline: 'none' }} />
+                      </div>
+                      <div>
+                        <label style={{ fontSize: '13px', fontWeight: 600, color: '#374151', display: 'block', marginBottom: '6px' }}>Texto do Botão</label>
+                        <input value={broadcastLinkLabel} onChange={e => setBroadcastLinkLabel(e.target.value)} placeholder="Ex: Aproveitar oferta" style={{ width: '100%', padding: '10px 14px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box', outline: 'none' }} />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label style={{ fontSize: '13px', fontWeight: 600, color: '#374151', display: 'block', marginBottom: '6px' }}>🎟️ Código de Desconto <span style={{ fontWeight: 400, color: '#9ca3af' }}>(opcional)</span></label>
+                      <input value={broadcastCoupon} onChange={e => setBroadcastCoupon(e.target.value.toUpperCase())} placeholder="Ex: VOLTA10" style={{ width: '100%', padding: '10px 14px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box', outline: 'none', fontFamily: 'monospace', letterSpacing: '2px' }} />
+                    </div>
+                  </div>
+
+                  {/* Preview */}
+                  {(broadcastTitle || broadcastBody) && (
+                    <div style={{ marginTop: '20px', border: '1px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden' }}>
+                      <div style={{ background: '#f3f4f6', padding: '8px 16px', fontSize: '12px', color: '#666', fontWeight: 600 }}>📧 Pré-visualização</div>
+                      <div style={{ padding: '20px', background: 'white' }}>
+                        <div style={{ maxWidth: '500px', margin: '0 auto', border: '1px solid #e5e7eb', borderRadius: '12px', overflow: 'hidden', fontSize: '14px' }}>
+                          <div style={{ background: 'linear-gradient(135deg,#1a0533,#6d28d9)', padding: '20px', textAlign: 'center' }}>
+                            <p style={{ color: 'white', margin: 0, fontSize: '20px', fontWeight: 'bold' }}>Zylumia</p>
+                          </div>
+                          {broadcastImageUrl && <img src={broadcastImageUrl} alt="" style={{ width: '100%', display: 'block' }} onError={e => (e.currentTarget.style.display='none')} />}
+                          <div style={{ padding: '24px' }}>
+                            {broadcastTitle && <h2 style={{ margin: '0 0 12px 0', color: '#1a0533', fontSize: '18px' }}>{broadcastTitle}</h2>}
+                            {broadcastBody && <p style={{ margin: '0 0 16px 0', color: '#374151', lineHeight: 1.6, whiteSpace: 'pre-line' }}>{broadcastBody}</p>}
+                            {broadcastCoupon && (
+                              <div style={{ background: '#faf5ff', border: '2px dashed #6d28d9', borderRadius: '8px', padding: '12px', textAlign: 'center', margin: '16px 0' }}>
+                                <p style={{ margin: '0 0 4px 0', fontSize: '12px', color: '#666' }}>Seu cupom exclusivo:</p>
+                                <p style={{ margin: 0, fontSize: '22px', fontWeight: 'bold', color: '#6d28d9', letterSpacing: '3px' }}>{broadcastCoupon}</p>
+                              </div>
+                            )}
+                            {broadcastLink && (
+                              <div style={{ textAlign: 'center', marginTop: '16px' }}>
+                                <span style={{ display: 'inline-block', background: '#6d28d9', color: 'white', padding: '12px 28px', borderRadius: '8px', fontWeight: 600, fontSize: '14px' }}>{broadcastLinkLabel || 'Ver oferta'}</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Result message */}
+                  {broadcastResult && (
+                    <div style={{ marginTop: '16px', padding: '12px 16px', background: broadcastResult.startsWith('✅') ? '#f0fdf4' : '#fef2f2', border: `1px solid ${broadcastResult.startsWith('✅') ? '#bbf7d0' : '#fecaca'}`, borderRadius: '8px', fontSize: '14px', color: broadcastResult.startsWith('✅') ? '#15803d' : '#dc2626' }}>
+                      {broadcastResult}
+                    </div>
+                  )}
+
+                  {/* Buttons */}
+                  <div style={{ display: 'flex', gap: '12px', marginTop: '24px', justifyContent: 'flex-end' }}>
+                    <button onClick={() => setShowBroadcast(false)} style={{ padding: '10px 24px', border: '1px solid #d1d5db', background: 'white', borderRadius: '8px', cursor: 'pointer', fontSize: '14px' }}>Cancelar</button>
+                    <button
+                      onClick={enviarBroadcast}
+                      disabled={broadcastSending || broadcastSelected.length === 0}
+                      style={{ padding: '10px 28px', background: broadcastSending ? '#9ca3af' : 'linear-gradient(135deg,#6d28d9,#7c3aed)', color: 'white', border: 'none', borderRadius: '8px', cursor: broadcastSending ? 'not-allowed' : 'pointer', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}
+                    >
+                      {broadcastSending ? '⏳ Enviando...' : `✉️ Enviar para ${broadcastSelected.length} cliente(s)`}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
 

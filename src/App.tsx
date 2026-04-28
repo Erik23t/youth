@@ -151,6 +151,20 @@ function PaginaPrincipal({ produto = zylumiaSérum }: { produto?: ProductData })
         })),
       })
     }
+    // Salva itens do carrinho no cache antes de navegar (checkout abre instantâneo)
+    try {
+      const sessionId = localStorage.getItem('zylumia_session_id');
+      if (sessionId && cartItems.length > 0) {
+        const subtotal = cartItems.reduce((acc, item) => acc + item.price * (item.quantity || item.qty || 1), 0);
+        const cacheCart = {
+          items: cartItems,
+          subtotal,
+          total: subtotal - discountAmount,
+          _loading: false,
+        };
+        localStorage.setItem('zylumia_cart_cache', JSON.stringify(cacheCart));
+      }
+    } catch {}
     window.location.href = '/checkout'
   }
 

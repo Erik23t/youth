@@ -100,7 +100,14 @@ const ReviewsAndGuarantees = () => (
 
 export default function Checkout() {
   const storedUser = JSON.parse(localStorage.getItem('zylumia_user') || 'null');
-  const [cart, setCart] = useState<any>(null);
+  // Inicializa cart imediatamente com dados do localStorage (sem delay)
+  const [cart, setCart] = useState<any>(() => {
+    try {
+      const saved = localStorage.getItem('zylumia_cart_cache');
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return { items: [], subtotal: 0, total: 0, _loading: true };
+  });
   
   const [etapa, setEtapa] = useState<'info'|'pagamento'>('info');
   const [nome, setNome]               = useState(storedUser?.name?.split(' ')[0] || '');
@@ -123,7 +130,12 @@ export default function Checkout() {
 
   const stripeRef = useRef<any>(null);
 
-  useEffect(() => { fetch(`${API}/api/health`).catch(() => {}) }, [])
+  // Pré-aquece conexão com backend ao montar o componente
+  useEffect(() => {
+    fetch(`${API}/api/health`).catch(() => {})
+    // Limpa cache desatualizado após carregar dados reais
+    return () => {}
+  }, [])
 
   useEffect(() => {
     async function carregarCarrinho() {
@@ -137,6 +149,7 @@ export default function Checkout() {
         const data = await r.json()
         
         if (data.success && data.cart) {
+          localStorage.setItem('zylumia_cart_cache', JSON.stringify(data.cart))
           setCart(data.cart)
           
           // Se o carrinho tem cupom salvo no backend
@@ -176,13 +189,7 @@ export default function Checkout() {
     return () => clearTimeout(timer)
   }, [email, cart])
 
-  if (!cart) {
-    return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
-        <p>Carregando checkout...</p>
-      </div>
-    );
-  }
+  // Sem bloqueio — renderiza imediatamente com dados do cache
 
   const subtotal = cart?.subtotal || 0;
   const totalFinal = Math.max(subtotal - desconto, 0);
