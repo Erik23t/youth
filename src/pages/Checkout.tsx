@@ -5,6 +5,194 @@ import StripeCheckout from '../components/StripeCheckout';
 
 const API = import.meta.env.VITE_API_URL || 'https://zylumia-backend-kmbrxbidkq-uc.a.run.app';
 
+// ─── Configuração internacional de endereços ───────────────────────────────
+const COUNTRIES = [
+  { code: 'BR', flag: '🇧🇷', name: 'Brasil' },
+  { code: 'US', flag: '🇺🇸', name: 'United States' },
+  { code: 'GB', flag: '🇬🇧', name: 'United Kingdom' },
+  { code: 'PT', flag: '🇵🇹', name: 'Portugal' },
+  { code: 'DE', flag: '🇩🇪', name: 'Deutschland' },
+  { code: 'FR', flag: '🇫🇷', name: 'France' },
+  { code: 'ES', flag: '🇪🇸', name: 'España' },
+  { code: 'IT', flag: '🇮🇹', name: 'Italia' },
+  { code: 'NL', flag: '🇳🇱', name: 'Netherlands' },
+  { code: 'BE', flag: '🇧🇪', name: 'Belgium' },
+  { code: 'CH', flag: '🇨🇭', name: 'Switzerland' },
+  { code: 'AT', flag: '🇦🇹', name: 'Austria' },
+  { code: 'CA', flag: '🇨🇦', name: 'Canada' },
+  { code: 'AU', flag: '🇦🇺', name: 'Australia' },
+  { code: 'MX', flag: '🇲🇽', name: 'México' },
+  { code: 'AR', flag: '🇦🇷', name: 'Argentina' },
+  { code: 'JP', flag: '🇯🇵', name: 'Japan' },
+];
+
+type AddressConfig = {
+  streetLabel: string;
+  streetPlaceholder: string;
+  complementLabel: string;
+  complementPlaceholder: string;
+  cityLabel: string;
+  stateLabel: string;
+  statePlaceholder: string;
+  postalLabel: string;
+  postalPlaceholder: string;
+  postalMask?: RegExp;
+  phonePrefix: string;
+  stateOptions?: { code: string; name: string }[];
+};
+
+const ADDRESS_CONFIG: Record<string, AddressConfig> = {
+  BR: {
+    streetLabel: 'Endereço', streetPlaceholder: 'Rua, Avenida, número',
+    complementLabel: 'Complemento', complementPlaceholder: 'Apto, bloco (opcional)',
+    cityLabel: 'Cidade', stateLabel: 'Estado', statePlaceholder: 'SP',
+    postalLabel: 'CEP', postalPlaceholder: '00000-000',
+    postalMask: /^\d{0,5}-?\d{0,3}$/,
+    phonePrefix: '+55',
+    stateOptions: [
+      {code:'AC',name:'Acre'},{code:'AL',name:'Alagoas'},{code:'AP',name:'Amapá'},
+      {code:'AM',name:'Amazonas'},{code:'BA',name:'Bahia'},{code:'CE',name:'Ceará'},
+      {code:'DF',name:'Distrito Federal'},{code:'ES',name:'Espírito Santo'},
+      {code:'GO',name:'Goiás'},{code:'MA',name:'Maranhão'},{code:'MT',name:'Mato Grosso'},
+      {code:'MS',name:'Mato Grosso do Sul'},{code:'MG',name:'Minas Gerais'},
+      {code:'PA',name:'Pará'},{code:'PB',name:'Paraíba'},{code:'PR',name:'Paraná'},
+      {code:'PE',name:'Pernambuco'},{code:'PI',name:'Piauí'},{code:'RJ',name:'Rio de Janeiro'},
+      {code:'RN',name:'Rio Grande do Norte'},{code:'RS',name:'Rio Grande do Sul'},
+      {code:'RO',name:'Rondônia'},{code:'RR',name:'Roraima'},{code:'SC',name:'Santa Catarina'},
+      {code:'SP',name:'São Paulo'},{code:'SE',name:'Sergipe'},{code:'TO',name:'Tocantins'},
+    ],
+  },
+  US: {
+    streetLabel: 'Street address', streetPlaceholder: '123 Main St',
+    complementLabel: 'Apt, suite, etc.', complementPlaceholder: 'Apt 4B (optional)',
+    cityLabel: 'City', stateLabel: 'State', statePlaceholder: 'CA',
+    postalLabel: 'ZIP code', postalPlaceholder: '90210',
+    postalMask: /^\d{0,5}(-\d{0,4})?$/,
+    phonePrefix: '+1',
+    stateOptions: [
+      {code:'AL',name:'Alabama'},{code:'AK',name:'Alaska'},{code:'AZ',name:'Arizona'},
+      {code:'AR',name:'Arkansas'},{code:'CA',name:'California'},{code:'CO',name:'Colorado'},
+      {code:'CT',name:'Connecticut'},{code:'DE',name:'Delaware'},{code:'FL',name:'Florida'},
+      {code:'GA',name:'Georgia'},{code:'HI',name:'Hawaii'},{code:'ID',name:'Idaho'},
+      {code:'IL',name:'Illinois'},{code:'IN',name:'Indiana'},{code:'IA',name:'Iowa'},
+      {code:'KS',name:'Kansas'},{code:'KY',name:'Kentucky'},{code:'LA',name:'Louisiana'},
+      {code:'ME',name:'Maine'},{code:'MD',name:'Maryland'},{code:'MA',name:'Massachusetts'},
+      {code:'MI',name:'Michigan'},{code:'MN',name:'Minnesota'},{code:'MS',name:'Mississippi'},
+      {code:'MO',name:'Missouri'},{code:'MT',name:'Montana'},{code:'NE',name:'Nebraska'},
+      {code:'NV',name:'Nevada'},{code:'NH',name:'New Hampshire'},{code:'NJ',name:'New Jersey'},
+      {code:'NM',name:'New Mexico'},{code:'NY',name:'New York'},{code:'NC',name:'North Carolina'},
+      {code:'ND',name:'North Dakota'},{code:'OH',name:'Ohio'},{code:'OK',name:'Oklahoma'},
+      {code:'OR',name:'Oregon'},{code:'PA',name:'Pennsylvania'},{code:'RI',name:'Rhode Island'},
+      {code:'SC',name:'South Carolina'},{code:'SD',name:'South Dakota'},{code:'TN',name:'Tennessee'},
+      {code:'TX',name:'Texas'},{code:'UT',name:'Utah'},{code:'VT',name:'Vermont'},
+      {code:'VA',name:'Virginia'},{code:'WA',name:'Washington'},{code:'WV',name:'West Virginia'},
+      {code:'WI',name:'Wisconsin'},{code:'WY',name:'Wyoming'},
+    ],
+  },
+  GB: {
+    streetLabel: 'Address line 1', streetPlaceholder: '10 Downing Street',
+    complementLabel: 'Address line 2', complementPlaceholder: 'Flat, building (optional)',
+    cityLabel: 'Town / City', stateLabel: 'County', statePlaceholder: 'Greater London',
+    postalLabel: 'Postcode', postalPlaceholder: 'SW1A 2AA',
+    phonePrefix: '+44',
+  },
+  CA: {
+    streetLabel: 'Street address', streetPlaceholder: '123 Maple Ave',
+    complementLabel: 'Apt, suite', complementPlaceholder: 'Unit 5 (optional)',
+    cityLabel: 'City', stateLabel: 'Province', statePlaceholder: 'ON',
+    postalLabel: 'Postal code', postalPlaceholder: 'K1A 0A9',
+    phonePrefix: '+1',
+    stateOptions: [
+      {code:'AB',name:'Alberta'},{code:'BC',name:'British Columbia'},{code:'MB',name:'Manitoba'},
+      {code:'NB',name:'New Brunswick'},{code:'NL',name:'Newfoundland and Labrador'},
+      {code:'NS',name:'Nova Scotia'},{code:'ON',name:'Ontario'},{code:'PE',name:'Prince Edward Island'},
+      {code:'QC',name:'Quebec'},{code:'SK',name:'Saskatchewan'},
+    ],
+  },
+  AU: {
+    streetLabel: 'Street address', streetPlaceholder: '1 Collins Street',
+    complementLabel: 'Unit / Level', complementPlaceholder: 'Unit 2 (optional)',
+    cityLabel: 'Suburb / City', stateLabel: 'State / Territory', statePlaceholder: 'VIC',
+    postalLabel: 'Postcode', postalPlaceholder: '3000',
+    phonePrefix: '+61',
+    stateOptions: [
+      {code:'ACT',name:'Australian Capital Territory'},{code:'NSW',name:'New South Wales'},
+      {code:'NT',name:'Northern Territory'},{code:'QLD',name:'Queensland'},
+      {code:'SA',name:'South Australia'},{code:'TAS',name:'Tasmania'},
+      {code:'VIC',name:'Victoria'},{code:'WA',name:'Western Australia'},
+    ],
+  },
+  DE: {
+    streetLabel: 'Straße und Hausnummer', streetPlaceholder: 'Musterstraße 1',
+    complementLabel: 'Adresszusatz', complementPlaceholder: 'Wohnung, Etage (optional)',
+    cityLabel: 'Stadt', stateLabel: 'Bundesland', statePlaceholder: 'Bayern',
+    postalLabel: 'Postleitzahl', postalPlaceholder: '80331',
+    phonePrefix: '+49',
+  },
+  FR: {
+    streetLabel: 'Adresse', streetPlaceholder: '1 Rue de la Paix',
+    complementLabel: "Complément d'adresse", complementPlaceholder: 'Appartement (optionnel)',
+    cityLabel: 'Ville', stateLabel: 'Département', statePlaceholder: 'Paris',
+    postalLabel: 'Code postal', postalPlaceholder: '75001',
+    phonePrefix: '+33',
+  },
+  ES: {
+    streetLabel: 'Dirección', streetPlaceholder: 'Calle Mayor 1',
+    complementLabel: 'Piso, puerta', complementPlaceholder: '2º izq. (opcional)',
+    cityLabel: 'Ciudad', stateLabel: 'Provincia', statePlaceholder: 'Madrid',
+    postalLabel: 'Código postal', postalPlaceholder: '28001',
+    phonePrefix: '+34',
+  },
+  IT: {
+    streetLabel: 'Indirizzo', streetPlaceholder: 'Via Roma 1',
+    complementLabel: 'Interno', complementPlaceholder: 'Scala, interno (opzionale)',
+    cityLabel: 'Città', stateLabel: 'Provincia', statePlaceholder: 'RM',
+    postalLabel: 'CAP', postalPlaceholder: '00100',
+    phonePrefix: '+39',
+  },
+  PT: {
+    streetLabel: 'Morada', streetPlaceholder: 'Rua Augusta 1',
+    complementLabel: 'Complemento', complementPlaceholder: 'Andar, fração (opcional)',
+    cityLabel: 'Localidade', stateLabel: 'Distrito', statePlaceholder: 'Lisboa',
+    postalLabel: 'Código postal', postalPlaceholder: '1100-048',
+    phonePrefix: '+351',
+  },
+  MX: {
+    streetLabel: 'Calle y número', streetPlaceholder: 'Av. Insurgentes Sur 123',
+    complementLabel: 'Col. / Interior', complementPlaceholder: 'Colonia, depto. (opcional)',
+    cityLabel: 'Ciudad', stateLabel: 'Estado', statePlaceholder: 'CDMX',
+    postalLabel: 'C.P.', postalPlaceholder: '06600',
+    phonePrefix: '+52',
+  },
+  AR: {
+    streetLabel: 'Dirección', streetPlaceholder: 'Av. Corrientes 1234',
+    complementLabel: 'Piso / Depto.', complementPlaceholder: '3° B (opcional)',
+    cityLabel: 'Ciudad', stateLabel: 'Provincia', statePlaceholder: 'Buenos Aires',
+    postalLabel: 'Código postal', postalPlaceholder: 'C1043',
+    phonePrefix: '+54',
+  },
+  JP: {
+    streetLabel: '住所', streetPlaceholder: '渋谷区道玄坂1-1',
+    complementLabel: '建物名・部屋番号', complementPlaceholder: '渋谷ビル 305号室（任意）',
+    cityLabel: '市区町村', stateLabel: '都道府県', statePlaceholder: '東京都',
+    postalLabel: '郵便番号', postalPlaceholder: '150-0043',
+    phonePrefix: '+81',
+  },
+};
+
+const DEFAULT_CONFIG: AddressConfig = {
+  streetLabel: 'Street address', streetPlaceholder: '123 Main Street',
+  complementLabel: 'Address line 2', complementPlaceholder: 'Apartment, suite (optional)',
+  cityLabel: 'City', stateLabel: 'State / Region', statePlaceholder: 'Region',
+  postalLabel: 'Postal code', postalPlaceholder: '00000',
+  phonePrefix: '+',
+};
+
+function getAddressConfig(countryCode: string): AddressConfig {
+  return ADDRESS_CONFIG[countryCode] || DEFAULT_CONFIG;
+}
+// ──────────────────────────────────────────────────────────────────────────────
+
 const ReviewsAndGuarantees = () => (
   <div style={{ marginTop: '40px' }}>
     <h3 style={{ fontSize: '16px', fontWeight: 'bold', textAlign: 'center', marginBottom: '16px', color: '#111827' }}>
@@ -115,6 +303,7 @@ export default function Checkout() {
   const [email, setEmail]             = useState(storedUser?.email || '');
   const [telefone, setTelefone]       = useState('');
   const [pais, setPais]               = useState('BR');
+  const addrConfig = getAddressConfig(pais);
   const [endereco, setEndereco]       = useState('');
   const [complemento, setComplemento] = useState('');
   const [cidade, setCidade]           = useState('');
@@ -463,58 +652,105 @@ export default function Checkout() {
             <h2 style={{ fontSize: '18px', fontWeight: 500, marginBottom: '16px', marginTop: 0 }}>Entrega</h2>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {/* País / Country */}
               <div>
-                <select 
-                  value={pais} 
-                  onChange={e => setPais(e.target.value)}
-                  style={{...inputStyle, appearance: 'none', backgroundImage: 'url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236b7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px top 50%', backgroundSize: '12px auto'}}
+                <label style={{ fontSize: '12px', fontWeight: 600, color: '#6b7280', display: 'block', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  {pais === 'BR' ? 'País' : 'Country'}
+                </label>
+                <select
+                  value={pais}
+                  onChange={e => { setPais(e.target.value); setEstado(''); setCep(''); }}
+                  style={{...inputStyle, paddingLeft: '12px'}}
                 >
-                  <option value="BR">Brasil</option>
-                  <option value="US">Estados Unidos</option>
-                  <option value="PT">Portugal</option>
-                  <option value="ES">Espanha</option>
-                  <option value="FR">França</option>
-                  <option value="DE">Alemanha</option>
-                  <option value="IT">Itália</option>
-                  <option value="GB">Reino Unido</option>
-                  <option value="NL">Países Baixos</option>
-                  <option value="BE">Bélgica</option>
-                  <option value="CH">Suíça</option>
-                  <option value="AT">Áustria</option>
+                  {COUNTRIES.map(c => (
+                    <option key={c.code} value={c.code}>{c.flag} {c.name}</option>
+                  ))}
                 </select>
               </div>
 
+              {/* Nome / Name */}
               <div style={{ display: 'flex', gap: '12px' }}>
                 <div style={{ flex: 1 }}>
-                  <input type="text" value={nome} onChange={e => setNome(e.target.value)} placeholder="Primeiro nome" style={inputStyle} />
+                  <label style={{ fontSize: '12px', fontWeight: 600, color: '#6b7280', display: 'block', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    {pais === 'BR' ? 'Primeiro nome' : 'First name'}
+                  </label>
+                  <input type="text" value={nome} onChange={e => setNome(e.target.value)} placeholder={pais === 'BR' ? 'João' : 'John'} style={inputStyle} />
                 </div>
                 <div style={{ flex: 1 }}>
-                  <input type="text" value={sobrenome} onChange={e => setSobrenome(e.target.value)} placeholder="Sobrenome" style={inputStyle} />
+                  <label style={{ fontSize: '12px', fontWeight: 600, color: '#6b7280', display: 'block', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    {pais === 'BR' ? 'Sobrenome' : 'Last name'}
+                  </label>
+                  <input type="text" value={sobrenome} onChange={e => setSobrenome(e.target.value)} placeholder={pais === 'BR' ? 'Silva' : 'Smith'} style={inputStyle} />
                 </div>
               </div>
 
+              {/* Endereço / Street */}
               <div>
-                <input type="text" value={endereco} onChange={e => setEndereco(e.target.value)} placeholder="Endereço" style={inputStyle} />
+                <label style={{ fontSize: '12px', fontWeight: 600, color: '#6b7280', display: 'block', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  {addrConfig.streetLabel}
+                </label>
+                <input type="text" value={endereco} onChange={e => setEndereco(e.target.value)} placeholder={addrConfig.streetPlaceholder} style={inputStyle} />
               </div>
 
+              {/* Complemento */}
               <div>
-                <input type="text" value={complemento} onChange={e => setComplemento(e.target.value)} placeholder="Apartamento, suíte (opcional)" style={inputStyle} />
+                <label style={{ fontSize: '12px', fontWeight: 600, color: '#6b7280', display: 'block', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  {addrConfig.complementLabel}
+                </label>
+                <input type="text" value={complemento} onChange={e => setComplemento(e.target.value)} placeholder={addrConfig.complementPlaceholder} style={inputStyle} />
               </div>
 
+              {/* Cidade / City */}
+              <div>
+                <label style={{ fontSize: '12px', fontWeight: 600, color: '#6b7280', display: 'block', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  {addrConfig.cityLabel}
+                </label>
+                <input type="text" value={cidade} onChange={e => setCidade(e.target.value)} placeholder={addrConfig.cityLabel} style={inputStyle} />
+              </div>
+
+              {/* Estado / State + CEP / Postal */}
               <div style={{ display: 'flex', gap: '12px' }}>
-                <div style={{ flex: 1 }}>
-                  <input type="text" value={cidade} onChange={e => setCidade(e.target.value)} placeholder="Cidade" style={inputStyle} />
+                <div style={{ flex: 2 }}>
+                  <label style={{ fontSize: '12px', fontWeight: 600, color: '#6b7280', display: 'block', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    {addrConfig.stateLabel}
+                  </label>
+                  {addrConfig.stateOptions ? (
+                    <select value={estado} onChange={e => setEstado(e.target.value)} style={inputStyle}>
+                      <option value="">{addrConfig.statePlaceholder}...</option>
+                      {addrConfig.stateOptions.map(s => (
+                        <option key={s.code} value={s.code}>{s.name}</option>
+                      ))}
+                    </select>
+                  ) : (
+                    <input type="text" value={estado} onChange={e => setEstado(e.target.value)} placeholder={addrConfig.statePlaceholder} style={inputStyle} />
+                  )}
                 </div>
                 <div style={{ flex: 1 }}>
-                  <input type="text" value={estado} onChange={e => setEstado(e.target.value)} placeholder="Estado" style={inputStyle} />
-                </div>
-                <div style={{ flex: 1 }}>
-                  <input type="text" value={cep} onChange={e => setCep(e.target.value)} placeholder="CEP" style={inputStyle} />
+                  <label style={{ fontSize: '12px', fontWeight: 600, color: '#6b7280', display: 'block', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    {addrConfig.postalLabel}
+                  </label>
+                  <input
+                    type="text"
+                    value={cep}
+                    onChange={e => setCep(e.target.value)}
+                    placeholder={addrConfig.postalPlaceholder}
+                    style={inputStyle}
+                    maxLength={12}
+                  />
                 </div>
               </div>
 
+              {/* Telefone / Phone */}
               <div>
-                <input type="tel" value={telefone} onChange={e => setTelefone(e.target.value)} placeholder="Telefone (opcional)" style={inputStyle} />
+                <label style={{ fontSize: '12px', fontWeight: 600, color: '#6b7280', display: 'block', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  {pais === 'BR' ? 'Telefone (opcional)' : 'Phone (optional)'}
+                </label>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <div style={{ ...inputStyle, width: '90px', flexShrink: 0, background: '#f9fafb', color: '#6b7280', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', fontWeight: 500 }}>
+                    {addrConfig.phonePrefix}
+                  </div>
+                  <input type="tel" value={telefone} onChange={e => setTelefone(e.target.value)} placeholder={pais === 'BR' ? '(11) 99999-9999' : '555-555-5555'} style={{...inputStyle, flex: 1}} />
+                </div>
               </div>
             </div>
           </div>
