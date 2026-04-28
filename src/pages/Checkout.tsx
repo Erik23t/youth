@@ -7,8 +7,8 @@ const API = import.meta.env.VITE_API_URL || 'https://zylumia-backend-kmbrxbidkq-
 
 // ─── Configuração internacional de endereços ───────────────────────────────
 const COUNTRIES = [
-  { code: 'BR', flag: '🇧🇷', name: 'Brasil' },
   { code: 'US', flag: '🇺🇸', name: 'United States' },
+  { code: 'BR', flag: '🇧🇷', name: 'Brasil' },
   { code: 'GB', flag: '🇬🇧', name: 'United Kingdom' },
   { code: 'PT', flag: '🇵🇹', name: 'Portugal' },
   { code: 'DE', flag: '🇩🇪', name: 'Deutschland' },
@@ -302,7 +302,7 @@ export default function Checkout() {
   const [sobrenome, setSobrenome]     = useState(storedUser?.name?.split(' ').slice(1).join(' ') || '');
   const [email, setEmail]             = useState(storedUser?.email || '');
   const [telefone, setTelefone]       = useState('');
-  const [pais, setPais]               = useState('BR');
+  const [pais, setPais]               = useState('US');
   const addrConfig = getAddressConfig(pais);
   const [endereco, setEndereco]       = useState('');
   const [complemento, setComplemento] = useState('');
@@ -471,12 +471,13 @@ export default function Checkout() {
   const inputStyle = {
     width: '100%',
     padding: '12px',
-    border: '1px solid #e5e7eb',
+    border: '1px solid #e0d9f5',
     borderRadius: '8px',
     fontSize: '14px',
     outline: 'none',
     boxSizing: 'border-box' as const,
-    fontFamily: 'inherit'
+    fontFamily: 'inherit',
+    background: '#ffffff',
   };
 
   const labelStyle = {
@@ -648,14 +649,14 @@ export default function Checkout() {
             </div>
           </div>
 
-          <div style={{ marginBottom: '32px' }}>
-            <h2 style={{ fontSize: '18px', fontWeight: 500, marginBottom: '16px', marginTop: 0 }}>Entrega</h2>
+          <div style={{ marginBottom: '24px', background: '#f8f7fa', borderRadius: '12px', padding: '20px', border: '1px solid #ede9fe' }}>
+            <h2 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '16px', marginTop: 0, color: '#1a0533' }}>Entrega</h2>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {/* País / Country */}
               <div>
                 <label style={{ fontSize: '12px', fontWeight: 600, color: '#6b7280', display: 'block', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  {pais === 'BR' ? 'País' : 'Country'}
+                  {pais === 'BR' ? 'País / Região' : 'Country / Region'}
                 </label>
                 <select
                   value={pais}
@@ -769,19 +770,19 @@ export default function Checkout() {
             </div>
           </div>
 
-          <div style={{ marginBottom: '32px' }}>
-            <h2 style={{ fontSize: '18px', fontWeight: 500, marginBottom: '4px', marginTop: 0 }}>Pagamento</h2>
-            <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '16px' }}>Todas as transações são seguras e criptografadas.</div>
+          <div style={{ marginBottom: '32px', background: '#f8f7fa', borderRadius: '12px', padding: '20px', border: '1px solid #ede9fe' }}>
+            <h2 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '4px', marginTop: 0, color: '#1a0533' }}>Pagamento</h2>
+            <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '4px' }}>🔒 Todas as transações são seguras e criptografadas.</div>
             
-            <div style={{ border: '1px solid #e5e7eb', borderRadius: '8px', overflow: 'hidden' }}>
-              <div style={{ padding: '16px', background: '#f9fafb', borderBottom: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ fontWeight: 500 }}>Cartão de crédito</div>
+            <div style={{ border: '1px solid #ddd6fe', borderRadius: '10px', overflow: 'hidden' }}>
+              <div style={{ padding: '14px 16px', background: '#ede9fe', borderBottom: '1px solid #ddd6fe', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ fontWeight: 600, color: '#4c1d95' }}>Cartão de crédito / débito</div>
                 <div style={{ display: 'flex', gap: '4px' }}>
                   <div style={{ width: '32px', height: '20px', background: '#fff', border: '1px solid #e5e7eb', borderRadius: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold', color: '#1a1f36' }}>VISA</div>
                   <div style={{ width: '32px', height: '20px', background: '#fff', border: '1px solid #e5e7eb', borderRadius: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold', color: '#eb001b' }}>MC</div>
                 </div>
               </div>
-              <div style={{ padding: '16px', background: '#fff' }}>
+              <div style={{ padding: '20px', background: '#faf9ff' }}>
                 <StripeCheckout ref={stripeRef} />
               </div>
             </div>

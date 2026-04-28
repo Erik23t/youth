@@ -32,6 +32,7 @@ const CheckoutFormInner = forwardRef<any, any>(({ onSuccess, onError }, ref) => 
   const stripe = useStripe();
   const elements = useElements();
   const [cardName, setCardName] = useState('');
+  const [cardPhone, setCardPhone] = useState('');
   const [useShippingAsBilling, setUseShippingAsBilling] = useState(true);
 
   useImperativeHandle(ref, () => ({
@@ -75,6 +76,7 @@ const CheckoutFormInner = forwardRef<any, any>(({ onSuccess, onError }, ref) => 
               card: cardElement as any,
               billing_details: {
                 name: cardName || customerName,
+                phone: cardPhone || billingDetails?.telefone || '',
                 email: customerEmail,
                 address: billingDetails?.address
               },
@@ -112,7 +114,7 @@ const CheckoutFormInner = forwardRef<any, any>(({ onSuccess, onError }, ref) => 
         <label style={{ fontSize: '12px', fontWeight: '500', color: '#374151', marginBottom: '6px', display: 'block' }}>
           Número do cartão
         </label>
-        <div style={{ padding: '12px', border: '1px solid #e5e7eb', borderRadius: '8px', background: '#fff', minHeight: '44px' }}>
+        <div style={{ padding: '12px', border: '1px solid #ddd6fe', borderRadius: '8px', background: '#faf9ff', minHeight: '44px' }}>
           <CardNumberElement options={elementStyle} />
         </div>
       </div>
@@ -121,7 +123,7 @@ const CheckoutFormInner = forwardRef<any, any>(({ onSuccess, onError }, ref) => 
           <label style={{ fontSize: '12px', fontWeight: '500', color: '#374151', marginBottom: '6px', display: 'block' }}>
             Validade (MM/AA)
           </label>
-          <div style={{ padding: '12px', border: '1px solid #e5e7eb', borderRadius: '8px', background: '#fff', minHeight: '44px' }}>
+          <div style={{ padding: '12px', border: '1px solid #ddd6fe', borderRadius: '8px', background: '#faf9ff', minHeight: '44px' }}>
             <CardExpiryElement options={elementStyle} />
           </div>
         </div>
@@ -129,7 +131,7 @@ const CheckoutFormInner = forwardRef<any, any>(({ onSuccess, onError }, ref) => 
           <label style={{ fontSize: '12px', fontWeight: '500', color: '#374151', marginBottom: '6px', display: 'block' }}>
             Código de segurança
           </label>
-          <div style={{ padding: '12px', border: '1px solid #e5e7eb', borderRadius: '8px', background: '#fff', minHeight: '44px' }}>
+          <div style={{ padding: '12px', border: '1px solid #ddd6fe', borderRadius: '8px', background: '#faf9ff', minHeight: '44px' }}>
             <CardCvcElement options={elementStyle} />
           </div>
         </div>
@@ -145,9 +147,28 @@ const CheckoutFormInner = forwardRef<any, any>(({ onSuccess, onError }, ref) => 
           onChange={e => setCardName(e.target.value)}
           style={{
             width: '100%', padding: '12px',
-            border: '1px solid #e5e7eb', borderRadius: '8px',
+            border: '1px solid #ddd6fe', borderRadius: '8px',
             fontSize: '14px', boxSizing: 'border-box' as any,
-            outline: 'none', fontFamily: 'inherit'
+            outline: 'none', fontFamily: 'inherit',
+            background: '#faf9ff',
+          }}
+        />
+      </div>
+      <div>
+        <label style={{ fontSize: '12px', fontWeight: '500', color: '#374151', marginBottom: '6px', display: 'block' }}>
+          Phone number <span style={{ color: '#9ca3af', fontWeight: 400 }}>(optional)</span>
+        </label>
+        <input
+          type="tel"
+          placeholder="+1 555-555-5555"
+          value={cardPhone}
+          onChange={e => setCardPhone(e.target.value)}
+          style={{
+            width: '100%', padding: '12px',
+            border: '1px solid #ddd6fe', borderRadius: '8px',
+            fontSize: '14px', boxSizing: 'border-box' as any,
+            outline: 'none', fontFamily: 'inherit',
+            background: '#faf9ff',
           }}
         />
       </div>
