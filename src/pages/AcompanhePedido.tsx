@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import ZylumiaAuth from '../components/ZylumiaAuth'
 
-const API = import.meta.env.VITE_API_URL || 'https://zylumia-backend-kmbrxbidkq-uc.a.run.app';
+const API = import.meta.env.VITE_API_URL || 'https://zylumia-backend-661137220675.us-central1.run.app';
 
 function PageHeader() {
   return (
