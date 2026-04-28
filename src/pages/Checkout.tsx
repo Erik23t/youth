@@ -578,10 +578,12 @@ export default function Checkout() {
           <ZylumiaPayPalButton
             produto={{
               name: cart.items.reduce((acc: number, item: any) => acc + (item.qty || item.quantity || 1), 0) === 1 ? cart.items[0].name : `${cart.items.reduce((acc: number, item: any) => acc + (item.qty || item.quantity || 1), 0)} itens (Zylumia)`,
-              price: totalFinal
+              price: totalFinal,
+              image: cart.items[0]?.image || '',
             }}
             customerName={`${nome} ${sobrenome}`}
             customerEmail={email}
+            customerPhone={`${addrConfig.phonePrefix}${telefone}`}
             onSuccess={(order: any) => {
               localStorage.removeItem('zylumia_session_id');
               localStorage.removeItem('zylumia_coupon');
@@ -783,7 +785,7 @@ export default function Checkout() {
                 </div>
               </div>
               <div style={{ padding: '20px', background: '#faf9ff' }}>
-                <StripeCheckout ref={stripeRef} />
+                <StripeCheckout ref={stripeRef} customerPhone={`${addrConfig.phonePrefix}${telefone}`} customerName={`${nome} ${sobrenome}`} />
               </div>
             </div>
           </div>

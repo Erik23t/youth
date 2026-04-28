@@ -18,7 +18,7 @@ function loadPayPalSDK(): Promise<void> {
   });
 }
 
-export default function ZylumiaPayPalButton({ produto, customerName, customerEmail, onSuccess, onError }: any) {
+export default function ZylumiaPayPalButton({ produto, customerName, customerEmail, customerPhone, onSuccess, onError }: any) {
   const paypalRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState<string | null>(null);
@@ -26,9 +26,10 @@ export default function ZylumiaPayPalButton({ produto, customerName, customerEma
   const produtoRef = useRef(produto);
   const customerNameRef = useRef(customerName);
   const customerEmailRef = useRef(customerEmail);
+  const customerPhoneRef = useRef(customerPhone);
 
   useEffect(() => { produtoRef.current = produto; }, [produto]);
-  useEffect(() => { customerNameRef.current = customerName; customerEmailRef.current = customerEmail; }, [customerName, customerEmail]);
+  useEffect(() => { customerNameRef.current = customerName; customerEmailRef.current = customerEmail; customerPhoneRef.current = customerPhone; }, [customerName, customerEmail, customerPhone]);
 
   useEffect(() => {
     if (!produto || rendered.current) return;
@@ -74,6 +75,7 @@ export default function ZylumiaPayPalButton({ produto, customerName, customerEma
                 paypalOrderId: data.orderID,
                 customerEmail: emailFinal,
                 customerName: nameFinal,
+                customerPhone: customerPhoneRef.current || '',
                 sessionId: localStorage.getItem('zylumia_session_id')
               })
             });
@@ -106,6 +108,15 @@ export default function ZylumiaPayPalButton({ produto, customerName, customerEma
 
   return (
     <div>
+      {produto?.image && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 14px', background: '#faf9ff', border: '1px solid #ede9fe', borderRadius: '10px', marginBottom: '12px' }}>
+          <img src={produto.image} alt={produto.name} style={{ width: '48px', height: '48px', objectFit: 'cover', borderRadius: '8px', border: '1px solid #e5e7eb', flexShrink: 0 }} />
+          <div style={{ flex: 1, overflow: 'hidden' }}>
+            <div style={{ fontSize: '13px', fontWeight: 600, color: '#1a0533', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{produto.name}</div>
+            <div style={{ fontSize: '13px', color: '#7c3aed', fontWeight: 500 }}>US$ {Number(produto.price).toFixed(2)}</div>
+          </div>
+        </div>
+      )}
       {loading && <p style={{ textAlign: 'center', color: '#888' }}>Carregando PayPal...</p>}
       {erro && <p style={{ color: '#ef4444', textAlign: 'center', fontSize: '14px' }}>{erro}</p>}
       <div ref={paypalRef} />

@@ -28,11 +28,11 @@ const elementStyle = {
   }
 };
 
-const CheckoutFormInner = forwardRef<any, any>(({ onSuccess, onError }, ref) => {
+const CheckoutFormInner = forwardRef<any, any>(({ onSuccess, onError, customerPhone, customerName: customerNameProp }, ref) => {
   const stripe = useStripe();
   const elements = useElements();
-  const [cardName, setCardName] = useState('');
-  const [cardPhone, setCardPhone] = useState('');
+  const [cardName, setCardName] = useState(customerNameProp || '');
+  const [cardPhone, setCardPhone] = useState(customerPhone || '');
   const [useShippingAsBilling, setUseShippingAsBilling] = useState(true);
 
   useImperativeHandle(ref, () => ({
@@ -75,8 +75,8 @@ const CheckoutFormInner = forwardRef<any, any>(({ onSuccess, onError }, ref) => 
             payment_method: {
               card: cardElement as any,
               billing_details: {
-                name: cardName || customerName,
-                phone: cardPhone || billingDetails?.telefone || '',
+                name: cardName || billingDetails?.customerName || customerNameProp || '',
+                phone: cardPhone || customerPhone || billingDetails?.telefone || '',
                 email: customerEmail,
                 address: billingDetails?.address
               },
