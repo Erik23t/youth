@@ -130,7 +130,7 @@ const CheckoutFormInner = forwardRef<any, any>(({ onSuccess, onError, customerPh
       </div>
       <div className="stripe-expiry-cvc-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', alignItems: 'end' }}>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <label style={{ fontSize: '12px', fontWeight: '500', color: '#374151', marginBottom: '6px', display: 'block', minHeight: '32px', display: 'flex', alignItems: 'flex-end' }}>
+          <label style={{ fontSize: '12px', fontWeight: '500', color: '#374151', marginBottom: '6px', display: 'flex', alignItems: 'flex-end', minHeight: '32px' }}>
             Validade (MM/AA)
           </label>
           <div style={{ padding: '12px', border: '1px solid #ddd6fe', borderRadius: '8px', background: '#faf9ff', minHeight: '44px' }}>
