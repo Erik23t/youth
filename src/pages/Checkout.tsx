@@ -180,6 +180,31 @@ const ADDRESS_CONFIG: Record<string, AddressConfig> = {
   },
 };
 
+// ─── Moeda por país ──────────────────────────────────────────────────────────
+const CURRENCY_MAP: Record<string, { code: string; symbol: string; label: string }> = {
+  US: { code: 'USD', symbol: '$',  label: 'US$' },
+  BR: { code: 'BRL', symbol: 'R$', label: 'R$'  },
+  GB: { code: 'GBP', symbol: '£',  label: '£'   },
+  DE: { code: 'EUR', symbol: '€',  label: '€'   },
+  FR: { code: 'EUR', symbol: '€',  label: '€'   },
+  ES: { code: 'EUR', symbol: '€',  label: '€'   },
+  IT: { code: 'EUR', symbol: '€',  label: '€'   },
+  NL: { code: 'EUR', symbol: '€',  label: '€'   },
+  BE: { code: 'EUR', symbol: '€',  label: '€'   },
+  CH: { code: 'CHF', symbol: 'Fr', label: 'CHF' },
+  AT: { code: 'EUR', symbol: '€',  label: '€'   },
+  PT: { code: 'EUR', symbol: '€',  label: '€'   },
+  CA: { code: 'CAD', symbol: '$',  label: 'CA$' },
+  AU: { code: 'AUD', symbol: '$',  label: 'A$'  },
+  MX: { code: 'MXN', symbol: '$',  label: 'MX$' },
+  AR: { code: 'ARS', symbol: '$',  label: 'AR$' },
+  JP: { code: 'JPY', symbol: '¥',  label: '¥'   },
+};
+function getCurrency(countryCode: string) {
+  return CURRENCY_MAP[countryCode] || { code: 'USD', symbol: '$', label: 'US$' };
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 const DEFAULT_CONFIG: AddressConfig = {
   streetLabel: 'Street address', streetPlaceholder: '123 Main Street',
   complementLabel: 'Address line 2', complementPlaceholder: 'Apartment, suite (optional)',
@@ -304,6 +329,7 @@ export default function Checkout() {
   const [telefone, setTelefone]       = useState('');
   const [pais, setPais]               = useState('US');
   const addrConfig = getAddressConfig(pais);
+  const currency = getCurrency(pais);
   const [endereco, setEndereco]       = useState('');
   const [complemento, setComplemento] = useState('');
   const [cidade, setCidade]           = useState('');
@@ -315,6 +341,7 @@ export default function Checkout() {
   const [loadingCupom, setLoadingCupom] = useState(false);
   const [erroCupom, setErroCupom]       = useState('');
   const [erro, setErro]               = useState('');
+  const [camposErro, setCamposErro]   = useState<Record<string,boolean>>({});
   const [loading, setLoading]         = useState(false);
 
   const stripeRef = useRef<any>(null);
@@ -423,11 +450,23 @@ export default function Checkout() {
   }
 
   const handlePagarAgora = async () => {
-    if (!nome || !sobrenome || !email || !endereco || !cidade || !estado || !cep) {
-      setErro('Por favor, preencha todos os campos obrigatórios.');
+    const erros: Record<string,boolean> = {};
+    if (!nome)      erros.nome = true;
+    if (!sobrenome) erros.sobrenome = true;
+    if (!email)     erros.email = true;
+    if (!endereco)  erros.endereco = true;
+    if (!cidade)    erros.cidade = true;
+    if (!estado)    erros.estado = true;
+    if (!cep)       erros.cep = true;
+
+    if (Object.keys(erros).length > 0) {
+      setCamposErro(erros);
+      setErro('Por favor, preencha todos os campos obrigatórios em vermelho.');
+      // Scroll to first error
+      document.querySelector('.campo-erro')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
-
+    setCamposErro({});
     setLoading(true);
     setErro('');
 
@@ -477,7 +516,19 @@ export default function Checkout() {
     outline: 'none',
     boxSizing: 'border-box' as const,
     fontFamily: 'inherit',
-    background: '#ffffff',
+    background: '#faf9ff',
+  };
+
+  const inputErrorStyle = {
+    width: '100%',
+    padding: '12px',
+    border: '2px solid #ef4444',
+    borderRadius: '8px',
+    fontSize: '14px',
+    outline: 'none',
+    boxSizing: 'border-box' as const,
+    fontFamily: 'inherit',
+    background: '#fff5f5',
   };
 
   const labelStyle = {
@@ -604,6 +655,7 @@ export default function Checkout() {
               name: cart.items.reduce((acc: number, item: any) => acc + (item.qty || item.quantity || 1), 0) === 1 ? cart.items[0].name : `${cart.items.reduce((acc: number, item: any) => acc + (item.qty || item.quantity || 1), 0)} itens (Zylumia)`,
               price: totalFinal,
               image: cart.items[0]?.image || '',
+              currencyLabel: currency.label,
             }}
             customerName={`${nome} ${sobrenome}`}
             customerEmail={email}
@@ -686,7 +738,8 @@ export default function Checkout() {
               {/* País / Country */}
               <div>
                 <label style={{ fontSize: '12px', fontWeight: 600, color: '#6b7280', display: 'block', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  {pais === 'BR' ? 'País / Região' : 'Country / Region'}
+                  <span>{pais === 'BR' ? 'País / Região' : 'Country / Region'}</span>
+                  <span style={{ marginLeft: 'auto', background: '#ede9fe', color: '#6d28d9', fontSize: '11px', fontWeight: 700, padding: '2px 8px', borderRadius: '20px', letterSpacing: '0.05em' }}>{currency.code}</span>
                 </label>
                 <select
                   value={pais}
@@ -705,13 +758,15 @@ export default function Checkout() {
                   <label style={{ fontSize: '12px', fontWeight: 600, color: '#6b7280', display: 'block', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                     {pais === 'BR' ? 'Primeiro nome' : 'First name'}
                   </label>
-                  <input type="text" value={nome} onChange={e => setNome(e.target.value)} placeholder={pais === 'BR' ? 'João' : 'John'} style={inputStyle} />
+                  <input type="text" value={nome} onChange={e => { setNome(e.target.value); setCamposErro(p=>({...p,nome:false})); }} placeholder={pais === 'BR' ? 'João' : 'John'} className={camposErro.nome ? 'campo-erro' : ''} style={camposErro.nome ? inputErrorStyle : inputStyle} />
+                  {camposErro.nome && <span style={{fontSize:'11px',color:'#ef4444',marginTop:'2px',display:'block'}}>Obrigatório</span>}
                 </div>
                 <div style={{ flex: 1 }}>
                   <label style={{ fontSize: '12px', fontWeight: 600, color: '#6b7280', display: 'block', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                     {pais === 'BR' ? 'Sobrenome' : 'Last name'}
                   </label>
-                  <input type="text" value={sobrenome} onChange={e => setSobrenome(e.target.value)} placeholder={pais === 'BR' ? 'Silva' : 'Smith'} style={inputStyle} />
+                  <input type="text" value={sobrenome} onChange={e => { setSobrenome(e.target.value); setCamposErro(p=>({...p,sobrenome:false})); }} placeholder={pais === 'BR' ? 'Silva' : 'Smith'} className={camposErro.sobrenome ? 'campo-erro' : ''} style={camposErro.sobrenome ? inputErrorStyle : inputStyle} />
+                  {camposErro.sobrenome && <span style={{fontSize:'11px',color:'#ef4444',marginTop:'2px',display:'block'}}>Obrigatório</span>}
                 </div>
               </div>
 
@@ -720,7 +775,8 @@ export default function Checkout() {
                 <label style={{ fontSize: '12px', fontWeight: 600, color: '#6b7280', display: 'block', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                   {addrConfig.streetLabel}
                 </label>
-                <input type="text" value={endereco} onChange={e => setEndereco(e.target.value)} placeholder={addrConfig.streetPlaceholder} style={inputStyle} />
+                <input type="text" value={endereco} onChange={e => { setEndereco(e.target.value); setCamposErro(p=>({...p,endereco:false})); }} placeholder={addrConfig.streetPlaceholder} className={camposErro.endereco ? 'campo-erro' : ''} style={camposErro.endereco ? inputErrorStyle : inputStyle} />
+                {camposErro.endereco && <span style={{fontSize:'11px',color:'#ef4444',marginTop:'2px',display:'block'}}>Obrigatório</span>}
               </div>
 
               {/* Complemento */}
@@ -736,7 +792,8 @@ export default function Checkout() {
                 <label style={{ fontSize: '12px', fontWeight: 600, color: '#6b7280', display: 'block', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                   {addrConfig.cityLabel}
                 </label>
-                <input type="text" value={cidade} onChange={e => setCidade(e.target.value)} placeholder={addrConfig.cityLabel} style={inputStyle} />
+                <input type="text" value={cidade} onChange={e => { setCidade(e.target.value); setCamposErro(p=>({...p,cidade:false})); }} placeholder={addrConfig.cityLabel} className={camposErro.cidade ? 'campo-erro' : ''} style={camposErro.cidade ? inputErrorStyle : inputStyle} />
+                {camposErro.cidade && <span style={{fontSize:'11px',color:'#ef4444',marginTop:'2px',display:'block'}}>Obrigatório</span>}
               </div>
 
               {/* Estado / State + CEP / Postal */}
@@ -746,14 +803,14 @@ export default function Checkout() {
                     {addrConfig.stateLabel}
                   </label>
                   {addrConfig.stateOptions ? (
-                    <select value={estado} onChange={e => setEstado(e.target.value)} style={inputStyle}>
+                    <select value={estado} onChange={e => { setEstado(e.target.value); setCamposErro(p=>({...p,estado:false})); }} className={camposErro.estado ? 'campo-erro' : ''} style={camposErro.estado ? inputErrorStyle : inputStyle}>
                       <option value="">{addrConfig.statePlaceholder}...</option>
                       {addrConfig.stateOptions.map(s => (
                         <option key={s.code} value={s.code}>{s.name}</option>
                       ))}
                     </select>
                   ) : (
-                    <input type="text" value={estado} onChange={e => setEstado(e.target.value)} placeholder={addrConfig.statePlaceholder} style={inputStyle} />
+                    <input type="text" value={estado} onChange={e => { setEstado(e.target.value); setCamposErro(p=>({...p,estado:false})); }} placeholder={addrConfig.statePlaceholder} className={camposErro.estado ? 'campo-erro' : ''} style={camposErro.estado ? inputErrorStyle : inputStyle} />
                   )}
                 </div>
                 <div style={{ flex: 1 }}>
@@ -763,9 +820,10 @@ export default function Checkout() {
                   <input
                     type="text"
                     value={cep}
-                    onChange={e => setCep(e.target.value)}
+                    onChange={e => { setCep(e.target.value); setCamposErro(p=>({...p,cep:false})); }}
                     placeholder={addrConfig.postalPlaceholder}
-                    style={inputStyle}
+                    className={camposErro.cep ? 'campo-erro' : ''}
+                    style={camposErro.cep ? inputErrorStyle : inputStyle}
                     maxLength={12}
                   />
                 </div>
@@ -843,7 +901,7 @@ export default function Checkout() {
               letterSpacing: '0.03em',
             }}
           >
-            {loading ? 'Processando...' : `PAGAR AGORA — US$ ${totalFinal.toFixed(2)}`}
+            {loading ? 'Processando...' : `PAGAR AGORA — ${currency.label} ${totalFinal.toFixed(2)}`}
           </button>
           
           <div className="mobile-only">
@@ -880,7 +938,7 @@ export default function Checkout() {
                   <div style={{ fontWeight: 500, color: '#374151' }}>{item.name}</div>
                 </div>
                 <div style={{ fontWeight: 500, color: '#374151' }}>
-                  US$ {(item.price * (item.qty || item.quantity || 1)).toFixed(2).replace('.', ',')}
+                  {currency.label} {(item.price * (item.qty || item.quantity || 1)).toFixed(2)}
                 </div>
               </div>
             ))}
@@ -959,7 +1017,7 @@ export default function Checkout() {
             <div>
               <div style={{display:'flex',justifyContent:'space-between',marginBottom:'8px'}}>
                 <span>Subtotal</span>
-                <span>US$ {subtotal.toFixed(2)}</span>
+                <span>{currency.label} {subtotal.toFixed(2)}</span>
               </div>
               
               {desconto > 0 && (
@@ -978,7 +1036,7 @@ export default function Checkout() {
               
               <div style={{display:'flex',justifyContent:'space-between',fontWeight:'bold',fontSize:'20px'}}>
                 <span>Total</span>
-                <span>USD US$ {totalFinal.toFixed(2)}</span>
+                <span>{currency.label} {totalFinal.toFixed(2)}</span>
               </div>
             </div>
 
