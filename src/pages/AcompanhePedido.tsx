@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
+import { formatPrice } from '../lib/currency'
 import ZylumiaAuth from '../components/ZylumiaAuth'
 
-const API = import.meta.env.VITE_API_URL || 'https://zylumia-backend-kmbrxbidkq-uc.a.run.app';
+const API = import.meta.env.VITE_API_URL || 'https://backend.zylumia.com';
 
 function PageHeader() {
   return (

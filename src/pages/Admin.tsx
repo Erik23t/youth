@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 
-const API = import.meta.env.VITE_API_URL || 'https://zylumia-backend-kmbrxbidkq-uc.a.run.app';
+const API = import.meta.env.VITE_API_URL || 'https://backend.zylumia.com';
 const API_BASE = `${API}/api/admin`;
 const ADMIN_KEY = 'zylumia-admin-2026';
 

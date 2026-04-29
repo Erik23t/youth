@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { CheckCircle2, Loader2, ArrowRight, X } from 'lucide-react';
 
-const API = import.meta.env.VITE_API_URL || 'https://zylumia-backend-kmbrxbidkq-uc.a.run.app';
+const API = import.meta.env.VITE_API_URL || 'https://backend.zylumia.com';
 
 export default function AssinaturaSucesso() {
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');

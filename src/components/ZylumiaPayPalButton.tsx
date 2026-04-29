@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
+import { getCurrencyInfo } from '../lib/currency';
 
-const API = import.meta.env.VITE_API_URL || 'https://zylumia-backend-kmbrxbidkq-uc.a.run.app';
+const API = import.meta.env.VITE_API_URL || 'https://backend.zylumia.com';
 const PAYPAL_CLIENT_ID = 'AV9WAKTYCB1cjJx-Gs76bthU-lAjOocL46zLs8bST6d-dn2S9WqLwMmz9MFYCssrWgg7IoTUtahYXdPk';
 
 function loadPayPalSDK(): Promise<void> {
@@ -10,7 +11,9 @@ function loadPayPalSDK(): Promise<void> {
     if (existing) { existing.addEventListener('load', () => resolve()); return; }
     const script = document.createElement('script');
     script.id = 'paypal-sdk';
-    script.src = `https://www.paypal.com/sdk/js?client-id=${PAYPAL_CLIENT_ID}&currency=USD&intent=capture&components=buttons`;
+    const country = localStorage.getItem('zylumia_country') || 'US';
+    const currencyCode = getCurrencyInfo(country).code;
+    script.src = `https://www.paypal.com/sdk/js?client-id=${PAYPAL_CLIENT_ID}&currency=${currencyCode}&intent=capture&components=buttons`;
     script.async = true;
     script.onload = () => resolve();
     script.onerror = () => reject(new Error('Falha ao carregar PayPal SDK'));
@@ -56,7 +59,13 @@ export default function ZylumiaPayPalButton({ produto, customerName, customerEma
           const couponCode = localStorage.getItem('zylumia_coupon');
           const r = await fetch(`${API}/api/paypal/create-order`, {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ sessionId: sid, customerEmail: emailFinal, customerName: nameFinal, ...(couponCode && { couponCode }) })
+            body: JSON.stringify({
+              sessionId: sid,
+              customerEmail: emailFinal,
+              customerName: nameFinal,
+              customerCountry: localStorage.getItem('zylumia_country') || 'US',
+              ...(couponCode && { couponCode })
+            })
           });
           const data = await r.json();
           if (!data.success) { setErro('Erro ao criar ordem. Tente novamente.'); throw new Error(data.message); }
@@ -113,7 +122,7 @@ export default function ZylumiaPayPalButton({ produto, customerName, customerEma
           <img src={produto.image} alt={produto.name} style={{ width: '48px', height: '48px', objectFit: 'cover', borderRadius: '8px', border: '1px solid #e5e7eb', flexShrink: 0 }} />
           <div style={{ flex: 1, overflow: 'hidden' }}>
             <div style={{ fontSize: '13px', fontWeight: 600, color: '#1a0533', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{produto.name}</div>
-            <div style={{ fontSize: '13px', color: '#7c3aed', fontWeight: 500 }}>US$ {Number(produto.price).toFixed(2)}</div>
+            <div style={{ fontSize: '13px', color: '#7c3aed', fontWeight: 500 }}>{getCurrencyInfo(localStorage.getItem('zylumia_country') || 'US').symbol} {Number(produto.price).toFixed(2)}</div>
           </div>
         </div>
       )}

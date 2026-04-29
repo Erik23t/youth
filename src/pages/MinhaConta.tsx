@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { User, Package, CreditCard, LogOut, Loader2, AlertCircle, CheckCircle2, ArrowLeft, MessageCircle, RefreshCw, Trash2 } from 'lucide-react';
 
-const API = import.meta.env.VITE_API_URL || 'https://zylumia-backend-kmbrxbidkq-uc.a.run.app';
+const API = import.meta.env.VITE_API_URL || 'https://backend.zylumia.com';
 
 export default function MinhaConta() {
   const [activeTab, setActiveTab] = useState<'perfil' | 'pedidos' | 'assinatura' | 'mensagens'>('assinatura');

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useCoupon } from './useCoupon'
 
-const API = import.meta.env.VITE_API_URL || 'https://zylumia-backend-kmbrxbidkq-uc.a.run.app'
+const API = import.meta.env.VITE_API_URL || 'https://backend.zylumia.com'
 
 interface CartItem {
   name: string
