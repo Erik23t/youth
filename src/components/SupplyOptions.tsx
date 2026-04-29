@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 import { getCurrencyInfo, getSavedCountry } from '../lib/currency'
 interface SupplyOptionsProps {
   supplyMonths: 1 | 3 | 6
@@ -19,8 +19,8 @@ export default function SupplyOptions({
   preco6meses,
   mainImage,
 }: SupplyOptionsProps) {
-  const [currencySymbol, setCurrencySymbol] = React.useState(() => getCurrencyInfo(getSavedCountry()).symbol)
-  React.useEffect(() => {
+  const [currencySymbol, setCurrencySymbol] = useState(() => getCurrencyInfo(getSavedCountry()).symbol)
+  useEffect(() => {
     const handler = (e: CustomEvent) => setCurrencySymbol(getCurrencyInfo(e.detail.country).symbol)
     window.addEventListener('zylumia_country_changed', handler as EventListener)
     return () => window.removeEventListener('zylumia_country_changed', handler as EventListener)

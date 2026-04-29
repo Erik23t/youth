@@ -88,7 +88,7 @@ function PaginaPrincipal({ produto = zylumiaSérum }: { produto?: ProductData })
   } = useNewsletter(() => setShowPromoPopup(false))
 
   // ── Estados locais simples ────────────────────────────────────────────────
-  const [selectedCountry, setSelectedCountry] = React.useState(getSavedCountry())
+  const [selectedCountry, setSelectedCountry] = useState(getSavedCountry())
 
   const [activeVideoIndex, setActiveVideoIndex] = useState<number | null>(null)
   const [isSubscribing, setIsSubscribing]       = useState(false)
