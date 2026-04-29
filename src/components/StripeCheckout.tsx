@@ -110,6 +110,16 @@ const CheckoutFormInner = forwardRef<any, any>(({ onSuccess, onError, customerPh
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+      <style>{`
+        @media (max-width: 480px) {
+          .stripe-expiry-cvc-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .stripe-expiry-cvc-grid > div label {
+            min-height: auto !important;
+          }
+        }
+      `}</style>
       <div>
         <label style={{ fontSize: '12px', fontWeight: '500', color: '#374151', marginBottom: '6px', display: 'block' }}>
           Número do cartão
@@ -118,17 +128,17 @@ const CheckoutFormInner = forwardRef<any, any>(({ onSuccess, onError, customerPh
           <CardNumberElement options={elementStyle} />
         </div>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-        <div>
-          <label style={{ fontSize: '12px', fontWeight: '500', color: '#374151', marginBottom: '6px', display: 'block' }}>
+      <div className="stripe-expiry-cvc-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', alignItems: 'end' }}>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <label style={{ fontSize: '12px', fontWeight: '500', color: '#374151', marginBottom: '6px', display: 'block', minHeight: '32px', display: 'flex', alignItems: 'flex-end' }}>
             Validade (MM/AA)
           </label>
           <div style={{ padding: '12px', border: '1px solid #ddd6fe', borderRadius: '8px', background: '#faf9ff', minHeight: '44px' }}>
             <CardExpiryElement options={elementStyle} />
           </div>
         </div>
-        <div>
-          <label style={{ fontSize: '12px', fontWeight: '500', color: '#374151', marginBottom: '6px', display: 'block' }}>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <label style={{ fontSize: '12px', fontWeight: '500', color: '#374151', marginBottom: '6px', display: 'flex', alignItems: 'flex-end', minHeight: '32px' }}>
             Código de segurança
           </label>
           <div style={{ padding: '12px', border: '1px solid #ddd6fe', borderRadius: '8px', background: '#faf9ff', minHeight: '44px' }}>

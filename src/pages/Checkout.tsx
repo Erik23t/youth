@@ -533,6 +533,19 @@ export default function Checkout() {
             padding: 24px 20px;
             border-right: none;
           }
+          .addr-row {
+            flex-direction: column !important;
+          }
+          .addr-row > div {
+            flex: 1 1 100% !important;
+            width: 100% !important;
+          }
+          .stripe-grid {
+            grid-template-columns: 1fr 1fr !important;
+          }
+          .phone-row {
+            flex-direction: row !important;
+          }
           .right-col {
             border-bottom: 1px solid #e5e7eb;
             order: 2;
@@ -669,7 +682,7 @@ export default function Checkout() {
                 <select
                   value={pais}
                   onChange={e => { setPais(e.target.value); setEstado(''); setCep(''); }}
-                  style={{...inputStyle, paddingLeft: '12px'}}
+                  style={{...inputStyle, paddingLeft: '12px', width: '100%', boxSizing: 'border-box'}}
                 >
                   {COUNTRIES.map(c => (
                     <option key={c.code} value={c.code}>{c.flag} {c.name}</option>
@@ -718,7 +731,7 @@ export default function Checkout() {
               </div>
 
               {/* Estado / State + CEP / Postal */}
-              <div style={{ display: 'flex', gap: '12px' }}>
+              <div className="addr-row" style={{ display: 'flex', gap: '12px' }}>
                 <div style={{ flex: 2 }}>
                   <label style={{ fontSize: '12px', fontWeight: 600, color: '#6b7280', display: 'block', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                     {addrConfig.stateLabel}
@@ -754,7 +767,7 @@ export default function Checkout() {
                 <label style={{ fontSize: '12px', fontWeight: 600, color: '#6b7280', display: 'block', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                   {pais === 'BR' ? 'Telefone (opcional)' : 'Phone (optional)'}
                 </label>
-                <div style={{ display: 'flex', gap: '8px' }}>
+                <div className="phone-row" style={{ display: 'flex', gap: '8px' }}>
                   <div style={{ ...inputStyle, width: '90px', flexShrink: 0, background: '#f9fafb', color: '#6b7280', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', fontWeight: 500 }}>
                     {addrConfig.phonePrefix}
                   </div>
