@@ -41,7 +41,7 @@ export default function CheckoutSucesso() {
           if (typeof window !== 'undefined' && (window as any).gtag) {
             (window as any).gtag('event', 'purchase', {
               transaction_id: data.order.id,
-              currency: 'USD',
+              currency: data.order?.currency || 'BRL',
               value: data.order.purchase_units?.[0]?.amount?.value || 0,
               items: [{
                 item_name: 'Zylumia Product',

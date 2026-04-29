@@ -1,3 +1,4 @@
+import { formatPrice } from '../lib/currency';
 import React, { useState, useEffect, useRef } from 'react';
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
@@ -735,7 +736,7 @@ export default function Admin() {
               </div>
               <div style={{ background: 'white', border: '1px solid #ede9fe', borderRadius: '12px', padding: '24px' }}>
                 <h3 style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px', fontFamily: 'sans-serif' }}>Receita Total</h3>
-                <p style={{ margin: 0, fontSize: '28px', color: '#1a0533', fontWeight: 'bold' }}>US$ {dashboardData.totalRevenue?.toFixed(2) || '0.00'}</p>
+                <p style={{ margin: 0, fontSize: '28px', color: '#1a0533', fontWeight: 'bold' }}>{formatPrice(dashboardData.totalRevenue || 0, 'BR')}</p>
               </div>
               <div style={{ background: 'white', border: '1px solid #ede9fe', borderRadius: '12px', padding: '24px' }}>
                 <h3 style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px', fontFamily: 'sans-serif' }}>Pedidos Pagos</h3>
@@ -831,7 +832,7 @@ export default function Admin() {
                         <td style={{ padding: '12px', fontFamily: 'monospace' }}>{(order.id || order._id)?.substring(0,8).toUpperCase()}</td>
                         <td style={{ padding: '12px' }}>{order.customerEmail || order.email}</td>
                         <td style={{ padding: '12px' }}>{order.items?.[0]?.name || 'Produto'}</td>
-                        <td style={{ padding: '12px' }}>US$ {order.total?.toFixed(2) || '0.00'}</td>
+                        <td style={{ padding: '12px' }}>{formatPrice(order.total || 0, order.currency || order.pais || 'BR')}</td>
                         <td style={{ padding: '12px' }}>
                           <span style={{ background: colors.bg, color: colors.text, padding: '4px 8px', borderRadius: '4px', fontSize: '12px', fontWeight: 'bold' }}>
                             {order.status}
@@ -1149,7 +1150,7 @@ export default function Admin() {
                   </div>
                   <div style={{ background: 'white', border: '1px solid #ede9fe', borderRadius: '12px', padding: '24px' }}>
                     <h3 style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px', fontFamily: 'sans-serif' }}>Receita Total</h3>
-                    <p style={{ margin: 0, fontSize: '28px', color: '#1a0533', fontWeight: 'bold' }}>US$ {reportsData.totalRevenue?.toFixed(2) || '0.00'}</p>
+                    <p style={{ margin: 0, fontSize: '28px', color: '#1a0533', fontWeight: 'bold' }}>{formatPrice(reportsData.totalRevenue || 0, 'BR')}</p>
                   </div>
                   <div style={{ background: 'white', border: '1px solid #ede9fe', borderRadius: '12px', padding: '24px' }}>
                     <h3 style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px', fontFamily: 'sans-serif' }}>Ticket Médio</h3>
@@ -1388,7 +1389,7 @@ export default function Admin() {
                       <tr key={i} style={{ borderBottom: '1px solid #eee' }}>
                         <td style={{ padding: '12px' }}>{sub.customerEmail}</td>
                         <td style={{ padding: '12px' }}>{sub.planId}</td>
-                        <td style={{ padding: '12px' }}>US$ {sub.price?.toFixed(2)}</td>
+                        <td style={{ padding: '12px' }}>{formatPrice(sub.price || 0, sub.currency || 'BR')}</td>
                         <td style={{ padding: '12px' }}>
                           <span style={{ background: statusColor.bg, color: statusColor.text, padding: '4px 8px', borderRadius: '4px', fontSize: '12px', fontWeight: 'bold' }}>
                             {sub.status}
@@ -1597,7 +1598,7 @@ export default function Admin() {
                 <div style={{ marginBottom: '24px', background: '#f9fafb', padding: '16px', borderRadius: '8px', border: '1px solid #e5e7eb' }}>
                   <p style={{ margin: '0 0 8px 0', color: '#4b5563', fontSize: '14px' }}><strong>Último login:</strong> {selectedCustomer.lastLogin ? new Date(selectedCustomer.lastLogin).toLocaleDateString() : '-'}</p>
                   <p style={{ margin: '0 0 8px 0', color: '#4b5563', fontSize: '14px' }}><strong>Total de pedidos:</strong> {customerDetails?.pedidos?.length || 0}</p>
-                  <p style={{ margin: 0, color: '#4b5563', fontSize: '14px' }}><strong>Total gasto:</strong> US$ {(customerDetails?.pedidos || []).reduce((acc: number, o: any) => acc + (o.total || 0), 0).toFixed(2).replace('.', ',')}</p>
+                  <p style={{ margin: 0, color: '#4b5563', fontSize: '14px' }}><strong>Total gasto:</strong> {formatPrice((customerDetails?.pedidos || []).reduce((acc: number, o: any) => acc + (o.total || 0), 0).toFixed(2).replace('.', ',')}</p>
                 </div>
 
                 <div style={{ marginBottom: '24px' }}>
@@ -1622,7 +1623,7 @@ export default function Admin() {
                           <div key={i} style={{ background: '#f3f4f6', padding: '12px', borderRadius: '6px', fontSize: '14px', display: 'flex', justifyContent: 'space-between' }}>
                             <span style={{ fontWeight: 'bold', color: '#374151' }}>#{o.id?.substring(0,8).toUpperCase()}</span>
                             <span style={{ color: '#4b5563' }}>{itemName}</span>
-                            <span style={{ color: '#10b981', fontWeight: 'bold' }}>US$ {(o.total || 0).toFixed(2).replace('.', ',')}</span>
+                            <span style={{ color: '#10b981', fontWeight: 'bold' }}>{formatPrice((o.total || 0).toFixed(2).replace('.', ',')}</span>
                             <span style={{ background: '#e5e7eb', padding: '2px 6px', borderRadius: '4px', fontSize: '12px', fontWeight: 'bold' }}>{statusText}</span>
                           </div>
                         );
@@ -1638,7 +1639,7 @@ export default function Admin() {
                   {customerDetails?.assinatura ? (
                     <div style={{ background: '#ecfdf5', border: '1px solid #a7f3d0', padding: '16px', borderRadius: '8px' }}>
                       <p style={{ margin: '0 0 8px 0', color: '#065f46', fontSize: '14px', fontWeight: 'bold' }}>
-                        ✅ Ativa — {(customerDetails.assinatura.items && customerDetails.assinatura.items[0]?.name) || 'Kit'} — US$ {(customerDetails.assinatura.total || 0).toFixed(2).replace('.', ',')}/mês
+                        ✅ Ativa — {(customerDetails.assinatura.items && customerDetails.assinatura.items[0]?.name) || 'Kit'} — {formatPrice((customerDetails.assinatura.total || 0).toFixed(2).replace('.', ',')}/mês
                       </p>
                       <p style={{ margin: 0, color: '#047857', fontSize: '14px' }}>
                         <strong>Próxima cobrança:</strong> {customerDetails.assinatura.nextBillingDate ? new Date(customerDetails.assinatura.nextBillingDate).toLocaleDateString() : '-'}

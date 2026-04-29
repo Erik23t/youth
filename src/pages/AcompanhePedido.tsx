@@ -99,7 +99,7 @@ export default function AcompanhePedido() {
           </div>
           <div style={{ textAlign: 'right' }}>
             <span style={{ background: st.color + '20', color: st.color, padding: '6px 14px', borderRadius: '20px', fontSize: '13px', fontWeight: 'bold' }}>{st.icon} {st.label}</span>
-            <div style={{ color: '#7c3aed', fontWeight: 'bold', fontSize: '18px', marginTop: '8px' }}>US$ {parseFloat(pedido.total).toFixed(2)}</div>
+            <div style={{ color: '#7c3aed', fontWeight: 'bold', fontSize: '18px', marginTop: '8px' }}>{formatPrice(parseFloat(pedido.total), pedido.currency || pedido.pais || 'BR')}</div>
           </div>
         </div>
         <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start', marginBottom: '16px' }}>
