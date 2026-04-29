@@ -47,9 +47,8 @@ import { ProductData } from './types/product';
 import { zylumiaSérum } from './products/zylumia-serum';
 import { templateProduto } from './products/template-produto';
 import { customerReviews, carouselReviews, faqs } from './data/reviews';
-import { urlFor } from './lib/sanity';
 
-const API = import.meta.env.VITE_API_URL || 'https://zylumia-backend-kmbrxbidkq-uc.a.run.app';
+const API = import.meta.env.VITE_API_URL || 'https://backend.zylumia.com';
 
 function PaginaPrincipal({ produto = zylumiaSérum }: { produto?: ProductData }) {
   // ── CMS ───────────────────────────────────────────────────────────────────
@@ -77,7 +76,7 @@ function PaginaPrincipal({ produto = zylumiaSérum }: { produto?: ProductData })
 
   // ── UI: banner / sticky / popup ───────────────────────────────────────────
   const { showPromoPopup, setShowPromoPopup } = usePromoPopup()
-  const { currentBannerIndex, showVideo, isMobile } = useBanner(produto.bannerImages.length)
+  const { currentBannerIndex } = useBanner(produto.bannerImages.length)
   const { showStickyBar, isStickyBarDismissed, setIsStickyBarDismissed, showStats } = useStickyBar()
 
   // ── Newsletter ────────────────────────────────────────────────────────────
@@ -199,8 +198,6 @@ function PaginaPrincipal({ produto = zylumiaSérum }: { produto?: ProductData })
       />
 
       <HeroBanner
-        showVideo={showVideo}
-        isMobile={isMobile}
         currentBannerIndex={currentBannerIndex}
         bannerImages={produto.bannerImages}
         onAddToCart={() => setIsCartOpen(true)}

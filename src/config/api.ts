@@ -1,4 +1,4 @@
-export const API_URL = import.meta.env.VITE_API_URL || 'https://zylumia-backend-kmbrxbidkq-uc.a.run.app'
+export const API_URL = import.meta.env.VITE_API_URL || 'https://backend.zylumia.com'
 
 export async function apiCall(endpoint: string, options: RequestInit = {}) {
   const token = localStorage.getItem('zylumia_token')
