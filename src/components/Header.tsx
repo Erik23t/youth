@@ -1,10 +1,13 @@
 import React from 'react'
 import { User, ShoppingCart, Bell, Menu, X } from 'lucide-react';
+import CurrencySelector from './CurrencySelector';
 
 interface HeaderProps {
   user: any
   cartCount: number
-  msgCount: number}
+  msgCount: number
+  onCurrencyChange?: (country: string) => void
+}
 
 export default function Header({
   user,
@@ -13,6 +16,7 @@ export default function Header({
   onOpenCart,
   onOpenAuth,
   onLogout,
+  onCurrencyChange,
 }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
   return (
@@ -56,7 +60,8 @@ export default function Header({
 
         <div className="text-3xl font-serif font-bold tracking-tighter text-center flex-1 lg:flex-none">Zylumia</div>
 
-        <div className="flex items-center justify-end space-x-5 text-gray-600 flex-1">
+        <div className="flex items-center justify-end space-x-4 text-gray-600 flex-1">
+          <CurrencySelector onChange={onCurrencyChange} />
           {/* Login/User Icon */}
           {user ? (
             <div className="flex items-center space-x-3">

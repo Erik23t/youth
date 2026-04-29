@@ -1,3 +1,5 @@
+import React from 'react'
+import { getCurrencyInfo, getSavedCountry } from '../lib/currency'
 import { ShoppingCart, X, Truck, Trash2 } from 'lucide-react';
 
 interface CartSidebarProps {
@@ -27,6 +29,12 @@ export default function CartSidebar({
   formatTime,
   onCheckout,
 }: CartSidebarProps) {
+  const [currencySymbol, setCurrencySymbol] = React.useState(() => getCurrencyInfo(getSavedCountry()).symbol)
+  React.useEffect(() => {
+    const handler = (e: CustomEvent) => setCurrencySymbol(getCurrencyInfo(e.detail.country).symbol)
+    window.addEventListener('zylumia_country_changed', handler as EventListener)
+    return () => window.removeEventListener('zylumia_country_changed', handler as EventListener)
+  }, [])
   if (!isOpen) return null;
 
   return (
@@ -96,7 +104,7 @@ export default function CartSidebar({
                       <div className="flex items-center border border-gray-200 rounded-sm px-3 py-1">
                         <span className="text-sm font-medium">{item.quantity || item.qty || 1}</span>
                       </div>
-                      <p className="text-sm font-bold">$ {item.price.toFixed(2).replace('.', ',')}</p>
+                      <p className="text-sm font-bold">{currencySymbol} {item.price.toFixed(2).replace('.', ',')}</p>
                     </div>
                   </div>
                 </div>
@@ -109,12 +117,12 @@ export default function CartSidebar({
           <div className="p-5 border-t border-gray-100 bg-gray-50">
             <div className="flex justify-between text-sm mb-2 text-gray-600">
               <span>Subtotal</span>
-              <span>US$ {cartItems.reduce((acc, item) => acc + (item.price * (item.quantity || item.qty || 1)), 0).toFixed(2).replace('.', ',')}</span>
+              <span>{currencySymbol} {cartItems.reduce((acc, item) => acc + (item.price * (item.quantity || item.qty || 1)), 0).toFixed(2).replace('.', ',')}</span>
             </div>
             {appliedCoupon && (
               <div className="flex justify-between text-sm mb-2 text-green-600">
                 <span>Desconto (10%)</span>
-                <span>- US$ {discountAmount.toFixed(2).replace('.', ',')}</span>
+                <span>- {currencySymbol} {discountAmount.toFixed(2).replace('.', ',')}</span>
               </div>
             )}
             <div className="flex justify-between text-sm mb-4 text-gray-600">
@@ -126,14 +134,14 @@ export default function CartSidebar({
             </div>
             <div className="flex justify-between font-bold text-lg mb-6 pt-4 border-t border-gray-200 text-gray-900">
               <span>Total</span>
-              <span>US$ {(cartItems.reduce((acc, item) => acc + (item.price * (item.quantity || item.qty || 1)), 0) - discountAmount).toFixed(2).replace('.', ',')}</span>
+              <span>{currencySymbol} {(cartItems.reduce((acc, item) => acc + (item.price * (item.quantity || item.qty || 1)), 0) - discountAmount).toFixed(2).replace('.', ',')}</span>
             </div>
 
             <button
               onClick={onCheckout}
               className="w-full bg-[#841dc5] hover:bg-[#6a179e] text-white py-4 rounded-sm text-base font-bold transition-colors tracking-wider"
             >
-              FINALIZAR COMPRA — US$ {(cartItems.reduce((acc, item) => acc + (item.price * (item.quantity || item.qty || 1)), 0) - discountAmount).toFixed(2).replace('.', ',')}
+              FINALIZAR COMPRA — {currencySymbol} {(cartItems.reduce((acc, item) => acc + (item.price * (item.quantity || item.qty || 1)), 0) - discountAmount).toFixed(2).replace('.', ',')}
             </button>
           </div>
         )}

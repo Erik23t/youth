@@ -44,6 +44,7 @@ import AssinaturaSucesso from './pages/AssinaturaSucesso';
 import AssinaturaCancelada from './pages/AssinaturaCancelada';
 import Contato from './pages/Contato';
 import { ProductData } from './types/product';
+import { getSavedCountry } from './lib/currency';
 import { zylumiaSérum } from './products/zylumia-serum';
 import { templateProduto } from './products/template-produto';
 import { customerReviews, carouselReviews, faqs } from './data/reviews';
@@ -87,6 +88,8 @@ function PaginaPrincipal({ produto = zylumiaSérum }: { produto?: ProductData })
   } = useNewsletter(() => setShowPromoPopup(false))
 
   // ── Estados locais simples ────────────────────────────────────────────────
+  const [selectedCountry, setSelectedCountry] = React.useState(getSavedCountry())
+
   const [activeVideoIndex, setActiveVideoIndex] = useState<number | null>(null)
   const [isSubscribing, setIsSubscribing]       = useState(false)
   const [pendingSubscription, setPendingSubscription] = useState(false)
@@ -192,7 +195,8 @@ function PaginaPrincipal({ produto = zylumiaSérum }: { produto?: ProductData })
         user={user}
         cartCount={cartCount}
         msgCount={msgCount}
-        onOpenCart={() => setIsCartOpen(true)}
+        onCurrencyChange={setSelectedCountry}
+          onOpenCart={() => setIsCartOpen(true)}
         onOpenAuth={() => setIsAuthOpen(true)}
         onLogout={logout}
       />

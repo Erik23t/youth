@@ -1,3 +1,5 @@
+import React from 'react'
+import { getCurrencyInfo, getSavedCountry } from '../lib/currency'
 interface SupplyOptionsProps {
   supplyMonths: 1 | 3 | 6
   purchaseType: 'onetime' | 'subscribe'
@@ -17,6 +19,12 @@ export default function SupplyOptions({
   preco6meses,
   mainImage,
 }: SupplyOptionsProps) {
+  const [currencySymbol, setCurrencySymbol] = React.useState(() => getCurrencyInfo(getSavedCountry()).symbol)
+  React.useEffect(() => {
+    const handler = (e: CustomEvent) => setCurrencySymbol(getCurrencyInfo(e.detail.country).symbol)
+    window.addEventListener('zylumia_country_changed', handler as EventListener)
+    return () => window.removeEventListener('zylumia_country_changed', handler as EventListener)
+  }, [])
   return (
     <div className="mb-8">
       <div className="space-y-4">
@@ -42,11 +50,11 @@ export default function SupplyOptions({
           <div className="text-right flex flex-col items-end">
             {purchaseType === 'subscribe' ? (
               <>
-                <div className="text-[#10b981] font-bold text-lg">US$ {(preco1mes * 0.8).toFixed(2).replace('.', ',')}</div>
-                <div className="text-[11px] text-gray-500 mt-0.5 line-through">US$ {preco1mes.toFixed(2).replace('.', ',')}</div>
+                <div className="text-[#10b981] font-bold text-lg">{currencySymbol} {(preco1mes * 0.8).toFixed(2).replace('.', ',')}</div>
+                <div className="text-[11px] text-gray-500 mt-0.5 line-through">{currencySymbol} {preco1mes.toFixed(2).replace('.', ',')}</div>
               </>
             ) : (
-              <div className="text-gray-900 font-bold text-lg">US$ {preco1mes.toFixed(2).replace('.', ',')}</div>
+              <div className="text-gray-900 font-bold text-lg">{currencySymbol} {preco1mes.toFixed(2).replace('.', ',')}</div>
             )}
           </div>
         </label>
@@ -73,18 +81,18 @@ export default function SupplyOptions({
           <div className="text-right flex flex-col items-end">
             {purchaseType === 'subscribe' ? (
               <>
-                <div className="text-[#10b981] font-bold text-lg">US$ {(preco3meses * 0.8).toFixed(2).replace('.', ',')}</div>
+                <div className="text-[#10b981] font-bold text-lg">{currencySymbol} {(preco3meses * 0.8).toFixed(2).replace('.', ',')}</div>
                 <div className="text-[11px] text-gray-600 mt-0.5 flex flex-col items-end">
-                  <span className="line-through">US$ {preco3meses.toFixed(2).replace('.', ',')}</span>
-                  <span className="text-[#841dc5] font-medium">US$ {((preco3meses * 0.8) / 3).toFixed(2).replace('.', ',')}/mês</span>
+                  <span className="line-through">{currencySymbol} {preco3meses.toFixed(2).replace('.', ',')}</span>
+                  <span className="text-[#841dc5] font-medium">{currencySymbol} {((preco3meses * 0.8) / 3).toFixed(2).replace('.', ',')}/mês</span>
                 </div>
               </>
             ) : (
               <>
-                <div className="text-gray-900 font-bold text-lg">US$ {preco3meses.toFixed(2).replace('.', ',')}</div>
+                <div className="text-gray-900 font-bold text-lg">{currencySymbol} {preco3meses.toFixed(2).replace('.', ',')}</div>
                 <div className="text-[11px] text-gray-600 mt-0.5 flex flex-col items-end">
-                  <span className="line-through">US$ {(preco1mes * 3).toFixed(2).replace('.', ',')}</span>
-                  <span className="text-[#841dc5] font-medium">US$ {(preco3meses / 3).toFixed(2).replace('.', ',')}/mês</span>
+                  <span className="line-through">{currencySymbol} {(preco1mes * 3).toFixed(2).replace('.', ',')}</span>
+                  <span className="text-[#841dc5] font-medium">{currencySymbol} {(preco3meses / 3).toFixed(2).replace('.', ',')}/mês</span>
                 </div>
               </>
             )}
@@ -114,18 +122,18 @@ export default function SupplyOptions({
           <div className="text-right flex flex-col items-end">
             {purchaseType === 'subscribe' ? (
               <>
-                <div className="text-[#10b981] font-bold text-lg">US$ {(preco6meses * 0.8).toFixed(2).replace('.', ',')}</div>
+                <div className="text-[#10b981] font-bold text-lg">{currencySymbol} {(preco6meses * 0.8).toFixed(2).replace('.', ',')}</div>
                 <div className="text-[11px] text-gray-600 mt-0.5 flex flex-col items-end">
-                  <span className="line-through">US$ {preco6meses.toFixed(2).replace('.', ',')}</span>
-                  <span className="text-[#841dc5] font-medium">US$ {((preco6meses * 0.8) / 6).toFixed(2).replace('.', ',')}/mês</span>
+                  <span className="line-through">{currencySymbol} {preco6meses.toFixed(2).replace('.', ',')}</span>
+                  <span className="text-[#841dc5] font-medium">{currencySymbol} {((preco6meses * 0.8) / 6).toFixed(2).replace('.', ',')}/mês</span>
                 </div>
               </>
             ) : (
               <>
-                <div className="text-gray-900 font-bold text-lg">US$ {preco6meses.toFixed(2).replace('.', ',')}</div>
+                <div className="text-gray-900 font-bold text-lg">{currencySymbol} {preco6meses.toFixed(2).replace('.', ',')}</div>
                 <div className="text-[11px] text-gray-600 mt-0.5 flex flex-col items-end">
-                  <span className="line-through">US$ {(preco1mes * 6).toFixed(2).replace('.', ',')}</span>
-                  <span className="text-[#841dc5] font-medium">US$ {(preco6meses / 6).toFixed(2).replace('.', ',')}/mês</span>
+                  <span className="line-through">{currencySymbol} {(preco1mes * 6).toFixed(2).replace('.', ',')}</span>
+                  <span className="text-[#841dc5] font-medium">{currencySymbol} {(preco6meses / 6).toFixed(2).replace('.', ',')}/mês</span>
                 </div>
               </>
             )}
