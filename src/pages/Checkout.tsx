@@ -566,7 +566,9 @@ export default function Checkout() {
       {/* MOBILE HEADER - logo + breadcrumb + PayPal */}
       <div className="mobile-header">
         <div style={{ textAlign: 'center', marginBottom: '8px' }}>
-          <h1 style={{ fontSize: '28px', fontWeight: 'bold', color: '#7c3aed', margin: 0, fontFamily: 'Georgia, serif' }}>Zylumia</h1>
+          <h1 style={{ fontSize: '28px', fontWeight: 'bold', color: '#000', margin: '0 0 6px 0', fontFamily: 'Georgia, serif' }}>Zylumia</h1>
+          <div style={{ width: '48px', height: '2px', background: '#000', margin: '0 auto 6px' }}></div>
+          <div style={{ color: '#f59e0b', fontSize: '16px', letterSpacing: '2px', marginBottom: '4px' }}>★★★★★</div>
         </div>
         <div style={{ textAlign: 'center', fontSize: '12px', color: '#6b7280', marginBottom: '16px' }}>
           Carrinho &gt; <span style={{ color: '#374151', fontWeight: 500 }}>Informações</span> &gt; Pagamento
@@ -603,7 +605,11 @@ export default function Checkout() {
         {/* COLUNA ESQUERDA (formulário) */}
         <div className="left-col">
           <div className="left-col-header" style={{ marginBottom: '24px' }}>
-            <h1 style={{ fontSize: '28px', fontWeight: 'bold', color: '#7c3aed', margin: 0, fontFamily: 'Georgia, serif' }}>Zylumia</h1>
+            <div>
+              <h1 style={{ fontSize: '28px', fontWeight: 'bold', color: '#000', margin: '0 0 6px 0', fontFamily: 'Georgia, serif' }}>Zylumia</h1>
+              <div style={{ width: '48px', height: '2px', background: '#000', marginBottom: '6px' }}></div>
+              <div style={{ color: '#f59e0b', fontSize: '16px', letterSpacing: '2px' }}>★★★★★</div>
+            </div>
             <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '8px' }}>
               Carrinho &gt; <span style={{ color: '#374151', fontWeight: 500 }}>Informações</span> &gt; Pagamento
             </div>
@@ -802,15 +808,16 @@ export default function Checkout() {
             style={{
               width: '100%',
               height: '56px',
-              background: '#7c3aed',
+              background: loading ? '#333' : '#000',
               color: '#fff',
               border: 'none',
               borderRadius: '8px',
               fontSize: '16px',
-              fontWeight: 500,
+              fontWeight: 600,
               cursor: loading ? 'not-allowed' : 'pointer',
               opacity: loading ? 0.7 : 1,
-              transition: 'background 0.2s'
+              transition: 'background 0.2s',
+              letterSpacing: '0.03em',
             }}
           >
             {loading ? 'Processando...' : `PAGAR AGORA — US$ ${totalFinal.toFixed(2)}`}
@@ -842,7 +849,7 @@ export default function Checkout() {
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
                     />
                   </div>
-                  <div style={{ position: 'absolute', top: '-8px', right: '-8px', width: '20px', height: '20px', background: 'rgba(114,114,114,0.9)', color: '#fff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 500 }}>
+                  <div style={{ position: 'absolute', top: '-8px', right: '-8px', width: '22px', height: '22px', background: '#000', color: '#fff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 700, boxShadow: '0 1px 4px rgba(0,0,0,0.25)' }}>
                     {item.qty || item.quantity || 1}
                   </div>
                 </div>
@@ -878,7 +885,7 @@ export default function Checkout() {
                       onClick={aplicarCupom}
                       disabled={loadingCupom || !cupom}
                       style={{
-                        background: '#7c3aed',
+                        background: '#000',
                         color: '#fff',
                         border: 'none',
                         borderRadius: '8px',
