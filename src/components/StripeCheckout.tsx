@@ -111,9 +111,13 @@ const CheckoutFormInner = forwardRef<any, any>(({ onSuccess, onError, customerPh
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
       <style>{`
-        @media (max-width: 480px) {
+        .stripe-field-wrapper {
+          width: 100%;
+          box-sizing: border-box;
+        }
+        @media (max-width: 600px) {
           .stripe-expiry-cvc-grid {
-            grid-template-columns: 1fr !important;
+            grid-template-columns: 1fr 1fr !important;
           }
           .stripe-expiry-cvc-grid > div label {
             min-height: auto !important;
@@ -124,8 +128,8 @@ const CheckoutFormInner = forwardRef<any, any>(({ onSuccess, onError, customerPh
         <label style={{ fontSize: '12px', fontWeight: '500', color: '#374151', marginBottom: '6px', display: 'block' }}>
           Número do cartão
         </label>
-        <div style={{ padding: '12px', border: '1px solid #ddd6fe', borderRadius: '8px', background: '#faf9ff', minHeight: '44px' }}>
-          <CardNumberElement options={elementStyle} />
+        <div style={{ padding: '12px', border: '1px solid #ddd6fe', borderRadius: '8px', background: '#faf9ff', minHeight: '44px', position: 'relative', overflow: 'visible' }}>
+          <CardNumberElement options={{...elementStyle, showIcon: true}} />
         </div>
       </div>
       <div className="stripe-expiry-cvc-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', alignItems: 'end' }}>
