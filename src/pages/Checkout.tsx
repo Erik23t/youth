@@ -478,6 +478,11 @@ export default function Checkout() {
           cartItems: cart.items,
           couponCode: localStorage.getItem('zylumia_coupon') || undefined,
           billingDetails: {
+            country: pais,
+            telefone: `${addrConfig.phonePrefix}${telefone}`,
+            customerName: `${nome} ${sobrenome}`,
+          },
+          billingDetails: {
             nome, sobrenome, email, telefone,
             pais, endereco, complemento,
             cidade, estado, cep,
@@ -743,7 +748,7 @@ export default function Checkout() {
                 </label>
                 <select
                   value={pais}
-                  onChange={e => { setPais(e.target.value); setEstado(''); setCep(''); }}
+                  onChange={e => { setPais(e.target.value); setEstado(''); setCep(''); localStorage.setItem('zylumia_country', e.target.value); }}
                   style={{...inputStyle, paddingLeft: '12px', width: '100%', boxSizing: 'border-box'}}
                 >
                   {COUNTRIES.map(c => (

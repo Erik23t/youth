@@ -61,6 +61,8 @@ const CheckoutFormInner = forwardRef<any, any>(({ onSuccess, onError, customerPh
             sessionId: localStorage.getItem('zylumia_session_id'),
             customerEmail,
             customerName,
+            customerPhone: cardPhone || checkoutData?.billingDetails?.telefone || '',
+            customerCountry: checkoutData?.billingDetails?.country || localStorage.getItem('zylumia_country') || 'US',
             couponCode: localStorage.getItem('zylumia_coupon') || undefined
           })
         });
