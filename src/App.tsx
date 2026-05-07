@@ -46,7 +46,6 @@ import Contato from './pages/Contato';
 import { ProductData } from './types/product';
 import { getSavedCountry } from './lib/currency';
 import { zylumiaSérum } from './products/zylumia-serum';
-import { templateProduto } from './products/template-produto';
 import { customerReviews, carouselReviews, faqs } from './data/reviews';
 
 const API = import.meta.env.VITE_API_URL || 'https://backend.zylumia.com';
@@ -326,7 +325,6 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/"                        element={<PaginaPrincipal produto={zylumiaSérum} />} />
-        <Route path={templateProduto.rota}     element={<PaginaPrincipal produto={templateProduto} />} />
         <Route path="/checkout"                element={<Checkout />} />
         <Route path="/checkout/sucesso"        element={<CheckoutSucesso />} />
         <Route path="/acompanhe-seu-pedido"    element={<AcompanhePedido />} />
