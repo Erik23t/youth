@@ -15,6 +15,13 @@ export default function MinhaConta() {
   const [mensagens, setMensagens] = useState<any[]>([]);
   const [msgNaoLidas, setMsgNaoLidas] = useState(0);
   const [loadingMensagens, setLoadingMensagens] = useState(false);
+  const [novaMensagem, setNovaMensagem] = useState('');
+  const [novoAssunto, setNovoAssunto] = useState('');
+  const [enviandoMsg, setEnviandoMsg] = useState(false);
+  const [msgEnviada, setMsgEnviada] = useState('');
+  const [msgAberta, setMsgAberta] = useState<string | null>(null);
+  const [respostaCliente, setRespostaCliente] = useState('');
+  const [enviandoResposta, setEnviandoResposta] = useState(false);
 
   // Pedidos
   const [pedidos, setPedidos] = useState<any[]>([]);
@@ -172,6 +179,56 @@ export default function MinhaConta() {
       ));
       setMsgNaoLidas(prev => Math.max(0, prev - 1));
     } catch(e) {}
+  };
+
+  const enviarNovaMensagem = async () => {
+    if (!novaMensagem.trim()) return;
+    setEnviandoMsg(true);
+    setMsgEnviada('');
+    try {
+      const token = localStorage.getItem('zylumia_token');
+      const r = await fetch(`${API}/api/messages`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        credentials: 'include',
+        body: JSON.stringify({ subject: novoAssunto || 'Contato', message: novaMensagem.trim() })
+      });
+      const data = await r.json();
+      if (data.success) {
+        setMsgEnviada('Mensagem enviada com sucesso!');
+        setNovaMensagem('');
+        setNovoAssunto('');
+        carregarMensagens();
+      } else {
+        setMsgEnviada(data.message || 'Erro ao enviar.');
+      }
+    } catch(e) {
+      setMsgEnviada('Erro ao enviar mensagem.');
+    } finally {
+      setEnviandoMsg(false);
+    }
+  };
+
+  const enviarRespostaCliente = async (msgId: string) => {
+    if (!respostaCliente.trim()) return;
+    setEnviandoResposta(true);
+    try {
+      const token = localStorage.getItem('zylumia_token');
+      const msg = mensagens.find((m: any) => m.id === msgId);
+      const r = await fetch(`${API}/api/messages`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        credentials: 'include',
+        body: JSON.stringify({ subject: (msg?.subject || 'Contato') + ' (resposta)', message: respostaCliente.trim() })
+      });
+      const data = await r.json();
+      if (data.success) {
+        setRespostaCliente('');
+        setMsgAberta(null);
+        carregarMensagens();
+      }
+    } catch(e) {}
+    finally { setEnviandoResposta(false); }
   };
 
   const handleCancelSubscription = async () => {
@@ -507,6 +564,38 @@ export default function MinhaConta() {
                     💬 Minhas Mensagens
                   </h2>
 
+                  {/* FORMULÁRIO — Nova Mensagem */}
+                  <div className="bg-gray-50 border border-gray-200 rounded-xl p-5 mb-6">
+                    <h3 className="font-bold text-gray-800 mb-3 text-sm uppercase tracking-wide">✉️ Enviar nova mensagem</h3>
+                    <input
+                      type="text"
+                      placeholder="Assunto (opcional)"
+                      value={novoAssunto}
+                      onChange={e => setNovoAssunto(e.target.value)}
+                      className="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-[#841dc5]"
+                    />
+                    <textarea
+                      placeholder="Escreva sua mensagem aqui..."
+                      value={novaMensagem}
+                      onChange={e => setNovaMensagem(e.target.value)}
+                      rows={4}
+                      className="w-full border border-gray-200 rounded-lg px-4 py-2 text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-[#841dc5] resize-none"
+                    />
+                    {msgEnviada && (
+                      <p className={`text-sm mb-3 font-medium ${msgEnviada.includes('sucesso') ? 'text-green-600' : 'text-red-500'}`}>
+                        {msgEnviada}
+                      </p>
+                    )}
+                    <button
+                      onClick={enviarNovaMensagem}
+                      disabled={enviandoMsg || !novaMensagem.trim()}
+                      className="bg-[#841dc5] hover:bg-[#6a179e] disabled:opacity-50 text-white font-bold py-2 px-6 rounded-lg text-sm transition-colors flex items-center gap-2"
+                    >
+                      {enviandoMsg ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+                      {enviandoMsg ? 'Enviando...' : 'Enviar Mensagem'}
+                    </button>
+                  </div>
+
                   {loadingMensagens ? (
                     <div className="flex justify-center py-12">
                       <Loader2 className="w-8 h-8 text-[#841dc5] animate-spin" />
@@ -532,52 +621,79 @@ export default function MinhaConta() {
                       {mensagens.map((msg: any) => (
                         <div
                           key={msg.id}
-                          onClick={() => {
-                            if (msg.status === 'REPLIED' && !msg.clientRead) {
-                              marcarComoLido(msg.id);
-                            }
-                          }}
-                          className="border rounded-xl p-6 cursor-pointer transition-all hover:shadow-md"
+                          className="border rounded-xl overflow-hidden transition-all"
                           style={{
-                            borderColor: msg.status === 'REPLIED' && !msg.clientRead
-                              ? '#841dc5' : '#e5e7eb',
-                            borderWidth: msg.status === 'REPLIED' && !msg.clientRead
-                              ? '2px' : '1px'
+                            borderColor: msg.status === 'REPLIED' && !msg.clientRead ? '#841dc5' : '#e5e7eb',
+                            borderWidth: msg.status === 'REPLIED' && !msg.clientRead ? '2px' : '1px'
                           }}
                         >
-                          <div className="flex justify-between items-center mb-3">
-                            <span className="font-bold text-gray-900">
-                              {msg.status === 'REPLIED' && !msg.clientRead && '🔔 '}
-                              {msg.subject || 'Contato'}
-                            </span>
-                            <span className={`text-xs font-bold px-3 py-1 rounded-full ${
-                              msg.status === 'REPLIED'
-                                ? 'bg-green-100 text-green-700'
-                                : msg.status === 'READ'
-                                ? 'bg-blue-100 text-blue-700'
+                          <div
+                            className="p-5 cursor-pointer hover:bg-gray-50 transition-colors"
+                            onClick={() => {
+                              if (msg.status === 'REPLIED' && !msg.clientRead) marcarComoLido(msg.id);
+                              setMsgAberta(msgAberta === msg.id ? null : msg.id);
+                              setRespostaCliente('');
+                            }}
+                          >
+                            <div className="flex justify-between items-center mb-2">
+                              <span className="font-bold text-gray-900">
+                                {msg.status === 'REPLIED' && !msg.clientRead && '🔔 '}
+                                {msg.subject || 'Contato'}
+                              </span>
+                              <span className={`text-xs font-bold px-3 py-1 rounded-full ${
+                                msg.status === 'REPLIED' ? 'bg-green-100 text-green-700'
+                                : msg.status === 'READ' ? 'bg-blue-100 text-blue-700'
                                 : 'bg-yellow-100 text-yellow-700'
-                            }`}>
-                              {msg.status === 'REPLIED' ? '✅ Respondido' :
-                               msg.status === 'READ' ? '👀 Lido' : '⏳ Aguardando'}
-                            </span>
+                              }`}>
+                                {msg.status === 'REPLIED' ? '✅ Respondido'
+                                 : msg.status === 'READ' ? '👀 Lido' : '⏳ Aguardando'}
+                              </span>
+                            </div>
+                            <p className="text-gray-600 text-sm mb-1">{msg.message}</p>
+                            <p className="text-gray-400 text-xs">{new Date(msg.createdAt).toLocaleDateString('pt-BR')}</p>
                           </div>
 
-                          <p className="text-gray-600 text-sm mb-2">{msg.message}</p>
-                          <p className="text-gray-400 text-xs">
-                            {new Date(msg.createdAt).toLocaleDateString('pt-BR')}
-                          </p>
-
-                          {msg.replies?.map((reply: any) => (
-                            <div
-                              key={reply.id}
-                              className="mt-4 bg-purple-50 rounded-lg p-4 border-l-4 border-[#841dc5]"
-                            >
-                              <p className="text-xs text-[#841dc5] font-bold mb-2">
-                                💜 Zylumia — {new Date(reply.createdAt).toLocaleDateString('pt-BR')}
-                              </p>
-                              <p className="text-gray-700 text-sm">{reply.text}</p>
+                          {msg.replies?.length > 0 && (
+                            <div className="px-5 pb-3 space-y-3">
+                              {msg.replies.map((reply: any) => (
+                                <div key={reply.id} className="bg-purple-50 rounded-lg p-4 border-l-4 border-[#841dc5]">
+                                  <p className="text-xs text-[#841dc5] font-bold mb-1">
+                                    💜 Zylumia — {new Date(reply.createdAt).toLocaleDateString('pt-BR')}
+                                  </p>
+                                  <p className="text-gray-700 text-sm">{reply.text}</p>
+                                </div>
+                              ))}
                             </div>
-                          ))}
+                          )}
+
+                          {msgAberta === msg.id && (
+                            <div className="px-5 pb-5 border-t border-gray-100 pt-4 bg-gray-50">
+                              <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">↩️ Sua resposta</p>
+                              <textarea
+                                placeholder="Escreva sua resposta..."
+                                value={respostaCliente}
+                                onChange={e => setRespostaCliente(e.target.value)}
+                                rows={3}
+                                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-[#841dc5] resize-none"
+                              />
+                              <div className="flex gap-2">
+                                <button
+                                  onClick={() => enviarRespostaCliente(msg.id)}
+                                  disabled={enviandoResposta || !respostaCliente.trim()}
+                                  className="bg-[#841dc5] hover:bg-[#6a179e] disabled:opacity-50 text-white font-bold py-2 px-5 rounded-lg text-sm transition-colors flex items-center gap-2"
+                                >
+                                  {enviandoResposta ? <Loader2 className="w-3 h-3 animate-spin" /> : null}
+                                  {enviandoResposta ? 'Enviando...' : 'Enviar'}
+                                </button>
+                                <button
+                                  onClick={() => { setMsgAberta(null); setRespostaCliente(''); }}
+                                  className="text-gray-500 hover:text-gray-700 text-sm px-3 py-2"
+                                >
+                                  Cancelar
+                                </button>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       ))}
                     </div>
