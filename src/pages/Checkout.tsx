@@ -1050,7 +1050,6 @@ export default function Checkout() {
           </div>
         </div>
       </div>
-    </div>
 
       {/* MODAL DE POLÍTICAS */}
       {policyModal && (
@@ -1072,5 +1071,7 @@ export default function Checkout() {
           </div>
         </div>
       )}
-  );
+    </div>
+
+  )
 }
