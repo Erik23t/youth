@@ -909,10 +909,10 @@ export default function Checkout() {
           </div>
           
           <div style={{ marginTop: '24px', borderTop: '1px solid #e5e7eb', paddingTop: '24px', display: 'flex', gap: '16px', fontSize: '12px', color: '#7c3aed', flexWrap: 'wrap' }}>
-            <a href="/politica-de-reembolso" style={{ color: 'inherit', textDecoration: 'none' }}>Política de reembolso</a>
-            <a href="/politica-de-frete" style={{ color: 'inherit', textDecoration: 'none' }}>Política de frete</a>
-            <a href="/politica-de-privacidade" style={{ color: 'inherit', textDecoration: 'none' }}>Política de privacidade</a>
-            <a href="/termos-de-servico" style={{ color: 'inherit', textDecoration: 'none' }}>Termos de serviço</a>
+            <button onClick={() => setPolicyModal('reembolso')} style={{ color: 'inherit', background: 'none', border: 'none', cursor: 'pointer', padding: 0, font: 'inherit' }}>Política de reembolso</button>
+            <button onClick={() => setPolicyModal('frete')} style={{ color: 'inherit', background: 'none', border: 'none', cursor: 'pointer', padding: 0, font: 'inherit' }}>Política de frete</button>
+            <button onClick={() => setPolicyModal('privacidade')} style={{ color: 'inherit', background: 'none', border: 'none', cursor: 'pointer', padding: 0, font: 'inherit' }}>Política de privacidade</button>
+            <button onClick={() => setPolicyModal('termos')} style={{ color: 'inherit', background: 'none', border: 'none', cursor: 'pointer', padding: 0, font: 'inherit' }}>Termos de serviço</button>
           </div>
         </div>
 

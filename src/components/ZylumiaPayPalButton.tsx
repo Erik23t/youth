@@ -31,6 +31,17 @@ export default function ZylumiaPayPalButton({ produto, customerName, customerEma
   useEffect(() => { produtoRef.current = produto; }, [produto]);
   useEffect(() => { customerNameRef.current = customerName; customerEmailRef.current = customerEmail; customerPhoneRef.current = customerPhone; }, [customerName, customerEmail, customerPhone]);
 
+  // Re-renderiza PayPal ao voltar para a página (visibilitychange)
+  useEffect(() => {
+    const onVisible = () => {
+      if (document.visibilityState === 'visible' && !rendered.current && paypalRef.current) {
+        rendered.current = false;
+      }
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    return () => document.removeEventListener('visibilitychange', onVisible);
+  }, []);
+
   useEffect(() => {
     if (!produto || rendered.current) return;
     const sessionId = localStorage.getItem('zylumia_session_id') || crypto.randomUUID();
@@ -39,6 +50,8 @@ export default function ZylumiaPayPalButton({ produto, customerName, customerEma
     loadPayPalSDK().then(() => {
       if (rendered.current || !paypalRef.current) return;
       rendered.current = true;
+      // Limpa container antes de renderizar
+      if (paypalRef.current) paypalRef.current.innerHTML = '';
       setLoading(false);
       const user = JSON.parse(localStorage.getItem('zylumia_user') || 'null');
 
