@@ -335,6 +335,7 @@ export default function Checkout() {
   const [desconto, setDesconto]       = useState(0);
   const [cupomAplicado, setCupomAplicado] = useState<any>(null);
   const [loadingCupom, setLoadingCupom] = useState(false);
+  const [policyModal, setPolicyModal] = useState<string | null>(null);
   const [erroCupom, setErroCupom]       = useState('');
   const [erro, setErro]               = useState('');
   const [camposErro, setCamposErro]   = useState<Record<string,boolean>>({});
@@ -1050,5 +1051,26 @@ export default function Checkout() {
         </div>
       </div>
     </div>
+
+      {/* MODAL DE POLÍTICAS */}
+      {policyModal && (
+        <div onClick={() => setPolicyModal(null)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
+          <div onClick={e => e.stopPropagation()} style={{ background: '#fff', borderRadius: '16px 16px 0 0', padding: '24px', maxWidth: '600px', width: '100%', maxHeight: '80vh', overflowY: 'auto' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
+              <button onClick={() => setPolicyModal(null)} style={{ background: '#f3f4f6', border: 'none', borderRadius: '50%', width: '36px', height: '36px', cursor: 'pointer', fontSize: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>←</button>
+              <h3 style={{ margin: 0, fontSize: '18px', color: '#111827' }}>
+                {policyModal === 'reembolso' ? 'Política de Reembolso' : policyModal === 'frete' ? 'Política de Frete' : policyModal === 'privacidade' ? 'Política de Privacidade' : 'Termos de Serviço'}
+              </h3>
+            </div>
+            <p style={{ color: '#374151', lineHeight: '1.7', fontSize: '14px' }}>
+              {policyModal === 'reembolso' && 'Aceitamos devoluções em até 30 dias após o recebimento. O produto deve estar na embalagem original sem sinais de uso. Entre em contato pelo suporte@zylumia.com.'}
+              {policyModal === 'frete' && 'Prazo de entrega: 7 a 15 dias úteis após confirmação do pagamento. O frete é calculado no checkout. Frete grátis para compras acima de R$ 200.'}
+              {policyModal === 'privacidade' && 'Seus dados são usados exclusivamente para processar seu pedido. Não compartilhamos informações com terceiros. Tudo protegido conforme a LGPD.'}
+              {policyModal === 'termos' && 'Ao comprar na Zylumia você concorda com nossos termos. Produtos destinados ao uso cosmético externo. Resultados podem variar. A Zylumia pode alterar condições sem aviso prévio.'}
+            </p>
+            <button onClick={() => setPolicyModal(null)} style={{ width: '100%', padding: '14px', background: '#111827', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 600, fontSize: '15px', marginTop: '16px' }}>Fechar</button>
+          </div>
+        </div>
+      )}
   );
 }
