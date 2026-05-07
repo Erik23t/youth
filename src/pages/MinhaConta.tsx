@@ -650,7 +650,7 @@ export default function MinhaConta() {
                               </span>
                             </div>
                             <p className="text-gray-600 text-sm mb-1">{msg.message}</p>
-                            <p className="text-gray-400 text-xs">{new Date(msg.createdAt).toLocaleDateString('pt-BR')}</p>
+                            <p className="text-gray-400 text-xs">{new Date(msg.createdAt).toLocaleDateString('pt-BR')} às {new Date(msg.createdAt).toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'})}</p>
                           </div>
 
                           {msg.replies?.length > 0 && (
@@ -658,7 +658,7 @@ export default function MinhaConta() {
                               {msg.replies.map((reply: any) => (
                                 <div key={reply.id} className="bg-purple-50 rounded-lg p-4 border-l-4 border-[#841dc5]">
                                   <p className="text-xs text-[#841dc5] font-bold mb-1">
-                                    💜 Zylumia — {new Date(reply.createdAt).toLocaleDateString('pt-BR')}
+                                    💜 Zylumia — {new Date(reply.createdAt).toLocaleDateString('pt-BR')} às {new Date(reply.createdAt).toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'})}
                                   </p>
                                   <p className="text-gray-700 text-sm">{reply.text}</p>
                                 </div>
