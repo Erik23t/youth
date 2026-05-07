@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { getCurrencyInfo, getSavedCountry } from '../lib/currency'
 interface SupplyOptionsProps {
   supplyMonths: 1 | 3 | 6
   purchaseType: 'onetime' | 'subscribe'
@@ -19,9 +18,8 @@ export default function SupplyOptions({
   preco6meses,
   mainImage,
 }: SupplyOptionsProps) {
-  const [currencySymbol, setCurrencySymbol] = useState(() => getCurrencyInfo(getSavedCountry()).symbol)
+  const currencySymbol = 'US$'
   useEffect(() => {
-    const handler = (e: CustomEvent) => setCurrencySymbol(getCurrencyInfo(e.detail.country).symbol)
     window.addEventListener('zylumia_country_changed', handler as EventListener)
     return () => window.removeEventListener('zylumia_country_changed', handler as EventListener)
   }, [])

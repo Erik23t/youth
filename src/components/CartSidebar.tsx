@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { getCurrencyInfo, getSavedCountry } from '../lib/currency'
 import { ShoppingCart, X, Truck, Trash2 } from 'lucide-react';
 
 interface CartSidebarProps {
@@ -29,9 +28,8 @@ export default function CartSidebar({
   formatTime,
   onCheckout,
 }: CartSidebarProps) {
-  const [currencySymbol, setCurrencySymbol] = useState(() => getCurrencyInfo(getSavedCountry()).symbol)
+  const currencySymbol = 'US$'
   useEffect(() => {
-    const handler = (e: CustomEvent) => setCurrencySymbol(getCurrencyInfo(e.detail.country).symbol)
     window.addEventListener('zylumia_country_changed', handler as EventListener)
     return () => window.removeEventListener('zylumia_country_changed', handler as EventListener)
   }, [])

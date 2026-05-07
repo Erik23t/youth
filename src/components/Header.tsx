@@ -1,6 +1,5 @@
 import React from 'react'
 import { User, ShoppingCart, Bell, Menu, X } from 'lucide-react';
-import CurrencySelector from './CurrencySelector';
 
 interface HeaderProps {
   user: any
