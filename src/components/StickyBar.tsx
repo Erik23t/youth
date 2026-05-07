@@ -28,8 +28,6 @@ export default function StickyBar({
 }: StickyBarProps) {
   const currencySymbol = 'US$'
   useEffect(() => {
-    window.addEventListener('zylumia_country_changed', handler as EventListener)
-    return () => window.removeEventListener('zylumia_country_changed', handler as EventListener)
   }, [])
   return (
     <div
