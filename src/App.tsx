@@ -20,7 +20,6 @@ import TestimonialsSection from './components/TestimonialsSection';
 import ClinicalResults from './components/ClinicalResults';
 import HowItWorks from './components/HowItWorks';
 import BeforeAfter from './components/BeforeAfter';
-import SocialProofSection from './components/SocialProofSection';
 import StepsSection from './components/StepsSection';
 import DoctorSection from './components/DoctorSection';
 import ReviewsCarousel from './components/ReviewsCarousel';
@@ -239,7 +238,6 @@ function PaginaPrincipal({ produto = zylumiaSérum }: { produto?: ProductData })
       <ClinicalResults />
       <HowItWorks />
       <BeforeAfter />
-      <SocialProofSection />
       <StepsSection />
       <DoctorSection />
       <ReviewsCarousel reviews={reviewsData} />
