@@ -3,8 +3,19 @@ import { X } from 'lucide-react';
 
 const API = import.meta.env.VITE_API_URL || 'https://backend.zylumia.com';
 
-export default function ZylumiaAuth({ isOpen, onClose, onSuccess }) {
-  const [etapa, setEtapa] = useState('email'); // 'email' ou 'codigo'
+interface User {
+  email: string;
+  name?: string;
+}
+
+interface ZylumiaAuthProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSuccess?: (user: User) => void;
+}
+
+export default function ZylumiaAuth({ isOpen, onClose, onSuccess }: ZylumiaAuthProps) {
+  const [etapa, setEtapa] = useState<'email' | 'codigo'>('email');
   const [email, setEmail] = useState('');
   const [digitos, setDigitos] = useState(['', '', '', '', '', '']);
   const [loading, setLoading] = useState(false);
@@ -12,39 +23,30 @@ export default function ZylumiaAuth({ isOpen, onClose, onSuccess }) {
 
   if (!isOpen) return null;
 
-  async function registrarCarrinhoAbandonado(userEmail) {
+  async function registrarCarrinhoAbandonado(userEmail: string): Promise<void> {
     try {
       const sessionId = localStorage.getItem('zylumia_session_id')
       if (!sessionId) return
 
-      // Busca carrinho atual do backend
-      const cartR = await fetch(
-        `${API}/api/cart/${sessionId}`
-      )
+      const cartR = await fetch(`${API}/api/cart/${sessionId}`)
       const cartData = await cartR.json()
 
-      // Só registra se tiver itens no carrinho
       if (!cartData.success || !cartData.cart?.items?.length) return
 
-      // Registra como carrinho abandonado
-      await fetch(
-        `${API}/api/recovery/track`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            sessionId,
-            email: userEmail,
-            items: cartData.cart.items,
-            total: cartData.cart.total
-          })
-        }
-      )
-    } catch(e) {
-    }
+      await fetch(`${API}/api/recovery/track`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId,
+          email: userEmail,
+          items: cartData.cart.items,
+          total: cartData.cart.total
+        })
+      })
+    } catch { /* ignore */ }
   }
 
-  async function handleEnviarCodigo(e) {
+  async function handleEnviarCodigo(e: React.FormEvent): Promise<void> {
     if (e) e.preventDefault();
 
     if (!email || !email.includes('@')) {
@@ -56,21 +58,18 @@ export default function ZylumiaAuth({ isOpen, onClose, onSuccess }) {
     setErro('');
 
     try {
-      const r = await fetch(
-        `${API}/api/auth/send-code`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: email.trim().toLowerCase() })
-        }
-      );
+      const r = await fetch(`${API}/api/auth/send-code`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim().toLowerCase() })
+      });
 
       const text = await r.text();
-      let data;
+      let data: { success: boolean; message?: string };
 
       try {
         data = JSON.parse(text);
-      } catch (err) {
+      } catch {
         if (r.status === 429) {
           setErro('Muitas tentativas. Aguarde alguns minutos.');
         } else {
@@ -80,20 +79,20 @@ export default function ZylumiaAuth({ isOpen, onClose, onSuccess }) {
       }
 
       if (data.success) {
-        setEtapa('codigo'); // muda para tela de digitar código
+        setEtapa('codigo');
         setErro('');
       } else {
         setErro(data.message || `Erro ao enviar código (${r.status}).`);
       }
-    } catch (e) {
-      setErro(`Erro de conexão: ${e.message}`);
+    } catch (e: unknown) {
+      setErro(`Erro de conexão: ${e instanceof Error ? e.message : 'desconhecido'}`);
     } finally {
       setLoading(false);
     }
   }
 
-  async function handleVerificarCodigo(codigoFornecido) {
-    const codigoCompleto = typeof codigoFornecido === 'string' ? codigoFornecido : digitos.join('');
+  async function handleVerificarCodigo(codigoFornecido?: string): Promise<void> {
+    const codigoCompleto = codigoFornecido ?? digitos.join('');
 
     if (codigoCompleto.length !== 6) {
       setErro('Digite os 6 dígitos do código.');
@@ -104,89 +103,73 @@ export default function ZylumiaAuth({ isOpen, onClose, onSuccess }) {
     setErro('');
 
     try {
-      const r = await fetch(
-        `${API}/api/auth/verify-code`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: email.trim().toLowerCase(),
-            code: codigoCompleto
-          })
-        }
-      );
+      const r = await fetch(`${API}/api/auth/verify-code`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email.trim().toLowerCase(),
+          code: codigoCompleto
+        })
+      });
       const data = await r.json();
 
       if (data.success && data.token) {
-        // Salva sessão
         localStorage.setItem('zylumia_token', data.token);
         localStorage.setItem('zylumia_user', JSON.stringify(
           data.user || { email: email.trim().toLowerCase(), name: '' }
         ));
 
-        // Registra carrinho abandonado se tiver itens
         await registrarCarrinhoAbandonado(data.user?.email || email.trim().toLowerCase());
 
-        if (typeof window !== 'undefined' && window.gtag) {
-          window.gtag('event', data.isNewUser ? 'sign_up' : 'login', {
-            method: 'Email'
-          });
+        if (typeof window !== 'undefined' && (window as any).gtag) {
+          (window as any).gtag('event', data.isNewUser ? 'sign_up' : 'login', { method: 'Email' });
         }
 
         setErro('');
 
-        // Chama onSuccess se existir
-        if (typeof onSuccess === 'function') {
+        if (onSuccess) {
           onSuccess(data.user || { email: email.trim().toLowerCase() });
         }
 
-        // Fecha o modal
-        if (typeof onClose === 'function') {
-          onClose();
-        }
-
-        // Recarrega a página para atualizar estado de login
+        onClose();
         window.location.reload();
 
       } else {
         setErro(data.message || 'Código incorreto. Tente novamente.');
       }
-    } catch (e) {
-      setErro('Erro de conexão: ' + e.message);
+    } catch (e: unknown) {
+      setErro('Erro de conexão: ' + (e instanceof Error ? e.message : 'desconhecido'));
     } finally {
       setLoading(false);
     }
   }
 
-  function handleDigito(index, value) {
-    if (!/^\d*$/.test(value)) return; // só aceita número
+  function handleDigito(index: number, value: string): void {
+    if (!/^\d*$/.test(value)) return;
 
     const novosDigitos = [...digitos];
-    novosDigitos[index] = value.slice(-1); // só 1 dígito por campo
+    novosDigitos[index] = value.slice(-1);
     setDigitos(novosDigitos);
 
-    // Foca no próximo campo
     if (value && index < 5) {
       const proximo = document.getElementById(`digito-${index + 1}`);
-      if (proximo) proximo.focus();
+      if (proximo) (proximo as HTMLInputElement).focus();
     }
 
-    // Se todos preenchidos, verifica automaticamente
     const todos = novosDigitos.join('');
     if (todos.length === 6) {
       handleVerificarCodigo(todos);
     }
   }
 
-  function handleKeyDown(index, e) {
-    // Backspace apaga e volta para campo anterior
+  function handleKeyDown(index: number, e: React.KeyboardEvent<HTMLInputElement>): void {
     if (e.key === 'Backspace' && !digitos[index] && index > 0) {
       const anterior = document.getElementById(`digito-${index - 1}`);
-      if (anterior) anterior.focus();
+      if (anterior) (anterior as HTMLInputElement).focus();
     }
   }
 
-  const handlePaste = (e) => {
+  const handlePaste = (e: React.ClipboardEvent<HTMLDivElement>): void => {
     e.preventDefault();
     const pastedData = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
     if (pastedData) {
@@ -197,7 +180,7 @@ export default function ZylumiaAuth({ isOpen, onClose, onSuccess }) {
       setDigitos(novosDigitos);
       const nextFocus = pastedData.length < 6 ? pastedData.length : 5;
       const proximo = document.getElementById(`digito-${nextFocus}`);
-      if (proximo) proximo.focus();
+      if (proximo) (proximo as HTMLInputElement).focus();
 
       if (pastedData.length === 6) {
         handleVerificarCodigo(pastedData);
@@ -211,6 +194,7 @@ export default function ZylumiaAuth({ isOpen, onClose, onSuccess }) {
         <button
           className="absolute top-4 right-4 text-gray-400 hover:text-gray-900 transition-colors"
           onClick={onClose}
+          aria-label="Fechar"
         >
           <X className="w-5 h-5" />
         </button>
