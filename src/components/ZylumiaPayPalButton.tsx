@@ -101,7 +101,7 @@ export default function ZylumiaPayPalButton({ produto, customerName, customerEma
             const result = await r.json();
             if (result.success) {
               const sid = localStorage.getItem('zylumia_session_id');
-              if (sid) fetch(`${API}/api/recovery/purchased`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId: sid }) }).catch(console.error);
+              if (sid) fetch(`${API}/api/recovery/purchased`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId: sid }) }).catch(() => {});
               localStorage.removeItem('zylumia_session_id');
               localStorage.removeItem('zylumia_coupon');
               const finalOrder = result.order || { id: result.paypalOrderId || data.orderID || 'PEDIDO' };
