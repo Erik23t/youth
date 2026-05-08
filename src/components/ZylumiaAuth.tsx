@@ -41,7 +41,6 @@ export default function ZylumiaAuth({ isOpen, onClose, onSuccess }) {
         }
       )
     } catch(e) {
-      console.error('Erro ao registrar carrinho:', e)
     }
   }
 
@@ -72,7 +71,6 @@ export default function ZylumiaAuth({ isOpen, onClose, onSuccess }) {
       try {
         data = JSON.parse(text);
       } catch (err) {
-        console.error('Resposta não-JSON do servidor:', { status: r.status, text });
         if (r.status === 429) {
           setErro('Muitas tentativas. Aguarde alguns minutos.');
         } else {
@@ -85,11 +83,9 @@ export default function ZylumiaAuth({ isOpen, onClose, onSuccess }) {
         setEtapa('codigo'); // muda para tela de digitar código
         setErro('');
       } else {
-        console.error('Servidor retornou erro:', data);
         setErro(data.message || `Erro ao enviar código (${r.status}).`);
       }
     } catch (e) {
-      console.error('Erro detalhado:', e);
       setErro(`Erro de conexão: ${e.message}`);
     } finally {
       setLoading(false);
@@ -156,7 +152,6 @@ export default function ZylumiaAuth({ isOpen, onClose, onSuccess }) {
         setErro(data.message || 'Código incorreto. Tente novamente.');
       }
     } catch (e) {
-      console.error('Erro detalhado:', e);
       setErro('Erro de conexão: ' + e.message);
     } finally {
       setLoading(false);

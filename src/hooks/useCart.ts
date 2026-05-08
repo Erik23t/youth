@@ -83,7 +83,6 @@ export function useCart() {
           setCartItems([])
         }
       } catch (e) {
-        console.error('Erro ao carregar carrinho:', e)
       }
     }
     carregarItensCarrinho()
@@ -141,7 +140,6 @@ export function useCart() {
         })
       })
     } catch (e) {
-      console.error('Erro ao salvar carrinho:', e)
     }
 
     if (typeof window !== 'undefined' && (window as any).gtag) {
@@ -178,7 +176,6 @@ export function useCart() {
         })
       })
     } catch (e) {
-      console.error('Erro ao remover item:', e)
     }
   }
 

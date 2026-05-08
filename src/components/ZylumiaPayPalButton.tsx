@@ -119,7 +119,7 @@ export default function ZylumiaPayPalButton({ produto, customerName, customerEma
           }
         },
 
-        onError: (err: any) => { console.error('PayPal erro:', err); setErro('Erro no PayPal. Tente novamente.'); if (typeof onError === 'function') onError(err); },
+        onError: (err: any) => {; setErro('Erro no PayPal. Tente novamente.'); if (typeof onError === 'function') onError(err); },
         onCancel: () => { setErro('Pagamento cancelado.'); }
       }).render(paypalRef.current);
     }).catch(() => { setLoading(false); setErro('Não foi possível carregar o PayPal. Verifique sua conexão.'); });

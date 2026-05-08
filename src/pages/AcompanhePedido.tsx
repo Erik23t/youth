@@ -64,12 +64,12 @@ export default function AcompanhePedido() {
           if (data2.success) setPedidos(data2.orders || [])
         }
       }
-    } catch(e) { console.error(e) }
+    } catch(e) { }
     finally { setLoading(false) }
   }
 
   const verificarPagamento = async (orderId) => {
-    try { await fetch(`${API}/api/paypal/order/${orderId}`); fetchPedidos() } catch(e) { console.error(e) }
+    try { await fetch(`${API}/api/paypal/order/${orderId}`); fetchPedidos() } catch(e) { }
   }
 
   async function buscarPedidoVisitante() {

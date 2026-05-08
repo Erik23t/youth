@@ -136,7 +136,6 @@ export default function MinhaConta() {
         setSubscription(null);
       }
     } catch (e) {
-      console.error(e);
       setError('Erro ao carregar dados da assinatura.');
     } finally {
       setLoading(false);
@@ -253,7 +252,6 @@ export default function MinhaConta() {
         toastError(data.error || 'Erro ao cancelar assinatura.');
       }
     } catch (e) {
-      console.error(e);
       toastError('Erro de conexão ao tentar cancelar.');
     } finally {
       setCanceling(false);

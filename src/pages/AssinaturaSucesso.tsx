@@ -38,7 +38,6 @@ export default function AssinaturaSucesso() {
       }
     })
     .catch(e => {
-      console.error('Erro:', e);
       setErrorMessage('Erro de conexão.');
       setStatus('error');
     });

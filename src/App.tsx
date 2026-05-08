@@ -117,7 +117,6 @@ function PaginaPrincipal({ produto = zylumiaSérum }: { produto?: ProductData })
         setIsSubscribing(false)
       }
     } catch (e) {
-      console.error(e)
       toastError('Erro ao conectar com o servidor.')
       setIsSubscribing(false)
     }

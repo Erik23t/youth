@@ -25,7 +25,6 @@ async function adminFetch(url: string, options: any = {}) {
     }
     return r.json()
   } catch(e) {
-    console.error('adminFetch error:', e)
     return null
   }
 }
@@ -165,7 +164,6 @@ export default function Admin() {
       );
       setCustomerDetails({ pedidos: pedidosDoCliente, assinatura: assinatura });
     } catch (e) {
-      console.error('Erro ao buscar detalhes do cliente', e);
     } finally {
       setLoadingCustomerDetails(false);
     }

@@ -104,7 +104,6 @@ const CheckoutFormInner = forwardRef<any, any>(({ onSuccess, onError, customerPh
         }
         return { success: false, error: 'Pagamento não concluído.' };
       } catch (e: any) {
-        console.error('ERRO STRIPE:', e);
         return { success: false, error: e.message || 'Erro inesperado.' };
       }
     }

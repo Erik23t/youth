@@ -375,7 +375,6 @@ export default function Checkout() {
           }
         }
       } catch(e) {
-        console.error('Erro ao carregar carrinho:', e)
       }
     }
     carregarCarrinho()
@@ -397,7 +396,7 @@ export default function Checkout() {
           items: cart.items,
           total: cart.total || cart.items.reduce((acc: number, item: any) => acc + (item.price * (item.qty || item.quantity || 1)), 0)
         })
-      }).catch(e => console.error('Recovery track erro:', e))
+      }).catch(() => {})
     }, 2000)
 
     return () => clearTimeout(timer)
@@ -500,7 +499,6 @@ export default function Checkout() {
       }
 
     } catch (err: any) {
-      console.error('Stripe erro:', err);
       setErro(err.message || 'Erro de conexão. Tente novamente.');
     } finally {
       setLoading(false);
