@@ -1060,7 +1060,7 @@ export default function Checkout() {
             </div>
             <p style={{ color: '#374151', lineHeight: '1.7', fontSize: '14px' }}>
               {policyModal === 'reembolso' && 'Aceitamos devoluções em até 30 dias após o recebimento. O produto deve estar na embalagem original sem sinais de uso. Entre em contato pelo suporte@zylumia.com.'}
-              {policyModal === 'frete' && 'Prazo de entrega: 7 a 15 dias úteis após confirmação do pagamento. O frete é calculado no checkout. Frete grátis para compras acima de R$ 200.'}
+              {policyModal === 'frete' && 'Prazo de entrega: 7 a 15 dias úteis após confirmação do pagamento. O frete é calculado no checkout. Frete grátis para todos os pedidos, sem valor mínimo.'}
               {policyModal === 'privacidade' && 'Seus dados são usados exclusivamente para processar seu pedido. Não compartilhamos informações com terceiros. Tudo protegido conforme a LGPD.'}
               {policyModal === 'termos' && 'Ao comprar na Zylumia você concorda com nossos termos. Produtos destinados ao uso cosmético externo. Resultados podem variar. A Zylumia pode alterar condições sem aviso prévio.'}
             </p>

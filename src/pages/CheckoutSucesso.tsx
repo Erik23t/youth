@@ -17,6 +17,7 @@ export default function CheckoutSucesso() {
     if (orderId) {
       setOrderId(orderId)
       setStatus('success')
+      localStorage.removeItem('zylumia_popup_dismissed')
       return
     }
 
@@ -36,6 +37,7 @@ export default function CheckoutSucesso() {
         if (data.success) {
           localStorage.removeItem('zylumia_session_id')
           localStorage.removeItem('zylumia_coupon')
+          localStorage.removeItem('zylumia_popup_dismissed')
           setOrderId(data.order.id.substring(0, 8).toUpperCase())
           
           if (typeof window !== 'undefined' && (window as any).gtag) {

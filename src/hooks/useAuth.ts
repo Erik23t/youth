@@ -20,10 +20,11 @@ export function useAuth() {
     }
   }, [])
 
-  // Poll unread messages every 15s while logged in
+  // Poll unread messages every 15s while logged in — pausa quando aba está em background
   useEffect(() => {
     if (!user) return
     async function checkMessages() {
+      if (document.visibilityState === 'hidden') return
       const token = localStorage.getItem('zylumia_token')
       if (!token) return
       try {
@@ -37,7 +38,11 @@ export function useAuth() {
     }
     checkMessages()
     const interval = setInterval(checkMessages, 15000)
-    return () => clearInterval(interval)
+    document.addEventListener('visibilitychange', checkMessages)
+    return () => {
+      clearInterval(interval)
+      document.removeEventListener('visibilitychange', checkMessages)
+    }
   }, [user])
 
   // Clear badge when on messages tab
