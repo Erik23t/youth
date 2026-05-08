@@ -7,7 +7,6 @@ import { useBanner } from './hooks/useBanner';
 import { useStickyBar } from './hooks/useStickyBar';
 import { usePromoPopup } from './hooks/usePromoPopup';
 import { useProductPrice } from './hooks/useProductPrice';
-import { useSanity } from './hooks/useSanity';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HeroBanner from './components/HeroBanner';
@@ -50,8 +49,6 @@ const API = import.meta.env.VITE_API_URL || 'https://backend.zylumia.com';
 
 function PaginaPrincipal({ produto = zylumiaSérum }: { produto?: ProductData }) {
   // ── CMS ───────────────────────────────────────────────────────────────────
-  const { sanityProduto, sanityHero, sanityDepoimentos } = useSanity()
-
   // ── Produto / preço / imagens ─────────────────────────────────────────────
   const {
     supplyMonths, setSupplyMonths,
@@ -59,7 +56,7 @@ function PaginaPrincipal({ produto = zylumiaSérum }: { produto?: ProductData })
     mainImage, setMainImage,
     currentProductImages,
     getPrice, getOldPrice,
-  } = useProductPrice(produto, sanityProduto)
+  } = useProductPrice(produto, null)
 
   // ── Carrinho ──────────────────────────────────────────────────────────────
   const {
@@ -171,17 +168,11 @@ function PaginaPrincipal({ produto = zylumiaSérum }: { produto?: ProductData })
 
   const produtoMerged = {
     ...produto,
-    nome:      sanityProduto?.nome,
-    descricao: sanityProduto?.descricao,
-    subtitulo: sanityProduto?.subtitulo,
-    preco1mes: sanityProduto?.preco1mes   || produto.preco1mes,
-    preco3mes: sanityProduto?.preco3meses || produto.preco3mes,
-    preco6mes: sanityProduto?.preco6meses || produto.preco6mes,
   }
 
   const stickyMainImage = ''
 
-  const reviewsData = (sanityDepoimentos?.length > 0 ? sanityDepoimentos : carouselReviews).map(
+  const reviewsData = carouselReviews.map(
     (r: any) => ({ name: r.nome || r.name, text: r.texto || r.body, rating: r.estrelas || 5, date: r.date })
   )
 
@@ -202,9 +193,9 @@ function PaginaPrincipal({ produto = zylumiaSérum }: { produto?: ProductData })
         currentBannerIndex={currentBannerIndex}
         bannerImages={produto.bannerImages}
         onAddToCart={() => setIsCartOpen(true)}
-        heroTitle={sanityHero?.titulo}
-        heroSubtitle={sanityHero?.subtitulo}
-        heroBtnText={sanityHero?.botaoTexto}
+        heroTitle={undefined}
+        heroSubtitle={undefined}
+        heroBtnText={undefined}
         heroImage={undefined}
       />
 
@@ -304,8 +295,8 @@ function PaginaPrincipal({ produto = zylumiaSérum }: { produto?: ProductData })
         isDismissed={isStickyBarDismissed}
         onDismiss={() => setIsStickyBarDismissed(true)}
         purchaseType={purchaseType}
-        price={sanityProduto?.preco6meses || produto.preco6mes}
-        productName={sanityProduto?.nome}
+        price={produto.preco6mes}
+        productName={produto.nome}
         mainImage={stickyMainImage}
         onAddToCart={handleAddToCart}
         onSubscribe={handleSubscribe}
