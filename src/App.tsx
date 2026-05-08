@@ -73,7 +73,7 @@ function PaginaPrincipal({ produto = zylumiaSérum }: { produto?: ProductData })
   const { user, setUser, isAuthOpen, setIsAuthOpen, msgCount, logout } = useAuth()
 
   // ── UI: banner / sticky / popup ───────────────────────────────────────────
-  const { showPromoPopup, setShowPromoPopup } = usePromoPopup()
+  const { showPromoPopup, closePopup, subscribePopup } = usePromoPopup()
   const { currentBannerIndex } = useBanner(produto.bannerImages.length)
   const { showStickyBar, isStickyBarDismissed, setIsStickyBarDismissed, showStats } = useStickyBar()
 
@@ -82,7 +82,7 @@ function PaginaPrincipal({ produto = zylumiaSérum }: { produto?: ProductData })
     promoEmail, setPromoEmail, promoLoading, promoMessage,
     footerEmail, setFooterEmail, footerLoading, footerMessage,
     handlePromoSubmit, handleFooterSubmit,
-  } = useNewsletter(() => setShowPromoPopup(false))
+  } = useNewsletter(subscribePopup)
 
   // ── Estados locais simples ────────────────────────────────────────────────
   const [selectedCountry, setSelectedCountry] = useState(getSavedCountry())
@@ -272,7 +272,7 @@ function PaginaPrincipal({ produto = zylumiaSérum }: { produto?: ProductData })
 
       <PromoPopup
         show={showPromoPopup}
-        onClose={() => setShowPromoPopup(false)}
+        onClose={closePopup}
         promoEmail={promoEmail}
         setPromoEmail={setPromoEmail}
         promoLoading={promoLoading}
