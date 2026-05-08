@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { toastSuccess, toastError, confirm, ToastContainer, ConfirmModal } from '../components/ZylumiaDialog';
 import { User, Package, CreditCard, LogOut, Loader2, AlertCircle, CheckCircle2, ArrowLeft, MessageCircle, RefreshCw, Trash2 } from 'lucide-react';
 
 const API = import.meta.env.VITE_API_URL || 'https://backend.zylumia.com';
@@ -87,7 +88,7 @@ export default function MinhaConta() {
   };
 
   const excluirPedido = async (id: string) => {
-    if (!window.confirm('Remover este pedido da lista?')) return;
+    if (!(await confirm({ title: 'Remover pedido', message: 'Remover este pedido da sua lista?', confirmLabel: 'Remover', danger: true }))) return;
     try {
       const token = localStorage.getItem('zylumia_token');
       const r = await fetch(`${API}/api/orders/${id}`, {
@@ -99,10 +100,10 @@ export default function MinhaConta() {
       if (data.success) {
         setPedidos(prev => prev.filter((p: any) => p.id !== id));
       } else {
-        alert(data.message || 'Erro ao remover pedido.');
+        toastError(data.message || 'Erro ao remover pedido.');
       }
     } catch(e) {
-      alert('Erro de conexão.');
+      toastError('Erro de conexão.');
     }
   };
 
@@ -232,9 +233,7 @@ export default function MinhaConta() {
   };
 
   const handleCancelSubscription = async () => {
-    if (!window.confirm('Tem certeza que deseja cancelar sua assinatura? Você perderá o desconto de 10% e os brindes exclusivos.')) {
-      return;
-    }
+    if (!(await confirm({ title: 'Cancelar assinatura', message: 'Tem certeza? Você perderá o desconto de 10% e os brindes exclusivos.', confirmLabel: 'Cancelar assinatura', danger: true }))) return;
     setCanceling(true);
     try {
       const token = localStorage.getItem('zylumia_token');
@@ -248,14 +247,14 @@ export default function MinhaConta() {
       });
       const data = await response.json();
       if (data.success) {
-        alert('Assinatura cancelada com sucesso.');
+        toastSuccess('Assinatura cancelada com sucesso.');
         fetchSubscription();
       } else {
-        alert(data.error || 'Erro ao cancelar assinatura.');
+        toastError(data.error || 'Erro ao cancelar assinatura.');
       }
     } catch (e) {
       console.error(e);
-      alert('Erro de conexão ao tentar cancelar.');
+      toastError('Erro de conexão ao tentar cancelar.');
     } finally {
       setCanceling(false);
     }
@@ -705,6 +704,8 @@ export default function MinhaConta() {
           </div>
         </div>
       </div>
+      <ToastContainer />
+      <ConfirmModal />
     </div>
   );
 }

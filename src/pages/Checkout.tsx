@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { toastError, ToastContainer } from '../components/ZylumiaDialog';
 import { Star, BadgeCheck, ShieldCheck, Truck, Users } from 'lucide-react';
 import ZylumiaPayPalButton from '../components/ZylumiaPayPalButton';
 import StripeCheckout from '../components/StripeCheckout';
@@ -663,7 +664,7 @@ export default function Checkout() {
               localStorage.removeItem('zylumia_coupon');
               window.location.href = `/checkout/sucesso?order=${order.id.substring(0,8).toUpperCase()}`;
             }}
-            onError={() => alert('Erro no pagamento. Tente novamente.')}
+            onError={() => toastError('Erro no pagamento. Tente novamente.')}
           />
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', margin: '16px 0 0 0' }}>
@@ -703,7 +704,7 @@ export default function Checkout() {
                 localStorage.removeItem('zylumia_coupon');
                 window.location.href = `/checkout/sucesso?order=${order.id.substring(0,8).toUpperCase()}`;
               }}
-              onError={() => alert('Erro no pagamento. Tente novamente.')}
+              onError={() => toastError('Erro no pagamento. Tente novamente.')}
             />
           </div>
 
@@ -1048,6 +1049,7 @@ export default function Checkout() {
         </div>
       </div>
 
+      <ToastContainer />
       {/* MODAL DE POLÍTICAS */}
       {policyModal && (
         <div onClick={() => setPolicyModal(null)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>

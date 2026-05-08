@@ -1,4 +1,5 @@
 import { formatPrice } from '../lib/currency';
+import { toastError, toastSuccess, confirm, ToastContainer, ConfirmModal } from '../components/ZylumiaDialog';
 import React, { useState, useEffect, useRef } from 'react';
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
@@ -481,7 +482,7 @@ export default function Admin() {
 
   const handleCancelSubscription = async (sub: any) => {
     const subId = sub.id || sub._id;
-    if (!window.confirm(`Cancelar assinatura de ${sub.customerEmail}?\nEsta ação não pode ser desfeita.`)) return;
+    if (!(await confirm({ title: 'Cancelar assinatura', message: `Cancelar assinatura de ${sub.customerEmail}? Esta ação não pode ser desfeita.`, confirmLabel: 'Cancelar assinatura', danger: true }))) return;
     setCancellingSubId(subId);
     try {
       const data = await adminFetch(`${API}/api/subscriptions/admin/${subId}/cancel`, { method: 'POST' });
@@ -530,9 +531,9 @@ export default function Admin() {
       const typed = window.prompt(`⚠️ Você está prestes a enviar para ${broadcastSelected.length} clientes!\nDigite CONFIRMAR para continuar:`);
       if (typed !== 'CONFIRMAR') { showToast('Envio cancelado.', 'info'); return; }
     }
-    if (!broadcastSubject.trim()) { alert('Preencha o assunto do e-mail.'); return; }
-    if (!broadcastTitle.trim() && !broadcastBody.trim()) { alert('Preencha o título ou a mensagem.'); return; }
-    if (!window.confirm(`Enviar e-mail para ${broadcastSelected.length} cliente(s)?`)) return;
+    if (!broadcastSubject.trim()) { toastError('Preencha o assunto do e-mail.'); return; }
+    if (!broadcastTitle.trim() && !broadcastBody.trim()) { toastError('Preencha o título ou a mensagem.'); return; }
+    if (!(await confirm({ title: 'Enviar e-mail em massa', message: `Enviar e-mail para ${broadcastSelected.length} cliente(s)? Esta ação não pode ser desfeita.`, confirmLabel: 'Enviar agora' }))) return;
 
     setBroadcastSending(true);
     setBroadcastResult('');
@@ -632,7 +633,7 @@ export default function Admin() {
   }
 
   const handleDeleteCoupon = async (code: string) => {
-    if (!window.confirm(`Deletar cupom ${code}?`)) return;
+    if (!(await confirm({ title: 'Deletar cupom', message: `Deletar o cupom ${code}? Esta ação não pode ser desfeita.`, confirmLabel: 'Deletar', danger: true }))) return;
     setDeletingCoupon(code);
     try {
       const data = await adminFetch(`${API}/api/maintenance/coupons/${code}`, { method: 'DELETE' });
@@ -666,7 +667,7 @@ export default function Admin() {
   };
 
   async function limparDados() {
-    if (!window.confirm('Confirma a limpeza de dados antigos? Esta ação não pode ser desfeita.')) return;
+    if (!(await confirm({ title: 'Limpar dados antigos', message: 'Confirma a limpeza de dados antigos? Esta ação não pode ser desfeita.', confirmLabel: 'Confirmar limpeza', danger: true }))) return;
     setCleanLoading(true)
     try {
       const r = await fetch(`${API}/api/maintenance/cleanup`, {
@@ -683,7 +684,7 @@ export default function Admin() {
         showToast(`❌ Erro: ${data?.message || 'Tente novamente.'}`, 'error')
       }
     } catch(e) {
-      alert('❌ Erro de conexão com o servidor.')
+      toastError('Erro de conexão com o servidor.')
     }
     setCleanLoading(false)
   }

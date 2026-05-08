@@ -113,12 +113,12 @@ function PaginaPrincipal({ produto = zylumiaSérum }: { produto?: ProductData })
       if (data.success && data.approvalUrl) {
         window.location.href = data.approvalUrl
       } else {
-        alert('Erro ao criar assinatura: ' + (data.error || 'Erro desconhecido'))
+        toastError('Erro ao criar assinatura: ' + (data.error || 'Erro desconhecido'))
         setIsSubscribing(false)
       }
     } catch (e) {
       console.error(e)
-      alert('Erro ao conectar com o servidor.')
+      toastError('Erro ao conectar com o servidor.')
       setIsSubscribing(false)
     }
   }
@@ -292,6 +292,8 @@ function PaginaPrincipal({ produto = zylumiaSérum }: { produto?: ProductData })
         )}
       />
 
+      <ToastContainer />
+      <ConfirmModal />
       <StickyBar
         show={showStickyBar}
         isDismissed={isStickyBarDismissed}
