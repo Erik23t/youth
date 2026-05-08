@@ -1,6 +1,6 @@
 import { useState, lazy, Suspense } from 'react';
 import { ToastContainer, ConfirmModal, toastError } from './components/ZylumiaDialog';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useCart } from './hooks/useCart';
 import { useAuth } from './hooks/useAuth';
 import { useNewsletter } from './hooks/useNewsletter';
@@ -329,6 +329,7 @@ export default function App() {
         <Route path="/assinatura/sucesso"      element={<AssinaturaSucesso />} />
         <Route path="/assinatura/cancelada"    element={<AssinaturaCancelada />} />
         <Route path="/contato"                 element={<Contato />} />
+        <Route path="*"                            element={<Navigate to="/" replace />} />
       </Routes>
       </Suspense>
     </BrowserRouter>

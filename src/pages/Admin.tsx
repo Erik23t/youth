@@ -1,5 +1,5 @@
 import { formatPrice } from '../lib/currency';
-import { toastError, toastSuccess, confirm, ToastContainer, ConfirmModal } from '../components/ZylumiaDialog';
+import { toastError, confirm } from '../components/ZylumiaDialog';
 import React, { useState, useEffect, useRef } from 'react';
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
