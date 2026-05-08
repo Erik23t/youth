@@ -5,9 +5,7 @@ Chart.register(...registerables);
 
 const API = import.meta.env.VITE_API_URL || 'https://backend.zylumia.com';
 const API_BASE = `${API}/api/admin`;
-const ADMIN_KEY = 'zylumia-admin-2026';
-
-let _adminToken = '';
+let _adminToken = sessionStorage.getItem('z_admin_token') || '';
 
 async function adminFetch(url: string, options: any = {}) {
   try {
@@ -32,7 +30,11 @@ async function adminFetch(url: string, options: any = {}) {
 }
 
 export default function Admin() {
-  const [autenticado, setAutenticado] = useState(false);
+  const [autenticado, setAutenticado] = useState(() => {
+    const saved = sessionStorage.getItem('z_admin_token');
+    if (saved) { _adminToken = saved; return true; }
+    return false;
+  });
   const [senha, setSenha] = useState('');
   const [erroLogin, setErroLogin] = useState('');
 
@@ -46,6 +48,8 @@ export default function Admin() {
   const [customerDetails, setCustomerDetails] = useState<any>(null);
   const [loadingCustomerDetails, setLoadingCustomerDetails] = useState(false);
   const [newsletter, setNewsletter] = useState<any[]>([]);
+  const [customerSearch, setCustomerSearch] = useState('');
+  const [newsletterSearch, setNewsletterSearch] = useState('');
   
   // Reports states
   const [reportsData, setReportsData] = useState<any>(null);
@@ -57,10 +61,18 @@ export default function Admin() {
   const [couponDiscount, setCouponDiscount] = useState(10);
   const [couponDays, setCouponDays] = useState(30);
   const [couponDesc, setCouponDesc] = useState('');
+  const [deletingCoupon, setDeletingCoupon] = useState<string | null>(null);
 
   // Subscriptions states
   const [subscriptions, setSubscriptions] = useState<any[]>([]);
   const [subsStats, setSubsStats] = useState<any>({ active: 0, cancelled: 0, mrr: 0 });
+  const [cancellingSubId, setCancellingSubId] = useState<string | null>(null);
+
+  const [toast, setToast] = useState<{msg: string; type: 'success'|'error'|'info'} | null>(null);
+  const showToast = (msg: string, type: 'success'|'error'|'info' = 'success') => {
+    setToast({msg, type});
+    setTimeout(() => setToast(null), 4000);
+  };
 
   // Recovery states
   const [recoveryStats, setRecoveryStats] = useState<any>(null);
@@ -89,6 +101,8 @@ export default function Admin() {
 
   // Orders filters and modal
   const [orderFilter, setOrderFilter] = useState('Todos');
+  const [orderPage, setOrderPage] = useState(1);
+  const ORDER_PAGE_SIZE = 20;
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
   const [modalStatus, setModalStatus] = useState('');
   const [trackingCode, setTrackingCode] = useState('');
@@ -108,6 +122,7 @@ export default function Admin() {
       const data = await r.json();
       if (data && data.success) {
         _adminToken = data.token;
+        sessionStorage.setItem('z_admin_token', data.token);
         setAutenticado(true);
         setErroLogin('');
       } else {
@@ -120,6 +135,7 @@ export default function Admin() {
 
   function handleLogout() {
     _adminToken = '';
+    sessionStorage.removeItem('z_admin_token');
     setAutenticado(false);
   }
 
@@ -137,16 +153,16 @@ export default function Admin() {
     setSelectedCustomer(cliente);
     setLoadingCustomerDetails(true);
     try {
-      const r = await adminFetch(`${API_BASE}/orders?limit=1000`);
-      const pedidosDoCliente = (r?.orders || []).filter((o: any) => o.customerEmail === cliente.email);
-      
+      const emailParam = encodeURIComponent(cliente.email);
+      const r = await adminFetch(`${API_BASE}/orders?email=${emailParam}&limit=100`);
+      const pedidosDoCliente = (r?.orders || []).filter((o: any) =>
+        (o.customerEmail || o.email || '').toLowerCase() === cliente.email.toLowerCase()
+      );
       const subR = await adminFetch(`${API}/api/subscriptions/admin/all`);
-      const assinatura = (subR?.subscriptions || []).find((s: any) => s.customerEmail === cliente.email && s.status === 'ACTIVE');
-      
-      setCustomerDetails({
-        pedidos: pedidosDoCliente,
-        assinatura: assinatura
-      });
+      const assinatura = (subR?.subscriptions || []).find((s: any) =>
+        s.customerEmail === cliente.email && s.status === 'ACTIVE'
+      );
+      setCustomerDetails({ pedidos: pedidosDoCliente, assinatura: assinatura });
     } catch (e) {
       console.error('Erro ao buscar detalhes do cliente', e);
     } finally {
@@ -339,10 +355,11 @@ export default function Admin() {
   useEffect(() => {
     if (!dashboardData || activeTab !== 'Dashboard') return;
     
+    let timer: ReturnType<typeof setTimeout>;
     const run = async () => {
     // Chart.js importado via npm - disponível imediatamente
     
-    setTimeout(() => {
+    timer = setTimeout(() => {
       // Destrói gráficos anteriores
       if (revenueChartRef.current) revenueChartRef.current.destroy()
       if (productsChartRef.current) productsChartRef.current.destroy()
@@ -454,7 +471,31 @@ export default function Admin() {
     }, 200)
     };
     run();
+    return () => {
+      clearTimeout(timer);
+      if (revenueChartRef.current) revenueChartRef.current.destroy();
+      if (productsChartRef.current) productsChartRef.current.destroy();
+      if (statusChartRef.current) statusChartRef.current.destroy();
+    };
   }, [reportsData, dashboardData, activeTab, reportPeriod]);
+
+  const handleCancelSubscription = async (sub: any) => {
+    const subId = sub.id || sub._id;
+    if (!window.confirm(`Cancelar assinatura de ${sub.customerEmail}?\nEsta ação não pode ser desfeita.`)) return;
+    setCancellingSubId(subId);
+    try {
+      const data = await adminFetch(`${API}/api/subscriptions/admin/${subId}/cancel`, { method: 'POST' });
+      if (data?.success) {
+        showToast('✅ Assinatura cancelada com sucesso!', 'success');
+        fetchSubscriptions();
+      } else {
+        showToast(`❌ Erro: ${data?.message || 'Falha ao cancelar'}`, 'error');
+      }
+    } catch(e) {
+      showToast('❌ Erro de conexão', 'error');
+    }
+    setCancellingSubId(null);
+  };
 
   const handleUpdateOrder = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -472,19 +513,23 @@ export default function Admin() {
 
     if (data && data.success) {
       if (modalStatus === 'SHIPPED') {
-        alert('E-mail de rastreamento enviado!');
+        showToast('✅ E-mail de rastreamento enviado ao cliente!', 'success');
       } else {
-        alert('Pedido atualizado com sucesso!');
+        showToast('✅ Pedido atualizado com sucesso!', 'success');
       }
       setSelectedOrder(null);
       fetchOrders();
     } else {
-      alert('Erro ao atualizar pedido');
+      showToast('❌ Erro ao atualizar pedido', 'error');
     }
   };
 
   async function enviarBroadcast() {
-    if (broadcastSelected.length === 0) { alert('Selecione pelo menos um cliente.'); return; }
+    if (broadcastSelected.length === 0) { showToast('Selecione pelo menos um cliente.', 'info'); return; }
+    if (broadcastSelected.length > 50) {
+      const typed = window.prompt(`⚠️ Você está prestes a enviar para ${broadcastSelected.length} clientes!\nDigite CONFIRMAR para continuar:`);
+      if (typed !== 'CONFIRMAR') { showToast('Envio cancelado.', 'info'); return; }
+    }
     if (!broadcastSubject.trim()) { alert('Preencha o assunto do e-mail.'); return; }
     if (!broadcastTitle.trim() && !broadcastBody.trim()) { alert('Preencha o título ou a mensagem.'); return; }
     if (!window.confirm(`Enviar e-mail para ${broadcastSelected.length} cliente(s)?`)) return;
@@ -498,7 +543,6 @@ export default function Admin() {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${_adminToken}`,
-          'x-admin-key': ADMIN_KEY,
         },
         body: JSON.stringify({
           emails: broadcastSelected,
@@ -551,7 +595,6 @@ export default function Admin() {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${_adminToken}`,
-          'x-admin-key': ADMIN_KEY,
         }
       });
       const stats = await statsRes.json();
@@ -562,7 +605,6 @@ export default function Admin() {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${_adminToken}`,
-          'x-admin-key': ADMIN_KEY,
         }
       });
       const result = await sendRes.json();
@@ -589,6 +631,17 @@ export default function Admin() {
     setRecoveryLoading(false)
   }
 
+  const handleDeleteCoupon = async (code: string) => {
+    if (!window.confirm(`Deletar cupom ${code}?`)) return;
+    setDeletingCoupon(code);
+    try {
+      const data = await adminFetch(`${API}/api/maintenance/coupons/${code}`, { method: 'DELETE' });
+      if (data?.success) { showToast(`✅ Cupom ${code} deletado!`, 'success'); fetchCoupons(); }
+      else { showToast('❌ Erro ao deletar cupom', 'error'); }
+    } catch(e) { showToast('❌ Erro de conexão', 'error'); }
+    setDeletingCoupon(null);
+  };
+
   const handleCreateCoupon = async (e: React.FormEvent) => {
     e.preventDefault();
     const data = await adminFetch(`${API}/api/maintenance/coupons/create`, {
@@ -601,14 +654,14 @@ export default function Admin() {
       })
     });
     if (data && data.success) {
-      alert('Cupom criado com sucesso!');
+      showToast('✅ Cupom criado com sucesso!', 'success');
       setCouponCode('');
       setCouponDiscount(10);
       setCouponDays(30);
       setCouponDesc('');
       fetchCoupons();
     } else {
-      alert('Erro ao criar cupom');
+      showToast('❌ Erro ao criar cupom', 'error');
     }
   };
 
@@ -625,15 +678,9 @@ export default function Admin() {
       });
       const data = await r.json();
       if (data?.success) {
-        alert(
-          `✅ Limpeza concluída!\n\n` +
-          `• Códigos OTP removidos: ${data.deleted.otpCodes}\n` +
-          `• Carrinhos removidos: ${data.deleted.carts}\n` +
-          `• Carrinhos abandonados: ${data.deleted.abandonedCarts}\n` +
-          `• Cupons expirados: ${data.deleted.expiredCoupons}`
-        )
+        showToast(`✅ Limpeza concluída! OTPs: ${data.deleted.otpCodes} | Carrinhos: ${data.deleted.carts} | Cupons exp.: ${data.deleted.expiredCoupons}`, 'success')
       } else {
-        alert(`❌ Erro: ${data?.message || 'Tente novamente.'}`)
+        showToast(`❌ Erro: ${data?.message || 'Tente novamente.'}`, 'error')
       }
     } catch(e) {
       alert('❌ Erro de conexão com o servidor.')
@@ -676,9 +723,11 @@ export default function Admin() {
     );
   }
 
-  const filteredOrders = orderFilter === 'Todos' 
-    ? orders 
+  const filteredOrders = orderFilter === 'Todos'
+    ? orders
     : orders.filter(o => o.status === orderFilter);
+  const totalOrderPages = Math.max(1, Math.ceil(filteredOrders.length / ORDER_PAGE_SIZE));
+  const pagedOrders = filteredOrders.slice((orderPage - 1) * ORDER_PAGE_SIZE, orderPage * ORDER_PAGE_SIZE);
 
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#f9f6ff', fontFamily: 'Georgia, serif' }}>
@@ -804,7 +853,7 @@ export default function Admin() {
               <h2 style={{ color: '#1a0533', margin: 0 }}>Pedidos</h2>
               <select 
                 value={orderFilter} 
-                onChange={e => setOrderFilter(e.target.value)}
+                onChange={e => { setOrderFilter(e.target.value); setOrderPage(1); }}
                 style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #ccc', fontFamily: 'sans-serif' }}
               >
                 <option value="Todos">Todos</option>
@@ -831,7 +880,7 @@ export default function Admin() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredOrders.map(order => {
+                  {pagedOrders.map(order => {
                     const colors = getStatusColor(order.status);
                     return (
                       <tr key={order.id || order._id} style={{ borderBottom: '1px solid #eee' }}>
@@ -862,7 +911,7 @@ export default function Admin() {
                       </tr>
                     );
                   })}
-                  {filteredOrders.length === 0 && (
+                  {pagedOrders.length === 0 && (
                     <tr>
                       <td colSpan={7} style={{ padding: '24px', textAlign: 'center', color: '#888' }}>Nenhum pedido encontrado.</td>
                     </tr>
@@ -870,6 +919,15 @@ export default function Admin() {
                 </tbody>
               </table>
             </div>
+            {totalOrderPages > 1 && (
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', marginTop: '16px', fontFamily: 'sans-serif' }}>
+                <button onClick={() => setOrderPage(p => Math.max(1, p - 1))} disabled={orderPage === 1}
+                  style={{ padding: '6px 14px', borderRadius: '6px', border: '1px solid #d1d5db', background: orderPage === 1 ? '#f3f4f6' : 'white', cursor: orderPage === 1 ? 'default' : 'pointer' }}>←</button>
+                <span style={{ fontSize: '14px', color: '#374151' }}>Página {orderPage} de {totalOrderPages} ({filteredOrders.length} pedidos)</span>
+                <button onClick={() => setOrderPage(p => Math.min(totalOrderPages, p + 1))} disabled={orderPage === totalOrderPages}
+                  style={{ padding: '6px 14px', borderRadius: '6px', border: '1px solid #d1d5db', background: orderPage === totalOrderPages ? '#f3f4f6' : 'white', cursor: orderPage === totalOrderPages ? 'default' : 'pointer' }}>→</button>
+              </div>
+            )}
           </div>
         )}
 
@@ -877,7 +935,10 @@ export default function Admin() {
           <div>
             {/* Header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
-              <h2 style={{ color: '#1a0533', margin: 0 }}>Clientes ({customers.length})</h2>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+                <h2 style={{ color: '#1a0533', margin: 0 }}>Clientes ({customers.length})</h2>
+                <input type="text" placeholder="🔍 Buscar por e-mail..." value={customerSearch} onChange={e => setCustomerSearch(e.target.value)} style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid #d1d5db', fontSize: '14px', fontFamily: 'sans-serif', width: '220px' }} />
+              </div>
               <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                 {broadcastSelected.length > 0 && (
                   <span style={{ fontSize: '13px', background: '#ede9fe', color: '#6d28d9', padding: '4px 12px', borderRadius: '20px', fontWeight: 500 }}>
@@ -909,7 +970,7 @@ export default function Admin() {
                   </tr>
                 </thead>
                 <tbody>
-                  {customers.map((customer, i) => (
+                  {customers.filter(c => !customerSearch || c.email?.toLowerCase().includes(customerSearch.toLowerCase())).map((customer, i) => (
                     <tr key={i} style={{ borderBottom: '1px solid #eee', background: broadcastSelected.includes(customer.email) ? '#faf5ff' : 'white', transition: 'background 0.15s' }}>
                       <td style={{ padding: '12px' }}>
                         <input type="checkbox" checked={broadcastSelected.includes(customer.email)} onChange={() => toggleCustomer(customer.email)} style={{ cursor: 'pointer', width: '16px', height: '16px', accentColor: '#6d28d9' }} />
@@ -1067,7 +1128,10 @@ export default function Admin() {
         {activeTab === 'Newsletter' && (
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
-              <h2 style={{ color: '#1a0533', margin: 0 }}>Newsletter</h2>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <h2 style={{ color: '#1a0533', margin: 0 }}>Newsletter ({newsletter.length})</h2>
+                <input type="text" placeholder="🔍 Buscar por e-mail..." value={newsletterSearch} onChange={e => setNewsletterSearch(e.target.value)} style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid #d1d5db', fontSize: '14px', fontFamily: 'sans-serif', width: '220px' }} />
+              </div>
             </div>
             <div style={{ background: 'white', border: '1px solid #ede9fe', borderRadius: '12px', padding: '24px', overflowX: 'auto' }}>
               <table style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse', fontFamily: 'sans-serif', fontSize: '14px' }}>
@@ -1080,7 +1144,7 @@ export default function Admin() {
                   </tr>
                 </thead>
                 <tbody>
-                  {newsletter.map((sub, i) => (
+                  {newsletter.filter(s => !newsletterSearch || s.email?.toLowerCase().includes(newsletterSearch.toLowerCase())).map((sub, i) => (
                     <tr key={i} style={{ borderBottom: '1px solid #eee' }}>
                       <td style={{ padding: '12px' }}>{sub.email}</td>
                       <td style={{ padding: '12px' }}>{sub.name || '-'}</td>
@@ -1298,6 +1362,7 @@ export default function Admin() {
                     <th style={{ padding: '12px' }}>Status</th>
                     <th style={{ padding: '12px' }}>Expira em</th>
                     <th style={{ padding: '12px' }}>Descrição</th>
+                    <th style={{ padding: '12px' }}>Ação</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1324,6 +1389,7 @@ export default function Admin() {
                         </td>
                         <td style={{ padding: '12px' }}>{new Date(coupon.expiresAt).toLocaleDateString()}</td>
                         <td style={{ padding: '12px', color: '#666' }}>{coupon.description || '-'}</td>
+                        <td style={{ padding: '12px' }}>{(coupon.used || new Date(coupon.expiresAt) < new Date()) && (<button onClick={() => handleDeleteCoupon(coupon.code)} disabled={deletingCoupon === coupon.code} style={{ background: '#fee2e2', color: '#991b1b', border: '1px solid #fecaca', padding: '4px 10px', borderRadius: '6px', cursor: 'pointer', fontSize: '12px', fontWeight: 'bold' }}>{deletingCoupon === coupon.code ? '...' : '🗑️ Deletar'}</button>)}</td>
                       </tr>
                     );
                   })}
@@ -1367,6 +1433,7 @@ export default function Admin() {
                     <th style={{ padding: '12px' }}>Status</th>
                     <th style={{ padding: '12px' }}>Próx. cobrança</th>
                     <th style={{ padding: '12px' }}>Ativada em</th>
+                    <th style={{ padding: '12px' }}>Ação</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1389,6 +1456,7 @@ export default function Admin() {
                         </td>
                         <td style={{ padding: '12px' }}>{sub.nextBillingDate ? new Date(sub.nextBillingDate).toLocaleDateString() : '-'}</td>
                         <td style={{ padding: '12px' }}>{sub.createdAt ? new Date(sub.createdAt).toLocaleDateString() : '-'}</td>
+                        <td style={{ padding: '12px' }}>{sub.status === 'ACTIVE' && (<button onClick={() => handleCancelSubscription(sub)} disabled={cancellingSubId === (sub.id || sub._id)} style={{ background: cancellingSubId === (sub.id || sub._id) ? '#9ca3af' : '#fee2e2', color: cancellingSubId === (sub.id || sub._id) ? 'white' : '#991b1b', border: '1px solid #fecaca', padding: '4px 10px', borderRadius: '6px', cursor: 'pointer', fontSize: '12px', fontWeight: 'bold' }}>{cancellingSubId === (sub.id || sub._id) ? '...' : '❌ Cancelar'}</button>)}</td>
                       </tr>
                     );
                   })}
@@ -1448,9 +1516,7 @@ export default function Admin() {
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 {adminMessages.map(msg => (
-                  <div key={msg.id} style={{ background: 'white', border: '1px solid #ede9fe', borderRadius: '12px', padding: '24px' }}
-                    onClick={() => { if (msg.status === 'UNREAD') handleMarkRead(msg.id); }}
-                  >
+                  <div key={msg.id} style={{ background: 'white', border: '1px solid #ede9fe', borderRadius: '12px', padding: '24px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', flexWrap: 'wrap', gap: '8px' }}>
                       <div>
                         <span style={{ fontWeight: 'bold', color: '#1a0533', fontFamily: 'sans-serif' }}>{msg.customerEmail}</span>
@@ -1469,6 +1535,7 @@ export default function Admin() {
                         }}>
                           {msg.status === 'REPLIED' ? '✅ Respondido' : msg.status === 'READ' ? '👀 Lido' : '🔴 Novo'}
                         </span>
+                        {msg.status === 'UNREAD' && (<button onClick={() => handleMarkRead(msg.id)} style={{ background: '#dbeafe', color: '#1e40af', border: 'none', padding: '2px 10px', borderRadius: '99px', fontSize: '12px', fontWeight: 'bold', cursor: 'pointer', fontFamily: 'sans-serif' }}>👀 Marcar lida</button>)}
                       </div>
                     </div>
 
@@ -1672,6 +1739,13 @@ export default function Admin() {
           </div>
         </div>
       )}
+
+      {toast && (
+        <div style={{ position: 'fixed', bottom: '24px', right: '24px', zIndex: 9999, background: toast.type === 'success' ? '#052e16' : toast.type === 'error' ? '#450a0a' : '#1e3a5f', color: 'white', padding: '14px 20px', borderRadius: '10px', boxShadow: '0 8px 24px rgba(0,0,0,0.3)', fontFamily: 'sans-serif', fontSize: '14px', maxWidth: '380px', lineHeight: 1.5, borderLeft: `4px solid ${toast.type === 'success' ? '#22c55e' : toast.type === 'error' ? '#ef4444' : '#3b82f6'}`, animation: 'slideIn 0.2s ease' }}>
+          {toast.msg}
+        </div>
+      )}
+      <style>{`@keyframes slideIn { from { opacity:0; transform:translateY(16px) } to { opacity:1; transform:translateY(0) } }`}</style>
     </div>
   );
 }
