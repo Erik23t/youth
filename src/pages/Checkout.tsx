@@ -475,14 +475,11 @@ export default function Checkout() {
           cartItems: cart.items,
           couponCode: localStorage.getItem('zylumia_coupon') || undefined,
           billingDetails: {
-            country: pais,
-            telefone: `${addrConfig.phonePrefix}${telefone}`,
-            customerName: `${nome} ${sobrenome}`,
-          },
-          billingDetails: {
             nome, sobrenome, email, telefone,
             pais, endereco, complemento,
             cidade, estado, cep,
+            country: pais,
+            customerName: `${nome} ${sobrenome}`,
             address: {
               line1: endereco,
               line2: complemento,
