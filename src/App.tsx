@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useCart } from './hooks/useCart';
 import { useAuth } from './hooks/useAuth';
@@ -27,23 +27,25 @@ import ZylumiaAuth from './components/ZylumiaAuth';
 import PromoPopup from './components/PromoPopup';
 import VideoModal from './components/VideoModal';
 import StickyBar from './components/StickyBar';
-import Checkout from './pages/Checkout';
-import CheckoutSucesso from './pages/CheckoutSucesso';
-import AcompanhePedido from './pages/AcompanhePedido';
-import Admin from './pages/Admin';
-import PerguntasFrequentes from './pages/PerguntasFrequentes';
-import PoliticaFrete from './pages/PoliticaFrete';
-import PoliticaReembolso from './pages/PoliticaReembolso';
-import TermosCondicoes from './pages/TermosCondicoes';
-import PoliticaPrivacidade from './pages/PoliticaPrivacidade';
-import MinhaConta from './pages/MinhaConta';
-import AssinaturaSucesso from './pages/AssinaturaSucesso';
-import AssinaturaCancelada from './pages/AssinaturaCancelada';
-import Contato from './pages/Contato';
 import { ProductData } from './types/product';
 import { getSavedCountry } from './lib/currency';
 import { zylumiaSérum } from './products/zylumia-serum';
 import { customerReviews, carouselReviews, faqs } from './data/reviews';
+
+// Lazy loading das páginas
+const Checkout = lazy(() => import('./pages/Checkout'));
+const CheckoutSucesso = lazy(() => import('./pages/CheckoutSucesso'));
+const AcompanhePedido = lazy(() => import('./pages/AcompanhePedido'));
+const Admin = lazy(() => import('./pages/Admin'));
+const PerguntasFrequentes = lazy(() => import('./pages/PerguntasFrequentes'));
+const PoliticaFrete = lazy(() => import('./pages/PoliticaFrete'));
+const PoliticaReembolso = lazy(() => import('./pages/PoliticaReembolso'));
+const TermosCondicoes = lazy(() => import('./pages/TermosCondicoes'));
+const PoliticaPrivacidade = lazy(() => import('./pages/PoliticaPrivacidade'));
+const MinhaConta = lazy(() => import('./pages/MinhaConta'));
+const AssinaturaSucesso = lazy(() => import('./pages/AssinaturaSucesso'));
+const AssinaturaCancelada = lazy(() => import('./pages/AssinaturaCancelada'));
+const Contato = lazy(() => import('./pages/Contato'));
 
 const API = import.meta.env.VITE_API_URL || 'https://backend.zylumia.com';
 
@@ -309,6 +311,7 @@ function PaginaPrincipal({ produto = zylumiaSérum }: { produto?: ProductData })
 export default function App() {
   return (
     <BrowserRouter>
+      <Suspense fallback={<div style={{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center'}}><div style={{width:40,height:40,border:'3px solid #841dc5',borderTop:'3px solid transparent',borderRadius:'50%',animation:'spin 0.8s linear infinite'}} /></div>}>
       <Routes>
         <Route path="/"                        element={<PaginaPrincipal produto={zylumiaSérum} />} />
         <Route path="/checkout"                element={<Checkout />} />
@@ -325,6 +328,7 @@ export default function App() {
         <Route path="/assinatura/cancelada"    element={<AssinaturaCancelada />} />
         <Route path="/contato"                 element={<Contato />} />
       </Routes>
+      </Suspense>
     </BrowserRouter>
   )
 }
