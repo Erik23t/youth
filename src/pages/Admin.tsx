@@ -295,9 +295,13 @@ export default function Admin() {
 
       setDashboardData({
         revenue: totalRevenue,
+        totalRevenue,
         orders: totalOrders,
+        totalOrders,
         customers: totalCustomers,
+        totalCustomers,
         newsletter: totalNewsletter,
+        newsletterSubscribers: totalNewsletter,
         ordersByStatus,
         paidOrders: ordersByStatus?.PAID || 0,
         todayOrders: todayOrders.length,
@@ -322,6 +326,7 @@ export default function Admin() {
       if (activeTab === 'Cupons') fetchCoupons();
       if (activeTab === 'Assinaturas') fetchSubscriptions();
       if (activeTab === 'Mensagens') fetchMessages();
+      if (activeTab === 'Manutenção') { fetchOrders(); fetchCustomers(); fetchNewsletter(); }
     }
   }, [autenticado, activeTab, reportPeriod]);
 
@@ -332,7 +337,7 @@ export default function Admin() {
 
   // Renderiza gráficos
   useEffect(() => {
-    if (!reportsData || !dashboardData || activeTab !== 'Dashboard') return;
+    if (!dashboardData || activeTab !== 'Dashboard') return;
     
     const run = async () => {
     // Chart.js importado via npm - disponível imediatamente
@@ -344,7 +349,7 @@ export default function Admin() {
       if (statusChartRef.current) statusChartRef.current.destroy()
 
       const r = document.getElementById('revenueChart') as HTMLCanvasElement;
-      if (r && reportsData.byDay) revenueChartRef.current = new Chart(r, {
+      if (r && reportsData?.byDay) revenueChartRef.current = new Chart(r, {
         type: 'line',
         data: {
           labels: reportsData.byDay.map((d: any) => d.date),
@@ -380,7 +385,7 @@ export default function Admin() {
       })
 
       const p = document.getElementById('productsChart') as HTMLCanvasElement;
-      if (p && reportsData.byProduct) productsChartRef.current = new Chart(p, {
+      if (p && reportsData?.byProduct) productsChartRef.current = new Chart(p, {
         type: 'bar',
         data: {
           labels: reportsData.byProduct.map((x: any) =>
@@ -684,7 +689,7 @@ export default function Admin() {
 
       <div style={{ padding: '32px', maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ display: 'flex', gap: '16px', marginBottom: '32px', borderBottom: '2px solid #ede9fe', paddingBottom: '16px', overflowX: 'auto' }}>
-          {['Dashboard', 'Pedidos', 'Clientes', 'Newsletter', 'Relatórios', 'Cupons', 'Assinaturas', 'Mensagens'].map(tab => (
+          {['Dashboard', 'Pedidos', 'Clientes', 'Newsletter', 'Relatórios', 'Cupons', 'Assinaturas', 'Mensagens', 'Manutenção'].map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -808,6 +813,7 @@ export default function Admin() {
                 <option value="PROCESSING">PROCESSING</option>
                 <option value="SHIPPED">SHIPPED</option>
                 <option value="DELIVERED">DELIVERED</option>
+                <option value="CANCELLED">CANCELLED</option>
               </select>
             </div>
 
@@ -838,7 +844,7 @@ export default function Admin() {
                             {order.status}
                           </span>
                         </td>
-                        <td style={{ padding: '12px' }}>{new Date(order.createdAt).toLocaleDateString()}</td>
+                        <td style={{ padding: '12px' }}>{order.createdAt || order.date ? new Date(order.createdAt || order.date).toLocaleDateString() : '-'}</td>
                         <td style={{ padding: '12px' }}>
                           <button 
                             onClick={() => {
@@ -1062,20 +1068,6 @@ export default function Admin() {
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
               <h2 style={{ color: '#1a0533', margin: 0 }}>Newsletter</h2>
-              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                <button 
-                  onClick={limparDados}
-                  style={{ background: '#3b82f6', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', fontFamily: 'sans-serif' }}
-                >
-                  🧹 Limpar Dados Antigos
-                </button>
-                <button 
-                  onClick={dispararRecuperacao}
-                  style={{ background: '#ef4444', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', fontFamily: 'sans-serif' }}
-                >
-                  Disparar Recuperação de Carrinho
-                </button>
-              </div>
             </div>
             <div style={{ background: 'white', border: '1px solid #ede9fe', borderRadius: '12px', padding: '24px', overflowX: 'auto' }}>
               <table style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse', fontFamily: 'sans-serif', fontSize: '14px' }}>
@@ -1407,6 +1399,32 @@ export default function Admin() {
                   )}
                 </tbody>
               </table>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'Manutenção' && (
+          <div>
+            <h2 style={{ color: '#1a0533', marginBottom: '24px' }}>Manutenção do Sistema</h2>
+            <div style={{ background: 'white', border: '1px solid #ede9fe', borderRadius: '12px', padding: '24px', marginBottom: '24px' }}>
+              <h3 style={{ margin: '0 0 8px 0', color: '#1a0533', fontSize: '18px' }}>🛒 Recuperação de Carrinho Abandonado</h3>
+              <p style={{ margin: '0 0 16px 0', color: '#666', fontSize: '14px', fontFamily: 'sans-serif' }}>Dispara e-mails automáticos para clientes que abandonaram o carrinho há mais de 1 hora.</p>
+              <button onClick={dispararRecuperacao} disabled={recoveryLoading}
+                style={{ background: recoveryLoading ? '#9ca3af' : '#ef4444', color: 'white', border: 'none', padding: '10px 24px', borderRadius: '8px', fontWeight: 'bold', cursor: recoveryLoading ? 'not-allowed' : 'pointer', fontFamily: 'sans-serif', fontSize: '14px' }}>
+                {recoveryLoading ? '⏳ Processando...' : '🚀 Disparar Recuperação de Carrinho'}
+              </button>
+              {recoveryMsg && (
+                <pre style={{ marginTop: '16px', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '8px', padding: '16px', fontSize: '13px', fontFamily: 'monospace', color: '#374151', whiteSpace: 'pre-wrap' }}>{recoveryMsg}</pre>
+              )}
+            </div>
+            <div style={{ background: 'white', border: '1px solid #ede9fe', borderRadius: '12px', padding: '24px' }}>
+              <h3 style={{ margin: '0 0 8px 0', color: '#1a0533', fontSize: '18px' }}>🧹 Limpeza de Dados Antigos</h3>
+              <p style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px', fontFamily: 'sans-serif' }}>Remove OTPs expirados, carrinhos antigos e cupons expirados.</p>
+              <p style={{ margin: '0 0 16px 0', color: '#ef4444', fontSize: '13px', fontFamily: 'sans-serif', fontWeight: 'bold' }}>⚠️ Esta ação não pode ser desfeita.</p>
+              <button onClick={limparDados} disabled={cleanLoading}
+                style={{ background: cleanLoading ? '#9ca3af' : '#3b82f6', color: 'white', border: 'none', padding: '10px 24px', borderRadius: '8px', fontWeight: 'bold', cursor: cleanLoading ? 'not-allowed' : 'pointer', fontFamily: 'sans-serif', fontSize: '14px' }}>
+                {cleanLoading ? '⏳ Limpando...' : '🧹 Limpar Dados Antigos'}
+              </button>
             </div>
           </div>
         )}
