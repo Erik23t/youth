@@ -18,17 +18,19 @@ function loadPayPalSDK(): Promise<void> {
   });
 }
 
-export default function ZylumiaPayPalButton({ produto, customerName, customerEmail, customerPhone, onSuccess, onError }: any) {
+export default function ZylumiaPayPalButton({ produto, cartItems, customerName, customerEmail, customerPhone, onSuccess, onError }: any) {
   const paypalRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState<string | null>(null);
   const rendered = useRef(false);
   const produtoRef = useRef(produto);
+  const cartItemsRef = useRef(cartItems);
   const customerNameRef = useRef(customerName);
   const customerEmailRef = useRef(customerEmail);
   const customerPhoneRef = useRef(customerPhone);
 
   useEffect(() => { produtoRef.current = produto; }, [produto]);
+  useEffect(() => { cartItemsRef.current = cartItems; }, [cartItems]);
   useEffect(() => { customerNameRef.current = customerName; customerEmailRef.current = customerEmail; customerPhoneRef.current = customerPhone; }, [customerName, customerEmail, customerPhone]);
 
   useEffect(() => {
@@ -54,9 +56,26 @@ export default function ZylumiaPayPalButton({ produto, customerName, customerEma
           const emailFinal = customerEmailRef.current || user?.email || 'guest@zylumia.com';
           const nameFinal = customerNameRef.current || user?.name || 'Cliente';
           const couponCode = localStorage.getItem('zylumia_coupon');
+          // ✅ FIX: Sync cart to backend before PayPal create-order
+          const items = cartItemsRef.current;
+          if (items?.length > 0) {
+            try {
+              await fetch(`${API}/api/cart`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ sessionId: sid, items })
+              });
+            } catch {}
+          }
           const r = await fetch(`${API}/api/paypal/create-order`, {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ sessionId: sid, customerEmail: emailFinal, customerName: nameFinal, ...(couponCode && { couponCode }) })
+            body: JSON.stringify({
+              sessionId: sid,
+              customerEmail: emailFinal,
+              customerName: nameFinal,
+              customerPhone: customerPhoneRef.current || '',
+              items: cartItemsRef.current || [],
+              ...(couponCode && { couponCode })
+            })
           });
           const data = await r.json();
           if (!data.success) { setErro('Erro ao criar ordem. Tente novamente.'); throw new Error(data.message); }

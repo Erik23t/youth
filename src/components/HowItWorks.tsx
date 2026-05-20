@@ -50,7 +50,7 @@ export default function HowItWorks() {
 
         <div className="order-1 md:order-2 rounded-lg overflow-hidden shadow-sm">
           <video
-            src="/media/como-usar.mp4"
+            src="https://imagens.zylumia.com/videosteste.mp4"
             autoPlay
             loop
             muted

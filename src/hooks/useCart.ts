@@ -108,13 +108,19 @@ export function useCart() {
 
     const newItem = { id: Date.now(), name, type: 'Assinatura', price, quantity: 1, image }
 
-    setCartItems(prev => {
-      const existing = prev.find(i => i.name === name)
-      if (existing) return prev.map(i => i.name === name ? { ...i, quantity: (i.quantity || i.qty || 1) + 1 } : i)
-      return [...prev, { ...newItem, quantity: 1 }]
-    })
-    setCartCount(prev => prev + 1)
+    const salvarCache = (items) => {
+      const sub = items.reduce((acc, i) => acc + (i.price * (i.quantity || i.qty || 1)), 0)
+      localStorage.setItem('zylumia_cart_cache', JSON.stringify({ items, subtotal: sub, total: sub }))
+    }
+
+    const updatedItems = cartItems.find(i => i.name === name)
+      ? cartItems.map(i => i.name === name ? { ...i, quantity: (i.quantity || i.qty || 1) + 1 } : i)
+      : [...cartItems, { ...newItem, quantity: 1 }]
+
+    setCartItems(updatedItems)
+    setCartCount(updatedItems.reduce((acc, i) => acc + (i.quantity || i.qty || 1), 0))
     setIsCartOpen(true)
+    salvarCache(updatedItems)
 
     const sessionId = localStorage.getItem('zylumia_session_id') || (() => {
       const id = crypto.randomUUID()
@@ -123,9 +129,6 @@ export function useCart() {
     })()
 
     try {
-      const updatedItems = cartItems.find(i => i.name === name)
-        ? cartItems.map(i => i.name === name ? { ...i, quantity: (i.quantity || i.qty || 1) + 1 } : i)
-        : [...cartItems, { ...newItem, quantity: 1 }]
 
       await fetch(`${API}/api/cart`, {
         method: 'POST',

@@ -331,15 +331,26 @@ export default function Checkout() {
       const sessionId = localStorage.getItem('zylumia_session_id')
       if (!sessionId) return
 
+      // ✅ FIX: Salva cache local no backend antes de qualquer pagamento
       try {
-        const r = await fetch(
-          `${API}/api/cart/${sessionId}`
-        )
+        const cached = (() => { try { return JSON.parse(localStorage.getItem('zylumia_cart_cache') || '') } catch { return null } })()
+        if (cached?.items?.length > 0) {
+          await fetch(`${API}/api/cart`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId, items: cached.items })
+          })
+        }
+      } catch {}
+      try {
+        const r = await fetch(`${API}/api/cart/${sessionId}`)
         const data = await r.json()
         
         if (data.success && data.cart) {
-          localStorage.setItem('zylumia_cart_cache', JSON.stringify(data.cart))
-          setCart(data.cart)
+          const its = data.cart.items || []
+          const sub = its.reduce((acc, i) => acc + (i.price * (i.qty || i.quantity || 1)), 0)
+          const cartOk = { ...data.cart, subtotal: sub, total: sub }
+          localStorage.setItem('zylumia_cart_cache', JSON.stringify(cartOk))
+          setCart(cartOk)
           
           // Se o carrinho tem cupom salvo no backend
           if (data.cart.coupon && data.cart.discount > 0) {
@@ -380,7 +391,7 @@ export default function Checkout() {
 
   // Sem bloqueio — renderiza imediatamente com dados do cache
 
-  const subtotal = cart?.subtotal || 0;
+  const subtotal = cart?.items?.length ? cart.items.reduce((acc, item) => acc + (item.price * (item.qty || item.quantity || 1)), 0) : (cart?.subtotal || 0);
   const totalFinal = Math.max(subtotal - desconto, 0);
 
   async function aplicarCupom(codeToApply?: string | React.MouseEvent) {
