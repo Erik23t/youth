@@ -131,7 +131,13 @@ function PaginaPrincipal({ produto = zylumiaSérum }: { produto?: ProductData })
 
   const handleAddToCart = () => {
     const name = `Zylumia™ - Suprimento para ${supplyMonths} ${supplyMonths === 1 ? 'mês' : 'meses'}`
-    addToCart(name, getPrice(), mainImage)
+    const imageByMonths: Record<number, string> = {
+      1: 'https://imagens.zylumia.com/cyperus-rotundus.png',
+      3: 'https://imagens.zylumia.com/cyperus-rotundus-zylumia.png',
+      6: 'https://imagens.zylumia.com/zylumia-serumcyperus.png',
+    }
+    const cartImage = imageByMonths[supplyMonths] || mainImage
+    addToCart(name, getPrice(), cartImage)
   }
 
   const handleCheckout = () => {
@@ -178,7 +184,12 @@ function PaginaPrincipal({ produto = zylumiaSérum }: { produto?: ProductData })
     preco6mes: sanityProduto?.preco6meses || produto.preco6mes,
   }
 
-  const stickyMainImage = ''
+  const imageByMonths: Record<number, string> = {
+    1: 'https://imagens.zylumia.com/cyperus-rotundus.png',
+    3: 'https://imagens.zylumia.com/cyperus-rotundus-zylumia.png',
+    6: 'https://imagens.zylumia.com/zylumia-serumcyperus.png',
+  }
+  const stickyMainImage = imageByMonths[supplyMonths] || 'https://imagens.zylumia.com/cyperus-rotundus.png'
 
   const reviewsData = (sanityDepoimentos?.length > 0 ? sanityDepoimentos : carouselReviews).map(
     (r: any) => ({ name: r.nome || r.name, text: r.texto || r.body, rating: r.estrelas || 5, date: r.date })
