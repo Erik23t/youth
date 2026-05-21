@@ -90,8 +90,8 @@ export default function JourneyTimeline() {
         {/* Image */}
         <div className="rounded-2xl overflow-hidden shadow-xl aspect-square md:aspect-auto md:h-full">
           <img
-            src=""
-            alt="Mulheres com pele lisa"
+            src="https://imagens.zylumia.com/zylumia-serum-cyperus.png"
+            alt="Zylumia Serum Cyperus"
             className="w-full h-full object-cover"
           />
         </div>
