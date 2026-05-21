@@ -51,22 +51,13 @@ export default function HeroBanner({
         ))
       )}
 
-      {/* Gradient overlay + CTA */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent flex flex-col items-center justify-center z-20">
-        <h2 className="text-white text-4xl md:text-6xl font-serif font-bold tracking-tight text-center px-4 drop-shadow-xl mb-4 pointer-events-none">
-          {heroTitle || 'Pele Lisa e Radiante'}
-        </h2>
-        {heroSubtitle && (
-          <p className="text-white text-xl md:text-2xl text-center px-4 drop-shadow-md mb-8 pointer-events-none">
-            {heroSubtitle}
-          </p>
-        )}
-        <button
-          onClick={() => { window.location.href = '/checkout?plano=1'; }}
-          className="bg-black hover:bg-gray-900 text-white px-12 py-5 text-sm md:text-base font-bold uppercase tracking-widest transition-all hover:scale-105 shadow-[0_0_20px_rgba(0,0,0,0.4)] rounded-sm"
-        >
-          {heroBtnText || 'Comprar Agora'}
-        </button>
+      {/* Overlay com logo centralizada */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
+        <img
+          src="https://imagens.zylumia.com/zylumia.png"
+          alt="Zylumia"
+          className="w-48 md:w-72 lg:w-96 object-contain drop-shadow-2xl"
+        />
       </div>
 
     </div>
