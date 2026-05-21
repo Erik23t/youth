@@ -318,6 +318,20 @@ export default function Checkout() {
   const [loading, setLoading]         = useState(false);
 
   const stripeRef = useRef<any>(null);
+  const [policyModal, setPolicyModal] = React.useState<null | 'reembolso' | 'frete' | 'privacidade' | 'termos'>(null);
+  const policyContent: Record<string, { title: string; content: string }> = {
+    reembolso: { title: 'Política de Reembolso', content: 'Oferecemos garantia de reembolso total de 30 dias. Se você não estiver satisfeito com o produto por qualquer motivo, entre em contato com nosso suporte dentro de 30 dias após o recebimento e processaremos o reembolso completo sem perguntas.' },
+    frete: { title: 'Política de Frete', content: 'Oferecemos frete grátis para todos os pedidos. O prazo de entrega é de 7 a 15 dias úteis para todo o Brasil. Você receberá um código de rastreamento por e-mail assim que seu pedido for despachado.' },
+    privacidade: { title: 'Política de Privacidade', content: 'Seus dados pessoais são coletados apenas para processar seu pedido. Não vendemos suas informações com terceiros. Todos os dados são protegidos com criptografia SSL.' },
+    termos: { title: 'Termos de Serviço', content: 'Ao realizar uma compra você concorda com nossos termos. Os produtos são vendidos para uso pessoal. Resultados podem variar. Reservamo-nos o direito de cancelar pedidos suspeitos de fraude.' }
+  };
+  const [policyModal, setPolicyModal] = React.useState<null | 'reembolso' | 'frete' | 'privacidade' | 'termos'>(null);
+  const policyContent: Record<string, { title: string; content: string }> = {
+    reembolso: { title: 'Política de Reembolso', content: 'Oferecemos garantia de reembolso total de 30 dias. Se você não estiver satisfeito com o produto por qualquer motivo, entre em contato com nosso suporte dentro de 30 dias após o recebimento e processaremos o reembolso completo sem perguntas.' },
+    frete: { title: 'Política de Frete', content: 'Oferecemos frete grátis para todos os pedidos. O prazo de entrega é de 7 a 15 dias úteis para todo o Brasil. Você receberá um código de rastreamento por e-mail assim que seu pedido for despachado.' },
+    privacidade: { title: 'Política de Privacidade', content: 'Seus dados pessoais são coletados apenas para processar seu pedido. Não vendemos suas informações com terceiros. Todos os dados são protegidos com criptografia SSL.' },
+    termos: { title: 'Termos de Serviço', content: 'Ao realizar uma compra você concorda com nossos termos. Os produtos são vendidos para uso pessoal. Resultados podem variar. Reservamo-nos o direito de cancelar pedidos suspeitos de fraude.' }
+  };
 
   // Pré-aquece conexão com backend ao montar o componente
   useEffect(() => {
@@ -832,10 +846,19 @@ export default function Checkout() {
           </div>
           
           <div style={{ marginTop: '24px', borderTop: '1px solid #e5e7eb', paddingTop: '24px', display: 'flex', gap: '16px', fontSize: '12px', color: '#7c3aed', flexWrap: 'wrap' }}>
-            <a href="/politica-de-reembolso" style={{ color: 'inherit', textDecoration: 'none' }}>Política de reembolso</a>
-            <a href="/politica-de-frete" style={{ color: 'inherit', textDecoration: 'none' }}>Política de frete</a>
-            <a href="/politica-de-privacidade" style={{ color: 'inherit', textDecoration: 'none' }}>Política de privacidade</a>
-            <a href="/termos-de-servico" style={{ color: 'inherit', textDecoration: 'none' }}>Termos de serviço</a>
+            <button onClick={() => setPolicyModal('reembolso')} style={{ background: 'none', border: 'none', color: '#7c3aed', fontSize: '12px', cursor: 'pointer', padding: 0 }}>Política de reembolso</button>
+            <button onClick={() => setPolicyModal('frete')} style={{ background: 'none', border: 'none', color: '#7c3aed', fontSize: '12px', cursor: 'pointer', padding: 0 }}>Política de frete</button>
+            <button onClick={() => setPolicyModal('privacidade')} style={{ background: 'none', border: 'none', color: '#7c3aed', fontSize: '12px', cursor: 'pointer', padding: 0 }}>Política de privacidade</button>
+            <button onClick={() => setPolicyModal('termos')} style={{ background: 'none', border: 'none', color: '#7c3aed', fontSize: '12px', cursor: 'pointer', padding: 0 }}>Termos de serviço</button>
+            {policyModal && (
+              <div onClick={() => setPolicyModal(null)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
+                <div onClick={e => e.stopPropagation()} style={{ background: '#fff', borderRadius: '12px', padding: '24px', maxWidth: '500px', width: '100%', maxHeight: '80vh', overflowY: 'auto', position: 'relative' }}>
+                  <button onClick={() => setPolicyModal(null)} style={{ position: 'absolute', top: '16px', right: '16px', background: 'none', border: 'none', fontSize: '20px', cursor: 'pointer', color: '#6b7280' }}>✕</button>
+                  <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#111827', marginBottom: '16px', marginTop: 0 }}>{policyContent[policyModal].title}</h3>
+                  <p style={{ fontSize: '14px', color: '#4b5563', lineHeight: '1.7', margin: 0 }}>{policyContent[policyModal].content}</p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
