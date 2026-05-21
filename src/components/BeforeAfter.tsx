@@ -5,21 +5,21 @@ const beforeAfterTabs = [
     title: "Pele mais macia e crescimento mais lento",
     subtitle: "O cabelo fica mais macio ao toque.",
     description: "No primeiro mês, os clientes notam que o cabelo que está crescendo novamente fica menos áspero e com menos pontas duplas. O sérum começa a agir no nível do folículo, embora as mudanças sejam mais sentidas do que visíveis.",
-    imageAfter: "",
+    imageAfter: "https://imagens.zylumia.com/cyperusrotundus.png",
   },
   {
     label: "Semanas 4 a 8",
     title: "Redução visível na densidade",
     subtitle: "Os pelos começam a afinar visivelmente.",
     description: "Durante o segundo mês, a densidade do cabelo diminui notavelmente. Você precisará se depilar com menos frequência e notará que a pele permanece lisa por mais tempo entre as sessões.",
-    imageAfter: "",
+    imageAfter: "https://imagens.zylumia.com/zylumia-cyperus%20rotundus.png",
   },
   {
     label: "Semanas 8 a 14",
     title: "Resultados duradouros",
     subtitle: "Pele lisa e quase sem pelos.",
     description: "Após 8 a 14 semanas de uso contínuo, a maioria dos usuários experimenta uma redução drástica no crescimento do cabelo. Os poucos pelos que restam são muito finos e claros, tornando-os quase invisíveis.",
-    imageAfter: "",
+    imageAfter: "https://imagens.zylumia.com/zylumia-serum-.png",
   },
 ]
 
