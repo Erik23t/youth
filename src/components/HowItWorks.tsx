@@ -1,3 +1,4 @@
+// v2 - video atualizado
 export default function HowItWorks() {
   return (
     <section className="max-w-[1200px] mx-auto px-4 md:px-12 py-16 md:py-24">
