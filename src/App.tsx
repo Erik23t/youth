@@ -11,7 +11,6 @@ import { useSanity } from './hooks/useSanity';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HeroBanner from './components/HeroBanner';
-import StatsSection from './components/StatsSection';
 import ProductGallery from './components/ProductGallery';
 import ProductDetails from './components/ProductDetails';
 import VideoReviews from './components/VideoReviews';
@@ -208,8 +207,6 @@ function PaginaPrincipal({ produto = zylumiaSérum }: { produto?: ProductData })
         heroBtnText={sanityHero?.botaoTexto}
         heroImage={undefined}
       />
-
-      <StatsSection showStats={showStats} />
 
       <main id="comprar" className="max-w-[1200px] mx-auto px-4 py-8 md:py-16 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
         <ProductGallery
