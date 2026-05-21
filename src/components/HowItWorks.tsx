@@ -51,13 +51,18 @@ export default function HowItWorks() {
 
         <div className="order-1 md:order-2 rounded-lg overflow-hidden shadow-sm">
           <video
-            src="https://imagens.zylumia.com/videosteste.mp4"
             autoPlay
             loop
             muted
             playsInline
+            controls={false}
+            preload="auto"
             className="w-full h-auto object-cover aspect-square md:aspect-[4/5]"
-          />
+            style={{ display: 'block', width: '100%' }}
+            onLoadedData={e => { const v = e.target as HTMLVideoElement; v.play().catch(() => {}) }}
+          >
+            <source src="https://imagens.zylumia.com/videosteste.mp4" type="video/mp4" />
+          </video>
         </div>
       </div>
     </section>

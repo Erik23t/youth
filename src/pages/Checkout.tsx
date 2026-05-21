@@ -549,7 +549,7 @@ export default function Checkout() {
             flex-direction: column;
           }
           .left-col, .right-col {
-            padding: 24px 20px;
+            padding: 16px 12px;
             border-right: none;
           }
           .right-col {
@@ -562,23 +562,22 @@ export default function Checkout() {
           .mobile-header {
             display: block;
             order: 1;
-            padding: 20px 20px 0 20px;
+            padding: 16px 12px 0 12px;
           }
-          .left-col-header {
-            display: none;
+          .left-col-header { display: none; }
+          .left-col-paypal { display: none; }
+          .left-col-divider { display: none; }
+          .desktop-only { display: none; }
+          .mobile-only { display: block; }
+          .stripe-container {
+            margin: 0 -12px;
+            border-radius: 0 !important;
+            border-left: none !important;
+            border-right: none !important;
           }
-          .left-col-paypal {
-            display: none;
-          }
-          .left-col-divider {
-            display: none;
-          }
-          .desktop-only {
-            display: none;
-          }
-          .mobile-only {
-            display: block;
-          }
+        }
+        @media (max-width: 380px) {
+          .left-col, .right-col, .mobile-header { padding: 12px 8px; }
         }
       `}</style>
 
@@ -795,7 +794,7 @@ export default function Checkout() {
             <h2 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '4px', marginTop: 0, color: '#1a0533' }}>Pagamento</h2>
             <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '4px' }}>🔒 Todas as transações são seguras e criptografadas.</div>
             
-            <div style={{ border: '1px solid #ddd6fe', borderRadius: '10px', overflow: 'hidden' }}>
+            <div className="stripe-container" style={{ border: '1px solid #ddd6fe', borderRadius: '10px', overflow: 'hidden' }}>
               <div style={{ padding: '14px 16px', background: '#ede9fe', borderBottom: '1px solid #ddd6fe', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div style={{ fontWeight: 600, color: '#4c1d95' }}>Cartão de crédito / débito</div>
                 <div style={{ display: 'flex', gap: '4px' }}>
