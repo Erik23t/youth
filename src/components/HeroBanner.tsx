@@ -51,12 +51,19 @@ export default function HeroBanner({
         ))
       )}
 
-      {/* Overlay com logo centralizada */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
+      {/* Overlay com imagem responsiva — desktop/mobile */}
+      <div className="absolute inset-0 z-20">
+        {/* Desktop */}
         <img
           src="https://imagens.zylumia.com/zylumia.png"
           alt="Zylumia"
-          className="w-48 md:w-72 lg:w-96 object-contain drop-shadow-2xl"
+          className="hidden md:block w-full h-full object-cover"
+        />
+        {/* Mobile */}
+        <img
+          src="https://imagens.zylumia.com/zylumia-serum.png"
+          alt="Zylumia"
+          className="block md:hidden w-full h-full object-cover"
         />
       </div>
 
