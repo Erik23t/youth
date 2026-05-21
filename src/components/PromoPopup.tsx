@@ -1,4 +1,6 @@
 import { X } from 'lucide-react';
+import { useState, useEffect } from 'react';
+
 interface PromoPopupProps {
   show: boolean
   onClose: () => void
@@ -8,9 +10,27 @@ interface PromoPopupProps {
   promoMessage: { text: string; type: 'success' | 'info' | 'error' } | null
   onSubmit: (e: React.FormEvent) => void
 }
+
 export default function PromoPopup({
   show, onClose, promoEmail, setPromoEmail, promoLoading, promoMessage, onSubmit,
 }: PromoPopupProps) {
+  const [timeLeft, setTimeLeft] = useState(600) // 10 minutos
+
+  useEffect(() => {
+    if (!show) return
+    setTimeLeft(600)
+    const interval = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev <= 1) { clearInterval(interval); return 0 }
+        return prev - 1
+      })
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [show])
+
+  const mm = String(Math.floor(timeLeft / 60)).padStart(2, '0')
+  const ss = String(timeLeft % 60).padStart(2, '0')
+
   if (!show) return null;
   return (
     <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4">
@@ -23,7 +43,23 @@ export default function PromoPopup({
           <X className="w-5 h-5" />
         </button>
         <div className="px-10 py-12 text-center">
-          <p className="text-xs font-semibold tracking-widest text-[#841dc5] uppercase mb-3">Oferta exclusiva</p>
+          {/* Cronômetro */}
+          <div className="flex items-center justify-center gap-2 mb-5">
+            <div className="flex flex-col items-center">
+              <div className="bg-[#841dc5] text-white text-2xl font-bold rounded-lg w-14 h-14 flex items-center justify-center font-mono">
+                {mm}
+              </div>
+              <span className="text-xs text-gray-400 mt-1">min</span>
+            </div>
+            <div className="text-2xl font-bold text-[#841dc5] mb-4">:</div>
+            <div className="flex flex-col items-center">
+              <div className="bg-[#841dc5] text-white text-2xl font-bold rounded-lg w-14 h-14 flex items-center justify-center font-mono">
+                {ss}
+              </div>
+              <span className="text-xs text-gray-400 mt-1">seg</span>
+            </div>
+          </div>
+
           <h2 className="text-3xl font-serif font-bold text-gray-900 mb-4 leading-tight">
             10% OFF na<br />Primeira Compra
           </h2>
