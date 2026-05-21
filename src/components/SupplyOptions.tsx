@@ -30,7 +30,7 @@ export default function SupplyOptions({
               {supplyMonths === 1 && <div className="w-2.5 h-2.5 bg-[#841dc5] rounded-full" />}
             </div>
             <img
-              src={mainImage}
+              src="https://imagens.zylumia.com/cyperus-rotundus.png"
               alt="1 frasco"
               style={{ width: '65px', height: '65px', objectFit: 'cover', borderRadius: '8px', marginRight: '12px', flexShrink: 0 }}
             />
@@ -61,7 +61,7 @@ export default function SupplyOptions({
               {supplyMonths === 3 && <div className="w-2.5 h-2.5 bg-[#841dc5] rounded-full" />}
             </div>
             <img
-              src={mainImage}
+              src="https://imagens.zylumia.com/cyperus-rotundus-zylumia.png"
               alt="2 frascos"
               style={{ width: '65px', height: '65px', objectFit: 'cover', borderRadius: '8px', marginRight: '12px', flexShrink: 0 }}
             />
@@ -102,7 +102,7 @@ export default function SupplyOptions({
               {supplyMonths === 6 && <div className="w-2.5 h-2.5 bg-[#841dc5] rounded-full" />}
             </div>
             <img
-              src={mainImage}
+              src="https://imagens.zylumia.com/zylumia-serumcyperus.png"
               alt="3 frascos"
               style={{ width: '65px', height: '65px', objectFit: 'cover', borderRadius: '8px', marginRight: '12px', flexShrink: 0 }}
             />

@@ -12,7 +12,7 @@ export const zylumiaSérum: ProductData = {
   preco3mes: 84.93,
   preco6mes: 134.40,
 
-  imagemPrincipal: 'https://pub-0e697b5a64104ed6b30280730145b1a2.r2.dev/ChatGPT%20Image%2017_03_2026%2C%2010_02_17.png',
+  imagemPrincipal: 'https://imagens.zylumia.com/cyperus-rotundus.png',
 
   imagens: [
     'https://pub-0e697b5a64104ed6b30280730145b1a2.r2.dev/ChatGPT%20Image%2017_03_2026%2C%2010_02_17.png',
