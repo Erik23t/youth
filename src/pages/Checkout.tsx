@@ -325,13 +325,7 @@ export default function Checkout() {
     privacidade: { title: 'Política de Privacidade', content: 'Seus dados pessoais são coletados apenas para processar seu pedido. Não vendemos suas informações com terceiros. Todos os dados são protegidos com criptografia SSL.' },
     termos: { title: 'Termos de Serviço', content: 'Ao realizar uma compra você concorda com nossos termos. Os produtos são vendidos para uso pessoal. Resultados podem variar. Reservamo-nos o direito de cancelar pedidos suspeitos de fraude.' }
   };
-  const [policyModal, setPolicyModal] = React.useState<null | 'reembolso' | 'frete' | 'privacidade' | 'termos'>(null);
-  const policyContent: Record<string, { title: string; content: string }> = {
-    reembolso: { title: 'Política de Reembolso', content: 'Oferecemos garantia de reembolso total de 30 dias. Se você não estiver satisfeito com o produto por qualquer motivo, entre em contato com nosso suporte dentro de 30 dias após o recebimento e processaremos o reembolso completo sem perguntas.' },
-    frete: { title: 'Política de Frete', content: 'Oferecemos frete grátis para todos os pedidos. O prazo de entrega é de 7 a 15 dias úteis para todo o Brasil. Você receberá um código de rastreamento por e-mail assim que seu pedido for despachado.' },
-    privacidade: { title: 'Política de Privacidade', content: 'Seus dados pessoais são coletados apenas para processar seu pedido. Não vendemos suas informações com terceiros. Todos os dados são protegidos com criptografia SSL.' },
-    termos: { title: 'Termos de Serviço', content: 'Ao realizar uma compra você concorda com nossos termos. Os produtos são vendidos para uso pessoal. Resultados podem variar. Reservamo-nos o direito de cancelar pedidos suspeitos de fraude.' }
-  };
+
 
   // Pré-aquece conexão com backend ao montar o componente
   useEffect(() => {
