@@ -34,9 +34,9 @@ const steps = [
 ];
 
 const groupImages = [
-  'https://imagens.zylumia.com/cyperusrotundus.png',
-  'https://imagens.zylumia.com/zylumia-cyperus%20rotundus.png',
-  'https://imagens.zylumia.com/zylumia-serum-.png',
+  'https://imagens.zylumia.com/zylumia-serum-cyperus.png',
+  'https://imagens.zylumia.com/zylumia-serum-cyperus.png',
+  'https://imagens.zylumia.com/zylumia-serum-cyperus.png',
 ];
 
 export default function JourneyTimeline() {
