@@ -103,7 +103,13 @@ export default function AcompanhePedido() {
           </div>
         </div>
         <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start', marginBottom: '16px' }}>
-          <img src="" alt="Produto" style={{ width: '65px', height: '65px', objectFit: 'cover', borderRadius: '8px', flexShrink: 0, border: '1px solid #e5e7eb' }} />
+          <img src={(() => {
+            const firstItem = pedido.items?.[0];
+            const n = (firstItem?.name || '').toLowerCase();
+            if (n.includes('6')) return 'https://imagens.zylumia.com/zylumia-serumcyperus.png';
+            if (n.includes('3')) return 'https://imagens.zylumia.com/cyperus-rotundus-zylumia.png';
+            return 'https://imagens.zylumia.com/cyperus-rotundus.png';
+          })()} alt="Produto" style={{ width: '65px', height: '65px', objectFit: 'cover', borderRadius: '8px', flexShrink: 0, border: '1px solid #e5e7eb' }} />
           <div style={{ flex: 1 }}>{pedido.items?.map((item, i) => <div key={i} style={{ color: '#555', fontSize: '14px', marginBottom: '4px' }}>- {item.name} x {item.qty || 1}</div>)}</div>
         </div>
         {pedido.status === 'PENDING' && (

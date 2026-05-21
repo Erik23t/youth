@@ -374,7 +374,13 @@ export default function MinhaConta() {
                             <div className="flex gap-4 mb-4">
                               {/* Imagem do produto */}
                               <img
-                                src=""
+                                src={(() => {
+                                  const firstItem = pedido.items?.[0];
+                                  const n = (firstItem?.name || '').toLowerCase();
+                                  if (n.includes('6')) return 'https://imagens.zylumia.com/zylumia-serumcyperus.png';
+                                  if (n.includes('3')) return 'https://imagens.zylumia.com/cyperus-rotundus-zylumia.png';
+                                  return 'https://imagens.zylumia.com/cyperus-rotundus.png';
+                                })()}
                                 alt="Produto"
                                 style={{
                                   width: '65px',
