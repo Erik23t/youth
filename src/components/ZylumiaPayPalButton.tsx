@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-const API = import.meta.env.VITE_API_URL || 'https://zylumia-backend-661137220675.us-central1.run.app';
+import { API } from '../config/api';
 const PAYPAL_CLIENT_ID = 'AV9WAKTYCB1cjJx-Gs76bthU-lAjOocL46zLs8bST6d-dn2S9WqLwMmz9MFYCssrWgg7IoTUtahYXdPk';
 
 function loadPayPalSDK(): Promise<void> {

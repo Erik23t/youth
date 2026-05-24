@@ -3,7 +3,7 @@ import { Star, BadgeCheck, ShieldCheck, Truck, Users } from 'lucide-react';
 import ZylumiaPayPalButton from '../components/ZylumiaPayPalButton';
 import StripeCheckout from '../components/StripeCheckout';
 
-const API = import.meta.env.VITE_API_URL || 'https://zylumia-backend-661137220675.us-central1.run.app';
+import { API } from '../config/api';
 
 // ─── Configuração internacional de endereços ───────────────────────────────
 const COUNTRIES = [
@@ -329,7 +329,7 @@ export default function Checkout() {
 
   // Pré-aquece conexão com backend ao montar o componente
   useEffect(() => {
-    fetch(`${API}/api/health`).catch(() => {})
+    // health check removido — rota não existe no backend
     // Limpa cache desatualizado após carregar dados reais
     return () => {}
   }, [])

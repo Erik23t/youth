@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 
-const API = import.meta.env.VITE_API_URL || 'https://zylumia-backend-661137220675.us-central1.run.app';
+import { API } from '../config/api';
 
 export default function ZylumiaAuth({ isOpen, onClose, onSuccess }) {
   const [etapa, setEtapa] = useState('email'); // 'email' ou 'codigo'

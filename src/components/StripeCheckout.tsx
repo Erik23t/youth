@@ -14,7 +14,7 @@ function getStripePromise() {
   if (!stripePromise) stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
   return stripePromise;
 }
-const API = import.meta.env.VITE_API_URL || 'https://zylumia-backend-661137220675.us-central1.run.app';
+import { API } from '../config/api';
 
 const elementStyle = {
   style: {

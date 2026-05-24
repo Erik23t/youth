@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 
-const API = import.meta.env.VITE_API_URL || 'https://zylumia-backend-661137220675.us-central1.run.app';
-const API_BASE = `${API}/api/admin`;
+import { API } from '../config/api';
+const API_BASE = `${API}/api/admin`; // usa API importado
 const ADMIN_KEY = 'zylumia-admin-2026';
 
 let _adminToken = '';

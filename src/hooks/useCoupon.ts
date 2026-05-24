@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const API = import.meta.env.VITE_API_URL || 'https://zylumia-backend-661137220675.us-central1.run.app'
+import { API } from '../config/api';
 
 interface CartItem {
   name: string
