@@ -294,9 +294,12 @@ export default function Checkout() {
   const [cart, setCart] = useState<any>(() => {
     try {
       const saved = localStorage.getItem('zylumia_cart_cache');
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed?.items?.length > 0) return parsed;
+      }
     } catch {}
-    return { items: [], subtotal: 0, total: 0, _loading: true };
+    return { items: [], subtotal: 0, total: 0 };
   });
   
   const [etapa, setEtapa] = useState<'info'|'pagamento'>('info');
@@ -338,26 +341,30 @@ export default function Checkout() {
 
   useEffect(() => {
     async function carregarCarrinho() {
-      const sessionId = localStorage.getItem('zylumia_session_id')
-      if (!sessionId) return
-
-      // Sincroniza cache local com backend e carrega carrinho
+      // 1. Carrega cache local imediatamente (sem esperar backend)
       const cached = (() => { try { return JSON.parse(localStorage.getItem('zylumia_cart_cache') || '') } catch { return null } })()
       if (cached?.items?.length > 0) {
-        await saveCartToBackend(cached.items, sessionId).catch(e => handleError(e, 'carrinho', { silencioso: true }))
+        setCart(cached)
       }
-      const cart = await withRetry(() => loadCartFromBackend(sessionId)).catch(e => {
-        handleError(e, 'carrinho')
-        return null
-      })
-      if (cart) {
-        saveCartToCache(cart.items)
-        setCart(cart)
-        if (cart.coupon && cart.discount > 0) {
-          setCupomAplicado(cart.coupon)
-          setDesconto(cart.discount)
-          setCupom(cart.coupon.code || '')
-          localStorage.setItem('zylumia_coupon', cart.coupon.code)
+
+      // 2. Garante sessionId — cria se não existir
+      const sessionId = getOrCreateSessionId()
+
+      // 3. Sincroniza cache com backend
+      if (cached?.items?.length > 0) {
+        await saveCartToBackend(cached.items, sessionId).catch(() => {})
+      }
+
+      // 4. Carrega versão oficial do backend (pode ter cupom, etc)
+      const backendCart = await withRetry(() => loadCartFromBackend(sessionId)).catch(() => null)
+      if (backendCart?.items?.length > 0) {
+        saveCartToCache(backendCart.items)
+        setCart(backendCart)
+        if (backendCart.coupon && backendCart.discount > 0) {
+          setCupomAplicado(backendCart.coupon)
+          setDesconto(backendCart.discount)
+          setCupom(backendCart.coupon.code || '')
+          localStorage.setItem('zylumia_coupon', backendCart.coupon.code)
         }
       }
     }

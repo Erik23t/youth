@@ -42,9 +42,13 @@ export function useCart() {
       if (!sessionId) return
       const cart = await loadCartFromBackend(sessionId)
       if (!cart) {
-        localStorage.removeItem('zylumia_session_id')
-        setCartItems([])
-        setCartCount(0)
+        // Não remove sessionId — backend pode estar lento ou carrinho recém-criado
+        // Tenta carregar do cache local como fallback
+        const cached = loadCartFromCache()
+        if (cached?.items?.length) {
+          setCartItems(cached.items)
+          setCartCount(cached.items.reduce((acc: number, i: any) => acc + (i.qty || 1), 0))
+        }
         return
       }
       setCartItems(cart.items)
@@ -60,9 +64,20 @@ export function useCart() {
 
     async function carregarItensCarrinho() {
       const sessionId = localStorage.getItem('zylumia_session_id')
-      if (!sessionId) return
+      if (!sessionId) {
+        // Sem sessionId — tenta cache local
+        const cached = loadCartFromCache()
+        if (cached?.items?.length) {
+          setCartItems(cached.items)
+          setCartCount(cached.items.reduce((acc, i) => acc + (i.qty || 1), 0))
+        }
+        return
+      }
       const cart = await loadCartFromBackend(sessionId)
-      if (!cart) { setCartItems([]); return }
+      if (!cart) {
+        // Backend vazio — mantém o que já está na tela (não limpa)
+        return
+      }
       setCartItems(cart.items)
       setAppliedCoupon(cart.coupon)
       setDiscountAmount(cart.discount || 0)
