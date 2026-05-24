@@ -47,7 +47,7 @@ import { templateProduto } from './products/template-produto';
 import { customerReviews, carouselReviews, faqs } from './data/reviews';
 import { urlFor } from './lib/sanity';
 
-import { API } from '../config/api';
+import { API } from './config/api';
 
 function PaginaPrincipal({ produto = zylumiaSérum }: { produto?: ProductData }) {
   // ── CMS ───────────────────────────────────────────────────────────────────
