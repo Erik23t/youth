@@ -4,7 +4,7 @@ Chart.register(...registerables);
 
 import { API } from '../config/api';
 const API_BASE = `${API}/api/admin`; // usa API importado
-const ADMIN_KEY = 'zylumia-admin-2026';
+// ADMIN_KEY removido — autenticação via backend token
 
 let _adminToken = '';
 

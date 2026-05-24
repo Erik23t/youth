@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useCart } from './hooks/useCart';
 import { useAuth } from './hooks/useAuth';
@@ -28,24 +28,27 @@ import ZylumiaAuth from './components/ZylumiaAuth';
 import PromoPopup from './components/PromoPopup';
 import VideoModal from './components/VideoModal';
 import StickyBar from './components/StickyBar';
-import Checkout from './pages/Checkout';
-import CheckoutSucesso from './pages/CheckoutSucesso';
-import AcompanhePedido from './pages/AcompanhePedido';
-import Admin from './pages/Admin';
-import PerguntasFrequentes from './pages/PerguntasFrequentes';
-import PoliticaFrete from './pages/PoliticaFrete';
-import PoliticaReembolso from './pages/PoliticaReembolso';
-import TermosCondicoes from './pages/TermosCondicoes';
-import PoliticaPrivacidade from './pages/PoliticaPrivacidade';
-import MinhaConta from './pages/MinhaConta';
-import AssinaturaSucesso from './pages/AssinaturaSucesso';
-import AssinaturaCancelada from './pages/AssinaturaCancelada';
-import Contato from './pages/Contato';
 import { ProductData } from './types/product';
 import { zylumiaSérum } from './products/zylumia-serum';
 import { templateProduto } from './products/template-produto';
 import { customerReviews, carouselReviews, faqs } from './data/reviews';
 import { urlFor } from './lib/sanity';
+
+// ── Páginas carregadas só quando o usuário navegar para elas ──
+const Checkout           = lazy(() => import('./pages/Checkout'));
+const CheckoutSucesso    = lazy(() => import('./pages/CheckoutSucesso'));
+const AcompanhePedido    = lazy(() => import('./pages/AcompanhePedido'));
+const Admin              = lazy(() => import('./pages/Admin'));
+const PerguntasFrequentes= lazy(() => import('./pages/PerguntasFrequentes'));
+const PoliticaFrete      = lazy(() => import('./pages/PoliticaFrete'));
+const PoliticaReembolso  = lazy(() => import('./pages/PoliticaReembolso'));
+const TermosCondicoes    = lazy(() => import('./pages/TermosCondicoes'));
+const PoliticaPrivacidade= lazy(() => import('./pages/PoliticaPrivacidade'));
+const MinhaConta         = lazy(() => import('./pages/MinhaConta'));
+const AssinaturaSucesso  = lazy(() => import('./pages/AssinaturaSucesso'));
+const AssinaturaCancelada= lazy(() => import('./pages/AssinaturaCancelada'));
+const Contato            = lazy(() => import('./pages/Contato'));
+
 
 import { API } from './config/api';
 
@@ -329,13 +332,14 @@ function PaginaPrincipal({ produto = zylumiaSérum }: { produto?: ProductData })
 export default function App() {
   return (
     <BrowserRouter>
+      <Suspense fallback={<div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',fontSize:'14px',color:'#7c3aed'}}>Carregando...</div>}>
       <Routes>
         <Route path="/"                        element={<PaginaPrincipal produto={zylumiaSérum} />} />
         <Route path={templateProduto.rota}     element={<PaginaPrincipal produto={templateProduto} />} />
         <Route path="/checkout"                element={<Checkout />} />
         <Route path="/checkout/sucesso"        element={<CheckoutSucesso />} />
         <Route path="/acompanhe-seu-pedido"    element={<AcompanhePedido />} />
-        <Route path="/admin"                   element={<Admin />} />
+        <Route path={import.meta.env.VITE_ADMIN_PATH || '/zyl-mgmt-2026'}                   element={<Admin />} />
         <Route path="/politica-de-frete"       element={<PoliticaFrete />} />
         <Route path="/politica-de-reembolso"   element={<PoliticaReembolso />} />
         <Route path="/politica-de-privacidade" element={<PoliticaPrivacidade />} />
@@ -346,6 +350,7 @@ export default function App() {
         <Route path="/assinatura/cancelada"    element={<AssinaturaCancelada />} />
         <Route path="/contato"                 element={<Contato />} />
       </Routes>
+      </Suspense>
     </BrowserRouter>
   )
 }
