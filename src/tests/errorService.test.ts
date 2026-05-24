@@ -4,22 +4,19 @@ import { handleError, withRetry } from '../services/errorService'
 beforeEach(() => { vi.clearAllMocks() })
 
 describe('handleError', () => {
-  it('retorna mensagem amigavel para erro de rede', () => {
+  it('erro de rede', () => {
     const msg = handleError(new Error('Failed to fetch'), 'carrinho', { silencioso: true })
     expect(msg).toBe('Erro de conexao. Verifique sua internet.')
   })
-
-  it('retorna mensagem de contexto para erro desconhecido', () => {
+  it('erro de contexto pagamento', () => {
     const msg = handleError(new Error('algo estranho'), 'pagamento', { silencioso: true })
     expect(msg).toBe('Erro ao processar o pagamento. Tente novamente.')
   })
-
-  it('retorna mensagem generica sem contexto', () => {
+  it('erro generico', () => {
     const msg = handleError(new Error('x'), 'geral', { silencioso: true })
     expect(msg).toBe('Algo deu errado. Tente novamente.')
   })
-
-  it('executa callback se fornecido', () => {
+  it('executa callback', () => {
     const cb = vi.fn()
     handleError(new Error('x'), 'geral', { silencioso: true, callback: cb })
     expect(cb).toHaveBeenCalledOnce()
@@ -27,29 +24,24 @@ describe('handleError', () => {
 })
 
 describe('withRetry', () => {
-  it('resolve na primeira tentativa se sucesso', async () => {
+  it('sucesso na 1a tentativa', async () => {
     const fn = vi.fn().mockResolvedValue('ok')
-    const result = await withRetry(fn, 3)
-    expect(result).toBe('ok')
+    expect(await withRetry(fn, 3)).toBe('ok')
     expect(fn).toHaveBeenCalledTimes(1)
   })
-
-  it('retenta em erro de rede e resolve na 2a tentativa', async () => {
+  it('retry em rede e sucesso na 2a', async () => {
     const fn = vi.fn()
       .mockRejectedValueOnce(new Error('Failed to fetch'))
-      .mockResolvedValueOnce('ok na 2a')
-    const result = await withRetry(fn, 3, 0)
-    expect(result).toBe('ok na 2a')
+      .mockResolvedValueOnce('ok2')
+    expect(await withRetry(fn, 3, 0)).toBe('ok2')
     expect(fn).toHaveBeenCalledTimes(2)
   })
-
-  it('lanca o erro apos esgotar todas as tentativas', async () => {
+  it('lanca apos esgotar tentativas', async () => {
     const fn = vi.fn().mockRejectedValue(new Error('Failed to fetch'))
     await expect(withRetry(fn, 3, 0)).rejects.toThrow('Failed to fetch')
     expect(fn).toHaveBeenCalledTimes(3)
   })
-
-  it('nao retenta erros que nao sao de rede', async () => {
+  it('nao retenta erro nao-rede', async () => {
     const fn = vi.fn().mockRejectedValue(new Error('401'))
     await expect(withRetry(fn, 3, 0)).rejects.toThrow('401')
     expect(fn).toHaveBeenCalledTimes(1)
