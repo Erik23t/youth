@@ -4,6 +4,7 @@ import ZylumiaPayPalButton from '../components/ZylumiaPayPalButton';
 import StripeCheckout from '../components/StripeCheckout';
 
 import { API } from '../config/api';
+import { handleError, withRetry, toastSucesso } from '../services/errorService';
 import { getOrCreateSessionId, saveCartToBackend, saveCartToCache, loadCartFromBackend, normalizeItems } from '../services/cartService';
 
 // ─── Configuração internacional de endereços ───────────────────────────────
@@ -343,9 +344,12 @@ export default function Checkout() {
       // Sincroniza cache local com backend e carrega carrinho
       const cached = (() => { try { return JSON.parse(localStorage.getItem('zylumia_cart_cache') || '') } catch { return null } })()
       if (cached?.items?.length > 0) {
-        await saveCartToBackend(cached.items, sessionId)
+        await saveCartToBackend(cached.items, sessionId).catch(e => handleError(e, 'carrinho', { silencioso: true }))
       }
-      const cart = await loadCartFromBackend(sessionId)
+      const cart = await withRetry(() => loadCartFromBackend(sessionId)).catch(e => {
+        handleError(e, 'carrinho')
+        return null
+      })
       if (cart) {
         saveCartToCache(cart.items)
         setCart(cart)

@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { useCoupon } from './useCoupon'
 
-import { API } from '../config/api';
+import { API } from '../config/api'
+import { handleError, toastSucesso } from '../services/errorService';
 
 interface CartItem {
   name: string
@@ -98,7 +99,7 @@ export function useCart() {
     saveCartToCache(updatedItems)
 
     const sessionId = getOrCreateSessionId()
-    await saveCartToBackend(updatedItems, sessionId)
+    await saveCartToBackend(updatedItems, sessionId).catch(e => handleError(e, 'carrinho', { silencioso: true }))
 
     if (typeof window !== 'undefined' && (window as any).gtag) {
       (window as any).gtag('event', 'add_to_cart', {
@@ -120,7 +121,7 @@ export function useCart() {
     setCartCount(newItems.reduce((acc, i) => acc + (i.quantity || i.qty || 1), 0))
 
     saveCartToCache(newItems)
-    await saveCartToBackend(newItems, sessionId)
+    await saveCartToBackend(newItems, sessionId).catch(e => handleError(e, 'carrinho', { silencioso: true }))
   }
 
   const handleApplyCoupon = () => applyCoupon(cartItems)

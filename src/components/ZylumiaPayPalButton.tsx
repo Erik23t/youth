@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { API } from '../config/api';
+import { handleError, withRetry } from '../services/errorService';
 import { saveCartToBackend } from '../services/cartService';
 const PAYPAL_CLIENT_ID = 'AV9WAKTYCB1cjJx-Gs76bthU-lAjOocL46zLs8bST6d-dn2S9WqLwMmz9MFYCssrWgg7IoTUtahYXdPk';
 
@@ -60,7 +61,7 @@ export default function ZylumiaPayPalButton({ produto, cartItems, customerName, 
           // Sincroniza carrinho com backend antes de criar ordem PayPal
           const items = cartItemsRef.current;
           if (items?.length > 0) {
-            await saveCartToBackend(items, sid);
+            await withRetry(() => saveCartToBackend(items, sid)).catch(e => handleError(e, 'carrinho', { silencioso: true }));
           }
           const r = await fetch(`${API}/api/paypal/create-order`, {
             method: 'POST', headers: { 'Content-Type': 'application/json' },

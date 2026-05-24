@@ -15,6 +15,7 @@ function getStripePromise() {
   return stripePromise;
 }
 import { API } from '../config/api';
+import { handleError, withRetry } from '../services/errorService';
 import { getOrCreateSessionId, saveCartToBackend } from '../services/cartService';
 
 const elementStyle = {
@@ -49,7 +50,7 @@ const CheckoutFormInner = forwardRef<any, any>(({ onSuccess, onError, customerPh
         const sessionId = getOrCreateSessionId();
         const { customerEmail, customerName, cartItems, billingDetails } = checkoutData;
 
-        const cartSaved = await saveCartToBackend(cartItems, sessionId, billingDetails);
+        const cartSaved = await withRetry(() => saveCartToBackend(cartItems, sessionId, billingDetails));
         if (!cartSaved) return { success: false, error: 'Erro ao salvar carrinho. Tente novamente.' };
 
         const intentR = await fetch(`${API}/api/stripe/create-payment-intent`, {
