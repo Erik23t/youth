@@ -39,21 +39,15 @@ export function useCart() {
     async function sincronizarCarrinho() {
       const sessionId = localStorage.getItem('zylumia_session_id')
       if (!sessionId) return
-      try {
-        const r = await fetch(`${API}/api/cart/${sessionId}`)
-        const data = await r.json()
-        if (!data.success || r.status === 404) {
-          localStorage.removeItem('zylumia_session_id')
-          setCartItems([])
-          setCartCount(0)
-          return
-        }
-        if (data.success && data.cart?.items?.length > 0) {
-          setCartItems(data.cart.items)
-          const total = data.cart.items.reduce((acc: number, item: CartItem) => acc + (item.qty || item.quantity || 1), 0)
-          setCartCount(total)
-        }
-      } catch { /* ignore */ }
+      const cart = await loadCartFromBackend(sessionId)
+      if (!cart) {
+        localStorage.removeItem('zylumia_session_id')
+        setCartItems([])
+        setCartCount(0)
+        return
+      }
+      setCartItems(cart.items)
+      setCartCount(cart.items.reduce((acc: number, i: any) => acc + i.qty, 0))
     }
     sincronizarCarrinho()
   }, [])
@@ -66,25 +60,11 @@ export function useCart() {
     async function carregarItensCarrinho() {
       const sessionId = localStorage.getItem('zylumia_session_id')
       if (!sessionId) return
-      try {
-        const r = await fetch(`${API}/api/cart/${sessionId}`)
-        const data = await r.json()
-        if (!data.success || r.status === 404) {
-          localStorage.removeItem('zylumia_session_id')
-          setCartItems([])
-          setCartCount(0)
-          return
-        }
-        if (data.success && data.cart?.items?.length > 0) {
-          setCartItems(data.cart.items)
-          setAppliedCoupon(data.cart.coupon)
-          setDiscountAmount(data.cart.discount || 0)
-        } else {
-          setCartItems([])
-        }
-      } catch (e) {
-        console.error('Erro ao carregar carrinho:', e)
-      }
+      const cart = await loadCartFromBackend(sessionId)
+      if (!cart) { setCartItems([]); return }
+      setCartItems(cart.items)
+      setAppliedCoupon(cart.coupon)
+      setDiscountAmount(cart.discount || 0)
     }
     carregarItensCarrinho()
   }, [isCartOpen])
@@ -108,44 +88,17 @@ export function useCart() {
 
     const newItem = { id: Date.now(), name, type: 'Assinatura', price, quantity: 1, image }
 
-    const salvarCache = (items) => {
-      const sub = items.reduce((acc, i) => acc + (i.price * (i.quantity || i.qty || 1)), 0)
-      localStorage.setItem('zylumia_cart_cache', JSON.stringify({ items, subtotal: sub, total: sub }))
-    }
-
     const updatedItems = cartItems.find(i => i.name === name)
-      ? cartItems.map(i => i.name === name ? { ...i, quantity: (i.quantity || i.qty || 1) + 1 } : i)
-      : [...cartItems, { ...newItem, quantity: 1 }]
+      ? cartItems.map(i => i.name === name ? { ...i, qty: (i.qty || i.quantity || 1) + 1 } : i)
+      : [...cartItems, { ...newItem, qty: 1 }]
 
     setCartItems(updatedItems)
-    setCartCount(updatedItems.reduce((acc, i) => acc + (i.quantity || i.qty || 1), 0))
+    setCartCount(updatedItems.reduce((acc, i) => acc + (i.qty || i.quantity || 1), 0))
     setIsCartOpen(true)
-    salvarCache(updatedItems)
+    saveCartToCache(updatedItems)
 
-    const sessionId = localStorage.getItem('zylumia_session_id') || (() => {
-      const id = crypto.randomUUID()
-      localStorage.setItem('zylumia_session_id', id)
-      return id
-    })()
-
-    try {
-
-      await fetch(`${API}/api/cart`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          sessionId,
-          items: updatedItems.map(item => ({
-            name: item.name,
-            price: item.price,
-            qty: item.quantity || item.qty || 1,
-            image: item.image
-          }))
-        })
-      })
-    } catch (e) {
-      console.error('Erro ao salvar carrinho:', e)
-    }
+    const sessionId = getOrCreateSessionId()
+    await saveCartToBackend(updatedItems, sessionId)
 
     if (typeof window !== 'undefined' && (window as any).gtag) {
       (window as any).gtag('event', 'add_to_cart', {
@@ -166,23 +119,8 @@ export function useCart() {
     setCartItems(newItems)
     setCartCount(newItems.reduce((acc, i) => acc + (i.quantity || i.qty || 1), 0))
 
-    try {
-      await fetch(`${API}/api/cart`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          sessionId,
-          items: newItems.map(item => ({
-            name: item.name,
-            price: item.price,
-            qty: item.quantity || item.qty || 1,
-            image: item.image
-          }))
-        })
-      })
-    } catch (e) {
-      console.error('Erro ao remover item:', e)
-    }
+    saveCartToCache(newItems)
+    await saveCartToBackend(newItems, sessionId)
   }
 
   const handleApplyCoupon = () => applyCoupon(cartItems)

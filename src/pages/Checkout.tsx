@@ -4,6 +4,7 @@ import ZylumiaPayPalButton from '../components/ZylumiaPayPalButton';
 import StripeCheckout from '../components/StripeCheckout';
 
 import { API } from '../config/api';
+import { getOrCreateSessionId, saveCartToBackend, saveCartToCache, loadCartFromBackend, normalizeItems } from '../services/cartService';
 
 // ─── Configuração internacional de endereços ───────────────────────────────
 const COUNTRIES = [
@@ -339,37 +340,21 @@ export default function Checkout() {
       const sessionId = localStorage.getItem('zylumia_session_id')
       if (!sessionId) return
 
-      // ✅ FIX: Salva cache local no backend antes de qualquer pagamento
-      try {
-        const cached = (() => { try { return JSON.parse(localStorage.getItem('zylumia_cart_cache') || '') } catch { return null } })()
-        if (cached?.items?.length > 0) {
-          await fetch(`${API}/api/cart`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ sessionId, items: cached.items })
-          })
+      // Sincroniza cache local com backend e carrega carrinho
+      const cached = (() => { try { return JSON.parse(localStorage.getItem('zylumia_cart_cache') || '') } catch { return null } })()
+      if (cached?.items?.length > 0) {
+        await saveCartToBackend(cached.items, sessionId)
+      }
+      const cart = await loadCartFromBackend(sessionId)
+      if (cart) {
+        saveCartToCache(cart.items)
+        setCart(cart)
+        if (cart.coupon && cart.discount > 0) {
+          setCupomAplicado(cart.coupon)
+          setDesconto(cart.discount)
+          setCupom(cart.coupon.code || '')
+          localStorage.setItem('zylumia_coupon', cart.coupon.code)
         }
-      } catch {}
-      try {
-        const r = await fetch(`${API}/api/cart/${sessionId}`)
-        const data = await r.json()
-        
-        if (data.success && data.cart) {
-          const its = data.cart.items || []
-          const sub = its.reduce((acc, i) => acc + (i.price * (i.qty || i.quantity || 1)), 0)
-          const cartOk = { ...data.cart, subtotal: sub, total: sub }
-          localStorage.setItem('zylumia_cart_cache', JSON.stringify(cartOk))
-          setCart(cartOk)
-          
-          // Se o carrinho tem cupom salvo no backend
-          if (data.cart.coupon && data.cart.discount > 0) {
-            setCupomAplicado(data.cart.coupon)
-            setDesconto(data.cart.discount)
-            setCupom(data.cart.coupon.code || '')
-            localStorage.setItem('zylumia_coupon', data.cart.coupon.code)
-          }
-        }
-      } catch(e) {
-        console.error('Erro ao carregar carrinho:', e)
       }
     }
     carregarCarrinho()

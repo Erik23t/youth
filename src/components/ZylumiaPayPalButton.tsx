@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { API } from '../config/api';
+import { saveCartToBackend } from '../services/cartService';
 const PAYPAL_CLIENT_ID = 'AV9WAKTYCB1cjJx-Gs76bthU-lAjOocL46zLs8bST6d-dn2S9WqLwMmz9MFYCssrWgg7IoTUtahYXdPk';
 
 function loadPayPalSDK(): Promise<void> {
@@ -56,15 +57,10 @@ export default function ZylumiaPayPalButton({ produto, cartItems, customerName, 
           const emailFinal = customerEmailRef.current || user?.email || 'guest@zylumia.com';
           const nameFinal = customerNameRef.current || user?.name || 'Cliente';
           const couponCode = localStorage.getItem('zylumia_coupon');
-          // ✅ FIX: Sync cart to backend before PayPal create-order
+          // Sincroniza carrinho com backend antes de criar ordem PayPal
           const items = cartItemsRef.current;
           if (items?.length > 0) {
-            try {
-              await fetch(`${API}/api/cart`, {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ sessionId: sid, items })
-              });
-            } catch {}
+            await saveCartToBackend(items, sid);
           }
           const r = await fetch(`${API}/api/paypal/create-order`, {
             method: 'POST', headers: { 'Content-Type': 'application/json' },

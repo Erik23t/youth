@@ -15,6 +15,7 @@ function getStripePromise() {
   return stripePromise;
 }
 import { API } from '../config/api';
+import { getOrCreateSessionId, saveCartToBackend } from '../services/cartService';
 
 const elementStyle = {
   style: {
@@ -45,28 +46,11 @@ const CheckoutFormInner = forwardRef<any, any>(({ onSuccess, onError, customerPh
         if (!cardElement) {
           return { success: false, error: 'Elemento de cartão não encontrado.' };
         }
-        // ✅ FIX: Garante sessionId e verifica resposta do /api/cart
-        let sessionId = localStorage.getItem('zylumia_session_id');
-        if (!sessionId) { sessionId = crypto.randomUUID(); localStorage.setItem('zylumia_session_id', sessionId); }
+        const sessionId = getOrCreateSessionId();
         const { customerEmail, customerName, cartItems, billingDetails } = checkoutData;
 
-        const cartR = await fetch(`${API}/api/cart`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            sessionId,
-            items: (cartItems || []).map((item) => ({
-              name: item.name,
-              qty: item.qty || item.quantity || 1,
-              quantity: item.qty || item.quantity || 1,
-              price: item.price,
-              image: item.image || '',
-            })),
-            customerInfo: billingDetails
-          })
-        });
-        const cartData = await cartR.json();
-        if (!cartData.success) return { success: false, error: 'Erro ao salvar carrinho. Tente novamente.' };
+        const cartSaved = await saveCartToBackend(cartItems, sessionId, billingDetails);
+        if (!cartSaved) return { success: false, error: 'Erro ao salvar carrinho. Tente novamente.' };
 
         const intentR = await fetch(`${API}/api/stripe/create-payment-intent`, {
           method: 'POST',
