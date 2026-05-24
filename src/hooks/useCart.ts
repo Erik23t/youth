@@ -3,6 +3,7 @@ import { useCoupon } from './useCoupon'
 
 import { API } from '../config/api'
 import { handleError, toastSucesso } from '../services/errorService';
+import { getOrCreateSessionId, saveCartToBackend, saveCartToCache, loadCartFromBackend, loadCartFromCache, normalizeItems } from '../services/cartService'
 
 interface CartItem {
   name: string
