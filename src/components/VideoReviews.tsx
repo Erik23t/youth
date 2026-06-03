@@ -13,11 +13,12 @@ export default function VideoReviews() {
               <Star className="w-4 h-4 fill-current" />
               <Star className="w-4 h-4 fill-current" />
             </div>
-            <span className="text-sm text-gray-700 font-medium">Avaliado em 4,8/5 com base em mais de 4700 avaliações.</span>
+            <span className="text-sm text-gray-700 font-medium">Fórmula botânica com Cyperus Rotundus — aprovada por dermatologistas.</span>
           </div>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium text-gray-900 tracking-tight">
-            Da luta diária à liberdade eterna.
+            Pele Livre. Confiança de Volta.
           </h2>
+          <p className="text-gray-500 text-base md:text-lg mt-4 max-w-xl">O segredo que mais de 50.000 mulheres descobriram para reduzir pelos de forma natural e definitiva.</p>
         </div>
 
         <div className="relative">
@@ -25,7 +26,7 @@ export default function VideoReviews() {
             {/* Card 1 */}
             <div className="shrink-0 w-[85vw] md:w-auto snap-center md:snap-start bg-white border border-gray-200 rounded-sm overflow-hidden flex flex-col shadow-sm">
               <div className="aspect-square md:aspect-[4/3] lg:aspect-square overflow-hidden">
-                <img src="" alt="Tran B" className="w-full h-full object-cover" />
+                <img src="https://imagens.zylumia.com/cyperus-rotundus-skin.png" alt="Tran B" className="w-full h-full object-cover" loading="lazy" />
               </div>
               <div className="p-6 flex flex-col flex-1">
                 <div className="flex items-center gap-2 mb-4 flex-wrap">
@@ -51,7 +52,7 @@ export default function VideoReviews() {
             {/* Card 2 */}
             <div className="shrink-0 w-[85vw] md:w-auto snap-center md:snap-start bg-white border border-gray-200 rounded-sm overflow-hidden flex flex-col shadow-sm">
               <div className="aspect-square md:aspect-[4/3] lg:aspect-square overflow-hidden">
-                <img src="" alt="Bri N" className="w-full h-full object-cover" />
+                <img src="https://imagens.zylumia.com/rotundus-cyperus.png" alt="Bri N" className="w-full h-full object-cover" loading="lazy" />
               </div>
               <div className="p-6 flex flex-col flex-1">
                 <div className="flex items-center gap-2 mb-4 flex-wrap">
@@ -77,7 +78,7 @@ export default function VideoReviews() {
             {/* Card 3 */}
             <div className="shrink-0 w-[85vw] md:w-auto snap-center md:snap-start bg-white border border-gray-200 rounded-sm overflow-hidden flex flex-col shadow-sm">
               <div className="aspect-square md:aspect-[4/3] lg:aspect-square overflow-hidden">
-                <img src="" alt="Dana A" className="w-full h-full object-cover" />
+                <img src="https://imagens.zylumia.com/zylumia-cyperusss.png" alt="Dana A" className="w-full h-full object-cover" loading="lazy" />
               </div>
               <div className="p-6 flex flex-col flex-1">
                 <div className="flex items-center gap-2 mb-4 flex-wrap">
