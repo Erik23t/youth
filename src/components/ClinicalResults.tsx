@@ -10,7 +10,7 @@ export default function ClinicalResults() {
           {/* Card 1 */}
           <div className="bg-white flex flex-col h-full shadow-sm">
             <div className="relative aspect-square w-full overflow-hidden">
-              <img src="" alt="Crescimento Mais Lento" width="400" height="400" loading="lazy" decoding="async" className="w-full h-full object-cover" />
+              <img src="https://imagens.zylumia.com/cyperus-1.png" alt="Crescimento Mais Lento" width="400" height="400" loading="lazy" decoding="async" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
               <div className="absolute bottom-6 left-6 flex flex-col items-start">
                 <AnimatedCircularProgress percentage={81} />
@@ -28,7 +28,7 @@ export default function ClinicalResults() {
           {/* Card 2 */}
           <div className="bg-white flex flex-col h-full shadow-sm">
             <div className="relative aspect-square w-full overflow-hidden">
-              <img src="" alt="Pelos Mais Finos e Macios" width="400" height="400" loading="lazy" decoding="async" className="w-full h-full object-cover" />
+              <img src="https://imagens.zylumia.com/cyperus-2.png" alt="Pelos Mais Finos e Macios" width="400" height="400" loading="lazy" decoding="async" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
               <div className="absolute bottom-6 left-6 flex flex-col items-start">
                 <AnimatedCircularProgress percentage={71} />
@@ -46,7 +46,7 @@ export default function ClinicalResults() {
           {/* Card 3 */}
           <div className="bg-white flex flex-col h-full shadow-sm">
             <div className="relative aspect-square w-full overflow-hidden">
-              <img src="" alt="Menos Manutenção Diária" width="400" height="400" loading="lazy" decoding="async" className="w-full h-full object-cover" />
+              <img src="https://imagens.zylumia.com/cyperus-3.png" alt="Menos Manutenção Diária" width="400" height="400" loading="lazy" decoding="async" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
               <div className="absolute bottom-6 left-6 flex flex-col items-start">
                 <AnimatedCircularProgress percentage={78} />
