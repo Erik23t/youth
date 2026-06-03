@@ -17,9 +17,10 @@ export default function TestimonialsSection({ depoimentos, onOpenVideo }: Testim
             <Star className="w-4 h-4 fill-[#841dc5] text-[#841dc5]" />
             <Star className="w-4 h-4 fill-[#841dc5] text-[#841dc5]" />
           </div>
-          <span className="text-sm text-gray-700">Avaliado em 4,8/5 com base em mais de 4700 avaliações.</span>
+          <span className="text-sm text-gray-700">Mais de 50.000 mulheres já transformaram sua rotina com Zylumia™.</span>
         </div>
-        <h2 className="text-3xl md:text-5xl font-serif text-gray-900 mb-4 leading-tight">Da luta diária à liberdade eterna.</h2>
+        <h2 className="text-3xl md:text-5xl font-serif text-gray-900 mb-4 leading-tight">Resultados Reais. Clientes Reais.</h2>
+        <p className="text-base md:text-lg text-gray-500 max-w-xl text-center">Veja como o Zylumia™ mudou a rotina de beleza de mulheres com diferentes histórias e tipos de pele.</p>
       </div>
 
       <div className="relative flex items-center">

@@ -3,7 +3,7 @@ export const customerReviews = [
     rating: 5,
     name: "Tran B.",
     verified: true,
-    image: "https://imagens.zylumia.com/cyperus-rotundus-skin.png",
+    image: "https://imagens.zylumia.com/cyperusrotundus2.png",
     video: "/media/depoimento-tran.mp4",
     body: "Costumava ficar com uma sombra escura no buço poucas horas depois de depilar. Agora fico com a pele lisa por 4-5 dias facilmente, e nem faz 2 meses que estou usando. O sérum tem uma sensação refrescante agradável quando aplicado. Interessante que essa antiga abordagem botânica funciona melhor que todos os métodos modernos!!"
   },
@@ -11,7 +11,7 @@ export const customerReviews = [
     rating: 5,
     name: "Bri N.",
     verified: true,
-    image: "https://imagens.zylumia.com/rotundus-cyperus.png",
+    image: "https://imagens.zylumia.com/cyperus-rotundus%20(2).png",
     video: "/media/depoimento-bri.mp4",
     body: "A SOP fez meu queixo crescer muitos pelos grossos e teimosos. Tentei de tudo - laser, linha, você escolhe. Esse sérum mudou minha vida. Dois meses usando e eu depilo talvez uma vez a cada 2 semanas em vez de toda manhã. O crescimento agora é super fino."
   },
@@ -19,7 +19,7 @@ export const customerReviews = [
     rating: 5,
     name: "Dana A.",
     verified: true,
-    image: "https://imagens.zylumia.com/zylumia-cyperusss.png",
+    image: "https://imagens.zylumia.com/cyperus-rotundus3.png",
     video: "/media/depoimento-dana.mp4",
     body: "Minha irmã vivia me enchendo para experimentar isso depois de ver meu ritual diário com a pinça. Achei que era só mais uma invenção, mas caramba, realmente funciona. Seis semanas depois e não passo mais 20 minutos toda manhã caçando pelos no queixo. Os grossos quase não crescem mais."
   },
