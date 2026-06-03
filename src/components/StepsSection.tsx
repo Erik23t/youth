@@ -11,7 +11,7 @@ export default function StepsSection() {
           {/* Step 1 */}
           <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col">
             <div className="aspect-square overflow-hidden">
-              <img src="" alt="Passo 1" className="w-full h-full object-cover" />
+              <img src="https://imagens.zylumia.com/cyperus7.png" alt="Passo 1" className="w-full h-full object-cover" loading="lazy" />
             </div>
             <div className="p-6 md:p-8 flex-grow flex flex-col">
               <div className="flex items-start gap-4 mb-4">
@@ -27,7 +27,7 @@ export default function StepsSection() {
           {/* Step 2 */}
           <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col">
             <div className="aspect-square overflow-hidden">
-              <img src="" alt="Passo 2" className="w-full h-full object-cover" />
+              <img src="https://imagens.zylumia.com/cyperus8.png" alt="Passo 2" className="w-full h-full object-cover" loading="lazy" />
             </div>
             <div className="p-6 md:p-8 flex-grow flex flex-col">
               <div className="flex items-start gap-4 mb-4">
@@ -43,7 +43,7 @@ export default function StepsSection() {
           {/* Step 3 */}
           <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col">
             <div className="aspect-square overflow-hidden">
-              <img src="" alt="Passo 3" className="w-full h-full object-cover" />
+              <img src="https://imagens.zylumia.com/cyperus9.png" alt="Passo 3" className="w-full h-full object-cover" loading="lazy" />
             </div>
             <div className="p-6 md:p-8 flex-grow flex flex-col">
               <div className="flex items-start gap-4 mb-4">
