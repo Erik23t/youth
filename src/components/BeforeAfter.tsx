@@ -58,7 +58,7 @@ export default function BeforeAfter() {
               src={beforeAfterTabs[activeTab].imageAfter}
               alt={beforeAfterTabs[activeTab].label}
               className="absolute inset-0 w-full h-full object-cover"
-            />
+             loading="lazy" />
           </div>
 
           {/* Label */}

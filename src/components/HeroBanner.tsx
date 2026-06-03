@@ -53,16 +53,26 @@ export default function HeroBanner({
 
       {/* Overlay com imagem responsiva — desktop/mobile */}
       <div className="absolute inset-0 z-20">
-        {/* Desktop */}
+        {/* Desktop — fetchPriority high para LCP */}
         <img
           src="https://imagens.zylumia.com/zylumia.png"
           alt="Zylumia"
+          width="1920"
+          height="1080"
+          fetchPriority="high"
+          decoding="async"
+          loading="eager"
           className="hidden md:block w-full h-full object-cover"
         />
-        {/* Mobile */}
+        {/* Mobile — fetchPriority high, é o LCP real */}
         <img
           src="https://imagens.zylumia.com/zylumia-serum.png"
           alt="Zylumia"
+          width="828"
+          height="1792"
+          fetchPriority="high"
+          decoding="async"
+          loading="eager"
           className="block md:hidden w-full h-full object-cover"
         />
       </div>

@@ -11,18 +11,36 @@
     <meta property="og:title" content="Zylumia™ Skin Serum | Rejuvenescimento Facial Avançado" />
     <meta property="og:description" content="Zylumia™ é o sérum facial com tecnologia avançada que reduz rugas, manchas e flacidez." />
     <!-- Preconnect origens críticas -->
-    <link rel="preconnect" href="https://cdn.sanity.io" crossorigin />
-    <link rel="preconnect" href="https://pub-d199bb28b3184a069016d477b12d1409.r2.dev" crossorigin />
-    <link rel="preconnect" href="https://pub-0e697b5a64104ed6b30280730145b1a2.r2.dev" crossorigin />
+    <link rel="preconnect" href="https://imagens.zylumia.com" crossorigin />
+    <link rel="dns-prefetch" href="https://imagens.zylumia.com" />
     <link rel="preconnect" href="https://js.stripe.com" crossorigin />
-    <link rel="preconnect" href="https://m.stripe.network" crossorigin />
-    <link rel="preconnect" href="https://pub-6c3a48567a6a417691c34357e93a60c1.r2.dev" crossorigin />
-        <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-T7GCHZ7T');</script>
+    <link rel="preconnect" href="https://www.paypal.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.sanity.io" crossorigin />
+    <!-- Preload imagens LCP (hero desktop + mobile) -->
+    <link rel="preload" as="image" href="https://imagens.zylumia.com/zylumia.png" media="(min-width: 768px)" fetchpriority="high" />
+    <link rel="preload" as="image" href="https://imagens.zylumia.com/zylumia-serum.png" media="(max-width: 767px)" fetchpriority="high" />
+    <link rel="preconnect" href="https://cdn.sanity.io" crossorigin />
+
+    <link rel="preconnect" href="https://js.stripe.com" crossorigin />
+        <!-- Google Tag Manager — carregado após interação do usuário -->
+    <script>
+      (function(){
+        function loadGTM(){
+          if(window._gtmLoaded) return;
+          window._gtmLoaded = true;
+          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+          })(window,document,'script','dataLayer','GTM-T7GCHZ7T');
+        }
+        // Carrega após 3s ou na primeira interação — não bloqueia LCP
+        setTimeout(loadGTM, 3000);
+        ['click','scroll','keydown','touchstart'].forEach(function(e){
+          document.addEventListener(e, loadGTM, {once:true, passive:true});
+        });
+      })();
+    </script>
     <!-- End Google Tag Manager -->
   </head>
   <body>

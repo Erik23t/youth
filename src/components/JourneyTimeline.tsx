@@ -84,7 +84,7 @@ export default function JourneyTimeline() {
             src={currentImage}
             alt="Resultado Zylumia"
             className="w-full h-full object-cover transition-opacity duration-500"
-          />
+           loading="lazy" />
         </div>
       </div>
     </section>

@@ -22,6 +22,25 @@ export default defineConfig(({mode}) => {
     },
     build: {
       chunkSizeWarningLimit: 1000,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              if (id.includes('react-dom') || id.includes('/react/'))
+                return 'vendor-react';
+              if (id.includes('stripe'))
+                return 'vendor-stripe';
+              if (id.includes('lucide'))
+                return 'vendor-icons';
+              if (id.includes('paypal') || id.includes('braintree'))
+                return 'vendor-paypal';
+            }
+          }
+        }
+      },
+      // Minificação agressiva
+      minify: 'esbuild',
+      cssMinify: true,
     },
   };
 });
