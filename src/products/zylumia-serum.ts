@@ -12,20 +12,20 @@ export const zylumiaSérum: ProductData = {
   preco3mes: 84.93,
   preco6mes: 134.40,
 
-  imagemPrincipal: 'https://imagens.zylumia.com/cyperus-rotundus.png',
+  imagemPrincipal: 'https://imagens.zylumia.com/cyperus-rotunduss.png',
 
   imagens: [
-    'https://pub-0e697b5a64104ed6b30280730145b1a2.r2.dev/ChatGPT%20Image%2017_03_2026%2C%2010_02_17.png',
-    'https://pub-0e697b5a64104ed6b30280730145b1a2.r2.dev/ChatGPT%20Image%2017_03_2026%2C%2010_02_17.png',
-    'https://pub-0e697b5a64104ed6b30280730145b1a2.r2.dev/ChatGPT%20Image%2017_03_2026%2C%2010_02_17.png',
-    'https://pub-0e697b5a64104ed6b30280730145b1a2.r2.dev/ChatGPT%20Image%2017_03_2026%2C%2010_02_17.png',
-    'https://pub-0e697b5a64104ed6b30280730145b1a2.r2.dev/ChatGPT%20Image%2017_03_2026%2C%2010_02_17.png'
+    'https://imagens.zylumia.com/cyperus-rotunduss.png',
+    'https://imagens.zylumia.com/cyperus-skin-serum.png',
+    'https://imagens.zylumia.com/ccyperus-rotundus-skin.png',
+    'https://imagens.zylumia.com/cyperus-rotundus%20(2).png',
+    'https://imagens.zylumia.com/zylumia-serumcyperus.png'
   ],
 
   bannerImages: [
-    'https://pub-0e697b5a64104ed6b30280730145b1a2.r2.dev/ChatGPT%20Image%2017_03_2026%2C%2010_02_17.png',
-    'https://pub-0e697b5a64104ed6b30280730145b1a2.r2.dev/ChatGPT%20Image%2017_03_2026%2C%2010_02_17.png',
-    'https://pub-0e697b5a64104ed6b30280730145b1a2.r2.dev/ChatGPT%20Image%2017_03_2026%2C%2010_02_17.png'
+    'https://imagens.zylumia.com/cyperus-rotunduss.png',
+    'https://imagens.zylumia.com/cyperus-skin-serum.png',
+    'https://imagens.zylumia.com/ccyperus-rotundus-skin.png'
   ],
 
   depoimentos: [
