@@ -31,24 +31,35 @@ export default function TestimonialsSection({ depoimentos, onOpenVideo }: Testim
           {depoimentos.map((review, idx) => (
             <div key={idx} className="flex flex-col h-full w-[85vw] md:w-auto shrink-0 snap-center md:snap-start px-4 md:px-0">
               <div
-                className="w-full aspect-square overflow-hidden bg-black relative cursor-pointer group"
-                onClick={() => onOpenVideo(idx)}
+                className="w-full aspect-square overflow-hidden bg-gray-100 relative cursor-pointer group"
+                onClick={() => review.video ? onOpenVideo(idx) : undefined}
               >
-                <video
-                  src={review.video}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                />
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                  <div className="w-12 h-12 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <svg className="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </div>
-                </div>
+                {review.image ? (
+                  <img
+                    src={review.image}
+                    alt={review.name}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                ) : (
+                  <>
+                    <video
+                      src={review.video}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                    />
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <svg className="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
               <div className="border border-t-0 border-gray-200 p-6 flex flex-col flex-grow bg-white">
                 <div className="flex flex-wrap items-center gap-3 mb-4">
