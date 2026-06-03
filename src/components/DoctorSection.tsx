@@ -4,7 +4,7 @@ export default function DoctorSection() {
       <div className="grid md:grid-cols-2 gap-12 items-center">
         <div className="order-2 md:order-1">
           <img
-            src="/media/doutora.webp"
+            src="https://imagens.zylumia.com/cyperus-.png"
             alt="Dermatologista"
             width="800"
             height="600"

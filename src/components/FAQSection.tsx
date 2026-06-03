@@ -11,8 +11,9 @@ export default function FAQSection({ faqs}: FAQSectionProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
         <div className="w-full h-full min-h-[400px] rounded-lg overflow-hidden">
           <img
-            src=""
+            src="https://imagens.zylumia.com/zylumia-serumcyperus.png"
             alt="FAQ Zylumia"
+            loading="lazy"
             className="w-full h-full object-cover"
           />
         </div>
