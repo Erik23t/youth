@@ -135,6 +135,23 @@ export default function CartSidebar({
             >
               FINALIZAR COMPRA — US$ {(cartItems.reduce((acc, item) => acc + (item.price * (item.quantity || item.qty || 1)), 0) - discountAmount).toFixed(2).replace('.', ',')}
             </button>
+
+            {/* 365-Day Guarantee + Payments */}
+            <div style={{ marginTop: '12px', textAlign: 'center' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', marginBottom: '8px' }}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                <span style={{ fontSize: '12px', fontWeight: 600, color: '#374151' }}>365-Day Money Back Guarantee</span>
+              </div>
+              <div>
+                <img
+                  src="https://imagens.zylumia.com/payments.png"
+                  alt="Payment methods accepted"
+                  style={{ maxWidth: '240px', width: '100%', height: 'auto' }}
+                />
+              </div>
+            </div>
           </div>
         )}
       </div>
