@@ -19,7 +19,12 @@ export const zylumiaSérum: ProductData = {
     'https://imagens.zylumia.com/cyperus-skin-serum.png',
     'https://imagens.zylumia.com/ccyperus-rotundus-skin.png',
     'https://imagens.zylumia.com/cyperus-rotundus%20(2).png',
-    'https://imagens.zylumia.com/zylumia-serumcyperus.png'
+    'https://imagens.zylumia.com/zylumia-serumcyperus.png',
+    'https://imagens.zylumia.com/cyperus-rotundus01.png',
+    'https://imagens.zylumia.com/cyperus-rotundus02.png',
+    'https://imagens.zylumia.com/cyperus-rotundus03.png',
+    'https://imagens.zylumia.com/cyperus-rotundus033.png',
+    'https://imagens.zylumia.com/cyperus-rotundus03333.png'
   ],
 
   bannerImages: [
