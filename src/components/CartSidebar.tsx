@@ -40,7 +40,7 @@ export default function CartSidebar({
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-5">
+        <div className="flex-1 overflow-y-auto p-4">
           {cartItems.length > 0 && (
             <div className="mb-6">
               <div className="flex items-center justify-between mb-2">
@@ -76,10 +76,10 @@ export default function CartSidebar({
               </button>
             </div>
           ) : (
-            <div className="space-y-6">
+            <div className="space-y-3">
               {cartItems.map(item => (
-                <div key={item.id} className="flex gap-4 border-b border-gray-100 pb-6">
-                  <div className="w-24 h-24 bg-gray-50 rounded-sm overflow-hidden shrink-0">
+                <div key={item.id} className="flex gap-3 border-b border-gray-100 pb-3">
+                  <div className="w-16 h-16 bg-gray-50 rounded-sm overflow-hidden shrink-0">
                     <img src={item.image || ""} alt={item.name} className="w-full h-full object-cover mix-blend-multiply" />
                   </div>
                   <div className="flex-1 flex flex-col justify-between">
@@ -92,7 +92,7 @@ export default function CartSidebar({
                       </div>
                       <p className="text-xs text-gray-500 mt-1">{item.type}</p>
                     </div>
-                    <div className="flex justify-between items-center mt-4">
+                    <div className="flex justify-between items-center mt-2">
                       <div className="flex items-center border border-gray-200 rounded-sm px-3 py-1">
                         <span className="text-sm font-medium">{item.quantity || item.qty || 1}</span>
                       </div>
@@ -103,10 +103,19 @@ export default function CartSidebar({
               ))}
             </div>
           )}
+          {cartItems.length > 0 && (
+            <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px solid #f3f4f6' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px', marginBottom: '3px' }}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span style={{ fontSize: '12px', fontWeight: 600, color: '#374151' }}>365-Day Money Back Guarantee</span>
+              </div>
+              <img src="https://imagens.zylumia.com/payments.png" alt="Payment methods accepted" style={{ width: '100%', height: 'auto', display: 'block' }} />
+            </div>
+          )}
         </div>
 
         {cartItems.length > 0 && (
-          <div className="p-5 border-t border-gray-100 bg-gray-50">
+          <div className="p-4 border-t border-gray-100 bg-gray-50">
             <div className="flex justify-between text-sm mb-2 text-gray-600">
               <span>Subtotal</span>
               <span>US$ {cartItems.reduce((acc, item) => acc + (item.price * (item.quantity || item.qty || 1)), 0).toFixed(2).replace('.', ',')}</span>
@@ -137,8 +146,8 @@ export default function CartSidebar({
             </button>
 
             {/* 365-Day Guarantee + Payments */}
-            <div style={{ marginTop: '12px', textAlign: 'center' }}>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', marginBottom: '8px' }}>
+            <div style={{ marginTop: '8px', textAlign: 'center' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', marginBottom: '3px' }}>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                 </svg>
@@ -148,7 +157,7 @@ export default function CartSidebar({
                 <img
                   src="https://imagens.zylumia.com/payments.png"
                   alt="Payment methods accepted"
-                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                  style={{ width: '100%', height: 'auto', display: 'block', marginTop: '2px' }}
                 />
               </div>
             </div>

@@ -947,7 +947,7 @@ export default function Checkout() {
           </button>
           
           {/* 365-Day Guarantee + Payment Icons */}
-          <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+          <div style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
@@ -961,9 +961,6 @@ export default function Checkout() {
             />
           </div>
 
-          <div className="mobile-only">
-            <ReviewsAndGuarantees />
-          </div>
           
           <div style={{ marginTop: '24px', borderTop: '1px solid #e5e7eb', paddingTop: '24px', display: 'flex', gap: '16px', fontSize: '12px', color: '#7c3aed', flexWrap: 'wrap' }}>
             <button onClick={() => setPolicyModal('reembolso')} style={{ background: 'none', border: 'none', color: '#7c3aed', fontSize: '12px', cursor: 'pointer', padding: 0, textDecoration: 'underline' }}>Política de reembolso</button>
@@ -984,6 +981,9 @@ export default function Checkout() {
                 </div>
               </div>
             )}
+          </div>
+          <div className="mobile-only">
+            <ReviewsAndGuarantees />
           </div>
         </div>
 
