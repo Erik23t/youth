@@ -288,6 +288,122 @@ const ReviewsAndGuarantees = () => (
   </div>
 );
 
+
+// ─── Modal de Políticas ───────────────────────────────────────────────────────
+function PolicyModalContent({ type }: { type: string }) {
+  const txt: React.CSSProperties = { fontSize: '14px', lineHeight: '1.75', color: '#374151', marginBottom: '12px' };
+  const hdg: React.CSSProperties = { margin: 0, marginTop: '20px', marginBottom: '8px', fontSize: '15px', fontWeight: 700, color: '#111827' };
+  const lst: React.CSSProperties = { fontSize: '14px', lineHeight: '1.75', color: '#374151', paddingLeft: '20px', marginBottom: '12px' };
+  const bdg: React.CSSProperties = { background: '#f3e8ff', color: '#7c3aed', padding: '3px 10px', borderRadius: '20px', fontSize: '12px', fontWeight: 600, display: 'inline-block', marginBottom: '14px' };
+  const lnk: React.CSSProperties = { color: '#7c3aed', textDecoration: 'underline' };
+  const em = 'zylumiaa@gmail.com';
+  const Sep = () => <div style={{ height: '1px', background: '#f3f4f6', margin: '16px 0' }} />;
+
+  if (type === 'reembolso') return (
+    <div>
+      <span style={bdg}>365 dias de garantia</span>
+      <p style={txt}>Temos total confiança no Sérum Facial Cyperus Rotundus. Se você não gostar ou não notar resultados, solicite o reembolso em até <strong>365 dias</strong> após a compra, sem questionamentos.</p>
+      <Sep />
+      <h4 style={hdg}>Como solicitar</h4>
+      <ul style={lst}>
+        <li>E-mail: <a href={'mailto:' + em} style={lnk}>{em}</a></li>
+        <li>Informe o número do pedido</li>
+        <li>Descreva o motivo (opcional)</li>
+        <li>Processamos em até 5 dias úteis</li>
+      </ul>
+      <Sep />
+      <h4 style={hdg}>Condições</h4>
+      <ul style={lst}>
+        <li>Válido até 365 dias após a entrega</li>
+        <li>Produto pode ter sido utilizado</li>
+        <li>Reembolso 100% integral</li>
+        <li>Custo de devolução por conta da Zylumia</li>
+      </ul>
+    </div>
+  );
+
+  if (type === 'frete') return (
+    <div>
+      <span style={bdg}>Frete Grátis</span>
+      <p style={txt}>Processamos pedidos em <strong>1 a 2 dias úteis</strong>. Em períodos de alto volume pode levar até 3 dias. Confirmação por e-mail após o despacho.</p>
+      <Sep />
+      <h4 style={hdg}>Prazos de entrega</h4>
+      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px', marginBottom: '12px' }}>
+        <thead><tr style={{ borderBottom: '2px solid #e5e7eb' }}>
+          <th style={{ textAlign: 'left', padding: '8px 0', color: '#111' }}>Região</th>
+          <th style={{ textAlign: 'left', padding: '8px 0', color: '#111' }}>Prazo</th>
+        </tr></thead>
+        <tbody>
+          {[['Estados Unidos','2-3 dias úteis'],['Reino Unido','1-2 dias úteis'],['Restante do Mundo','3-10 dias úteis']].map(([reg, pz], i) => (
+            <tr key={i} style={{ borderBottom: '1px solid #f3f4f6' }}>
+              <td style={{ padding: '8px 0', color: '#374151' }}>{reg}</td>
+              <td style={{ padding: '8px 0', color: '#374151' }}>{pz}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <Sep />
+      <h4 style={hdg}>Rastreamento</h4>
+      <p style={txt}>Código enviado por e-mail após o despacho. Pode levar 24-48h para atualizar. Dúvidas: <a href={'mailto:' + em} style={lnk}>{em}</a>.</p>
+      <Sep />
+      <h4 style={hdg}>Pacotes danificados</h4>
+      <p style={txt}>Se o pedido chegar com danos, entre em contato em até 48h com fotos. Enviaremos substituto gratuitamente.</p>
+    </div>
+  );
+
+  if (type === 'privacidade') return (
+    <div>
+      <span style={bdg}>Última atualização: ago/2025</span>
+      <p style={txt}>A Zylumia coleta apenas as informações necessárias para processar seu pedido. Seus dados são protegidos com criptografia SSL e nunca são vendidos a terceiros.</p>
+      <Sep />
+      <h4 style={hdg}>O que coletamos</h4>
+      <ul style={lst}>
+        <li><strong>Dados de contato:</strong> nome, e-mail, telefone e endereço.</li>
+        <li><strong>Dados de pagamento:</strong> processados por Stripe/PayPal certificados. Não armazenamos dados de cartão.</li>
+        <li><strong>Dados de navegação:</strong> cookies e identificadores de sessão.</li>
+      </ul>
+      <Sep />
+      <h4 style={hdg}>Como usamos</h4>
+      <ul style={lst}>
+        <li>Processar e entregar seu pedido</li>
+        <li>Enviar atualizações de status</li>
+        <li>Prevenir fraudes e garantir segurança</li>
+      </ul>
+      <Sep />
+      <h4 style={hdg}>Seus direitos</h4>
+      <p style={txt}>Acesso, retificação ou exclusão dos seus dados mediante solicitação: <a href={'mailto:' + em} style={lnk}>{em}</a>.</p>
+    </div>
+  );
+
+  if (type === 'termos') return (
+    <div>
+      <span style={bdg}>Termos de Uso</span>
+      <p style={txt}>Ao realizar uma compra na Zylumia, você concorda com os termos abaixo.</p>
+      <Sep />
+      <h4 style={hdg}>Produtos e resultados</h4>
+      <ul style={lst}>
+        <li>Produtos vendidos para uso pessoal.</li>
+        <li>Resultados podem variar de pessoa para pessoa.</li>
+        <li>Não substituem tratamento médico ou dermatológico.</li>
+      </ul>
+      <Sep />
+      <h4 style={hdg}>Pedidos e pagamentos</h4>
+      <ul style={lst}>
+        <li>Pedido confirmado após aprovação do pagamento.</li>
+        <li>Reservamo-nos o direito de cancelar pedidos suspeitos de fraude.</li>
+        <li>Preços podem ser atualizados sem aviso prévio.</li>
+      </ul>
+      <Sep />
+      <h4 style={hdg}>Propriedade intelectual</h4>
+      <p style={txt}>Todo o conteúdo do site é de propriedade da Zylumia e protegido por direitos autorais.</p>
+      <Sep />
+      <p style={{ fontSize: '13px', color: '#6b7280', marginBottom: '12px' }}>Dúvidas? <a href={'mailto:' + em} style={lnk}>{em}</a></p>
+    </div>
+  );
+
+  return null;
+}
+
 export default function Checkout() {
   const storedUser = JSON.parse(localStorage.getItem('zylumia_user') || 'null');
   // Inicializa cart imediatamente com dados do localStorage (sem delay)
@@ -835,11 +951,24 @@ export default function Checkout() {
           </div>
           
           <div style={{ marginTop: '24px', borderTop: '1px solid #e5e7eb', paddingTop: '24px', display: 'flex', gap: '16px', fontSize: '12px', color: '#7c3aed', flexWrap: 'wrap' }}>
-            <a href="/politica-de-reembolso" target="_blank" rel="noopener noreferrer" style={{ color: '#7c3aed', fontSize: '12px', textDecoration: 'none' }}>Política de reembolso</a>
-            <a href="/politica-de-frete" target="_blank" rel="noopener noreferrer" style={{ color: '#7c3aed', fontSize: '12px', textDecoration: 'none' }}>Política de frete</a>
-            <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer" style={{ color: '#7c3aed', fontSize: '12px', textDecoration: 'none' }}>Política de privacidade</a>
-            <a href="/termos-de-servico" target="_blank" rel="noopener noreferrer" style={{ color: '#7c3aed', fontSize: '12px', textDecoration: 'none' }}>Termos de serviço</a>
-{/* Modal removido — políticas abrem em página própria */}
+            <button onClick={() => setPolicyModal('reembolso')} style={{ background: 'none', border: 'none', color: '#7c3aed', fontSize: '12px', cursor: 'pointer', padding: 0, textDecoration: 'underline' }}>Política de reembolso</button>
+            <button onClick={() => setPolicyModal('frete')} style={{ background: 'none', border: 'none', color: '#7c3aed', fontSize: '12px', cursor: 'pointer', padding: 0, textDecoration: 'underline' }}>Política de frete</button>
+            <button onClick={() => setPolicyModal('privacidade')} style={{ background: 'none', border: 'none', color: '#7c3aed', fontSize: '12px', cursor: 'pointer', padding: 0, textDecoration: 'underline' }}>Política de privacidade</button>
+            <button onClick={() => setPolicyModal('termos')} style={{ background: 'none', border: 'none', color: '#7c3aed', fontSize: '12px', cursor: 'pointer', padding: 0, textDecoration: 'underline' }}>Termos de serviço</button>
+
+            {policyModal && (
+              <div onClick={() => setPolicyModal(null)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.55)', zIndex: 9999, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
+                <div onClick={e => e.stopPropagation()} style={{ background: '#fff', borderRadius: '16px 16px 0 0', width: '100%', maxWidth: '640px', maxHeight: '85vh', display: 'flex', flexDirection: 'column', boxShadow: '0 -8px 32px rgba(0,0,0,0.12)' }}>
+                  <div style={{ padding: '20px 20px 16px', borderBottom: '1px solid #f3f4f6', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
+                    <h3 style={{ fontSize: '17px', fontWeight: 700, color: '#111', margin: 0 }}>{policyContent[policyModal].title}</h3>
+                    <button onClick={() => setPolicyModal(null)} style={{ background: '#f3f4f6', border: 'none', borderRadius: '50%', width: '32px', height: '32px', cursor: 'pointer', fontSize: '20px', color: '#374151', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>×</button>
+                  </div>
+                  <div style={{ overflowY: 'auto', padding: '20px 20px 40px', flex: 1 }}>
+                    <PolicyModalContent type={policyModal} />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
