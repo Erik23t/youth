@@ -23,12 +23,13 @@ export default function Footer({
           </p>
         </div>
         <div>
-          <h3 className="text-xs font-bold tracking-wider mb-4 text-gray-900">LINKS RÁPIDOS</h3>
+          <h3 className="text-xs font-bold tracking-wider mb-4 text-gray-900">POLÍTICAS</h3>
           <ul className="space-y-3 text-sm text-gray-500">
-            <li><a href="#" className="hover:text-gray-900 transition-colors">Comprar</a></li>
-            <li><a href="#" className="hover:text-gray-900 transition-colors">Nossa História</a></li>
-            <li><a href="#" className="hover:text-gray-900 transition-colors">Depoimentos</a></li>
-            <li><a href="#" className="hover:text-gray-900 transition-colors">Contato</a></li>
+            <li><a href="/politica-de-privacidade" className="hover:text-gray-900 transition-colors">Política de Privacidade</a></li>
+            <li><a href="/termos-de-servico" className="hover:text-gray-900 transition-colors">Termos de Serviço</a></li>
+            <li><a href="/politica-de-frete" className="hover:text-gray-900 transition-colors">Política de Envio</a></li>
+            <li><a href="/politica-de-reembolso" className="hover:text-gray-900 transition-colors">Política de Reembolso</a></li>
+            <li><a href="/contato" className="hover:text-gray-900 transition-colors">Contate-nos</a></li>
           </ul>
         </div>
         <div>
