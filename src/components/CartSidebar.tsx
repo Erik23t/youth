@@ -148,7 +148,7 @@ export default function CartSidebar({
                 <img
                   src="https://imagens.zylumia.com/payments.png"
                   alt="Payment methods accepted"
-                  style={{ maxWidth: '240px', width: '100%', height: 'auto' }}
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
                 />
               </div>
             </div>

@@ -957,7 +957,7 @@ export default function Checkout() {
             <img
               src="https://imagens.zylumia.com/payments.png"
               alt="Payment methods accepted"
-              style={{ maxWidth: '100%', height: 'auto', objectFit: 'contain' }}
+              style={{ width: '100%', height: 'auto', display: 'block' }}
             />
           </div>
 
