@@ -203,7 +203,7 @@ const ReviewsAndGuarantees = () => (
     
     {/* Review 1 */}
     <div style={{ border: '1px solid #e5e7eb', borderRadius: '8px', padding: '16px', marginBottom: '16px', display: 'flex', gap: '16px', backgroundColor: '#fff' }}>
-      <img src="/media/checkout-review-01.webp" alt="Review 1" style={{ width: '100px', height: '150px', objectFit: 'cover', borderRadius: '8px', flexShrink: 0 }} />
+      <img src="https://imagens.zylumia.com/zylumia-cyperusss.png" alt="Review 1" style={{ width: '100px', height: '150px', objectFit: 'cover', borderRadius: '8px', flexShrink: 0 }} />
       <div style={{ flex: 1 }}>
         <div style={{ display: 'flex', color: '#fbbf24', marginBottom: '8px' }}>
           <Star size={16} fill="currentColor" strokeWidth={0} />
@@ -229,7 +229,7 @@ const ReviewsAndGuarantees = () => (
 
     {/* Review 2 */}
     <div style={{ border: '1px solid #e5e7eb', borderRadius: '8px', padding: '16px', marginBottom: '32px', display: 'flex', gap: '16px', backgroundColor: '#fff' }}>
-      <img src="/media/checkout-review-02.webp" alt="Review 2" style={{ width: '100px', height: '150px', objectFit: 'cover', borderRadius: '8px', flexShrink: 0 }} />
+      <img src="https://imagens.zylumia.com/rotundus-cyperus.png" alt="Review 2" style={{ width: '100px', height: '150px', objectFit: 'cover', borderRadius: '8px', flexShrink: 0 }} />
       <div style={{ flex: 1 }}>
         <div style={{ display: 'flex', color: '#fbbf24', marginBottom: '8px' }}>
           <Star size={16} fill="currentColor" strokeWidth={0} />
