@@ -137,20 +137,27 @@ export default function CartSidebar({
               FINALIZAR COMPRA — US$ {(cartItems.reduce((acc, item) => acc + (item.price * (item.quantity || item.qty || 1)), 0) - discountAmount).toFixed(2).replace('.', ',')}
             </button>
 
-            {/* 365-Day Guarantee + Payments */}
+            {/* 365-Day Guarantee + Payments — layout compacto */}
             <div style={{ marginTop: '8px', textAlign: 'center' }}>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', marginBottom: '3px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px', marginBottom: '6px' }}>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                 </svg>
                 <span style={{ fontSize: '12px', fontWeight: 600, color: '#374151' }}>365-Day Money Back Guarantee</span>
               </div>
-              <div>
-                <img
-                  src="https://imagens.zylumia.com/payments.png"
-                  alt="Payment methods accepted"
-                  style={{ width: '100%', height: 'auto', display: 'block', marginTop: '2px' }}
-                />
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', flexWrap: 'wrap' }}>
+                {/* VISA */}
+                <svg width="36" height="22" viewBox="0 0 38 24" style={{ border: '1px solid #e5e7eb', borderRadius: '3px', padding: '1px' }}><rect width="38" height="24" fill="white" rx="3"/><text x="4" y="17" fontFamily="Arial" fontWeight="bold" fontSize="13" fill="#1a1f71">VISA</text></svg>
+                {/* Mastercard */}
+                <svg width="36" height="22" viewBox="0 0 38 24" style={{ border: '1px solid #e5e7eb', borderRadius: '3px' }}><rect width="38" height="24" fill="white" rx="3"/><circle cx="14" cy="12" r="8" fill="#EB001B"/><circle cx="24" cy="12" r="8" fill="#F79E1B"/><path d="M19 6.8a8 8 0 0 1 0 10.4A8 8 0 0 1 19 6.8z" fill="#FF5F00"/></svg>
+                {/* Amex */}
+                <svg width="36" height="22" viewBox="0 0 38 24" style={{ border: '1px solid #e5e7eb', borderRadius: '3px', padding: '1px' }}><rect width="38" height="24" fill="#2557D6" rx="3"/><text x="3" y="17" fontFamily="Arial" fontWeight="bold" fontSize="10" fill="white">AMEX</text></svg>
+                {/* Apple Pay */}
+                <svg width="36" height="22" viewBox="0 0 38 24" style={{ border: '1px solid #e5e7eb', borderRadius: '3px', padding: '1px' }}><rect width="38" height="24" fill="white" rx="3"/><text x="3" y="16" fontFamily="Arial" fontWeight="bold" fontSize="9" fill="black">Apple</text><text x="3" y="22" fontFamily="Arial" fontSize="8" fill="black">Pay</text></svg>
+                {/* Google Pay */}
+                <svg width="36" height="22" viewBox="0 0 38 24" style={{ border: '1px solid #e5e7eb', borderRadius: '3px', padding: '1px' }}><rect width="38" height="24" fill="white" rx="3"/><text x="2" y="15" fontFamily="Arial" fontWeight="bold" fontSize="8" fill="#4285F4">G</text><text x="9" y="15" fontFamily="Arial" fontSize="8" fill="#333">Pay</text></svg>
+                {/* PayPal */}
+                <svg width="36" height="22" viewBox="0 0 38 24" style={{ border: '1px solid #e5e7eb', borderRadius: '3px', padding: '1px' }}><rect width="38" height="24" fill="white" rx="3"/><text x="2" y="17" fontFamily="Arial" fontWeight="bold" fontSize="10" fill="#003087">Pay</text><text x="19" y="17" fontFamily="Arial" fontWeight="bold" fontSize="10" fill="#009CDE">Pal</text></svg>
               </div>
             </div>
           </div>
