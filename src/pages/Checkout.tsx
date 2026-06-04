@@ -946,6 +946,21 @@ export default function Checkout() {
             {loading ? 'Processando...' : `PAGAR AGORA — US$ ${totalFinal.toFixed(2)}`}
           </button>
           
+          {/* 365-Day Guarantee + Payment Icons */}
+          <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+              <span style={{ fontSize: '13px', fontWeight: 600, color: '#374151' }}>365-Day Money Back Guarantee</span>
+            </div>
+            <img
+              src="https://imagens.zylumia.com/payments.png"
+              alt="Payment methods accepted"
+              style={{ maxWidth: '100%', height: 'auto', objectFit: 'contain' }}
+            />
+          </div>
+
           <div className="mobile-only">
             <ReviewsAndGuarantees />
           </div>
