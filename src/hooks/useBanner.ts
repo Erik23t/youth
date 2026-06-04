@@ -3,12 +3,13 @@ export function useBanner(bannerImagesLength: number) {
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0)
   const [showVideo, setShowVideo] = useState(true)
   const [isMobile, setIsMobile] = useState(false)
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentBannerIndex(prev => (prev + 1) % bannerImagesLength)
-    }, 8000)
-    return () => clearInterval(interval)
-  }, [bannerImagesLength])
+  // Carrossel de fundo desativado — overlay cobre completamente o banner
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setCurrentBannerIndex(prev => (prev + 1) % bannerImagesLength)
+  //   }, 8000)
+  //   return () => clearInterval(interval)
+  // }, [bannerImagesLength])
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768)
     check()

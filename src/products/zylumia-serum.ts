@@ -12,14 +12,9 @@ export const zylumiaSérum: ProductData = {
   preco3mes: 84.93,
   preco6mes: 134.40,
 
-  imagemPrincipal: 'https://imagens.zylumia.com/cyperus-rotunduss.png',
+  imagemPrincipal: 'https://imagens.zylumia.com/cyperus-rotundus01.png',
 
   imagens: [
-    'https://imagens.zylumia.com/cyperus-rotunduss.png',
-    'https://imagens.zylumia.com/cyperus-skin-serum.png',
-    'https://imagens.zylumia.com/ccyperus-rotundus-skin.png',
-    'https://imagens.zylumia.com/cyperus-rotundus%20(2).png',
-    'https://imagens.zylumia.com/zylumia-serumcyperus.png',
     'https://imagens.zylumia.com/cyperus-rotundus01.png',
     'https://imagens.zylumia.com/cyperus-rotundus02.png',
     'https://imagens.zylumia.com/cyperus-rotundus03.png',
