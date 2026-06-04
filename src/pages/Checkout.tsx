@@ -835,19 +835,11 @@ export default function Checkout() {
           </div>
           
           <div style={{ marginTop: '24px', borderTop: '1px solid #e5e7eb', paddingTop: '24px', display: 'flex', gap: '16px', fontSize: '12px', color: '#7c3aed', flexWrap: 'wrap' }}>
-            <button onClick={() => setPolicyModal('reembolso')} style={{ background: 'none', border: 'none', color: '#7c3aed', fontSize: '12px', cursor: 'pointer', padding: 0 }}>Política de reembolso</button>
-            <button onClick={() => setPolicyModal('frete')} style={{ background: 'none', border: 'none', color: '#7c3aed', fontSize: '12px', cursor: 'pointer', padding: 0 }}>Política de frete</button>
-            <button onClick={() => setPolicyModal('privacidade')} style={{ background: 'none', border: 'none', color: '#7c3aed', fontSize: '12px', cursor: 'pointer', padding: 0 }}>Política de privacidade</button>
-            <button onClick={() => setPolicyModal('termos')} style={{ background: 'none', border: 'none', color: '#7c3aed', fontSize: '12px', cursor: 'pointer', padding: 0 }}>Termos de serviço</button>
-            {policyModal && (
-              <div onClick={() => setPolicyModal(null)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
-                <div onClick={e => e.stopPropagation()} style={{ background: '#fff', borderRadius: '12px', padding: '24px', maxWidth: '500px', width: '100%', maxHeight: '80vh', overflowY: 'auto', position: 'relative' }}>
-                  <button onClick={() => setPolicyModal(null)} style={{ position: 'absolute', top: '16px', right: '16px', background: 'none', border: 'none', fontSize: '20px', cursor: 'pointer', color: '#6b7280' }}>✕</button>
-                  <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#111827', marginBottom: '16px', marginTop: 0 }}>{policyContent[policyModal].title}</h3>
-                  <p style={{ fontSize: '14px', color: '#4b5563', lineHeight: '1.7', margin: 0 }}>{policyContent[policyModal].content}</p>
-                </div>
-              </div>
-            )}
+            <a href="/politica-de-reembolso" target="_blank" rel="noopener noreferrer" style={{ color: '#7c3aed', fontSize: '12px', textDecoration: 'none' }}>Política de reembolso</a>
+            <a href="/politica-de-frete" target="_blank" rel="noopener noreferrer" style={{ color: '#7c3aed', fontSize: '12px', textDecoration: 'none' }}>Política de frete</a>
+            <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer" style={{ color: '#7c3aed', fontSize: '12px', textDecoration: 'none' }}>Política de privacidade</a>
+            <a href="/termos-de-servico" target="_blank" rel="noopener noreferrer" style={{ color: '#7c3aed', fontSize: '12px', textDecoration: 'none' }}>Termos de serviço</a>
+{/* Modal removido — políticas abrem em página própria */}
           </div>
         </div>
 

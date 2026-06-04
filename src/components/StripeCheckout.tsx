@@ -155,7 +155,7 @@ const CheckoutFormInner = forwardRef<any, any>(({ onSuccess, onError, customerPh
       </div>
       <div>
         <label style={{ fontSize: '12px', fontWeight: '500', color: '#374151', marginBottom: '6px', display: 'block' }}>
-          Phone number <span style={{ color: '#9ca3af', fontWeight: 400 }}>(optional)</span>
+          Número de telefone <span style={{ color: '#9ca3af', fontWeight: 400 }}>(opcional)</span>
         </label>
         <input
           type="tel"
