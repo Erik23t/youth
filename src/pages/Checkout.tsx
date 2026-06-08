@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Star, BadgeCheck, ShieldCheck, Truck, Users } from 'lucide-react';
 import ZylumiaPayPalButton from '../components/ZylumiaPayPalButton';
 import StripeCheckout from '../components/StripeCheckout';
+import StripeExpressButtons from '../components/StripeExpressButtons';
 
 import { API } from '../config/api';
 import { handleError, withRetry, toastSucesso } from '../services/errorService';
@@ -437,6 +438,7 @@ export default function Checkout() {
   const [erroCupom, setErroCupom]       = useState('');
   const [erro, setErro]               = useState('');
   const [loading, setLoading]         = useState(false);
+  const [expressAvailable, setExpressAvailable] = useState(false);
 
   const stripeRef = useRef<any>(null);
   const [policyModal, setPolicyModal] = React.useState<null | 'reembolso' | 'frete' | 'privacidade' | 'termos'>(null);
