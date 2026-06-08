@@ -28,7 +28,7 @@ function Inner({ totalFinal, customerEmail, customerName, cartItems, onSuccess, 
       requestPayerName: true, requestPayerEmail: true,
     });
     pr.canMakePayment().then((result: any) => {
-      if (result) { setPaymentRequest(pr); onAvailable?.(true); } else { onAvailable?.(false); }
+      if (result && (result.googlePay || result.applePay)) { setPaymentRequest(pr); onAvailable?.(true); } else { onAvailable?.(false); }
     });
     pr.on('paymentmethod', async (event: any) => {
       try {
