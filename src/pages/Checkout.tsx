@@ -707,22 +707,33 @@ export default function Checkout() {
           <div style={{ textAlign: 'center', marginBottom: '12px', fontSize: '14px', color: '#374151' }}>
             Pagamento expresso
           </div>
-          <ZylumiaPayPalButton
-            produto={{
-              name: cart.items.reduce((acc: number, item: any) => acc + (item.qty || item.quantity || 1), 0) === 1 ? cart.items[0].name : `${cart.items.reduce((acc: number, item: any) => acc + (item.qty || item.quantity || 1), 0)} itens (Zylumia)`,
-              price: totalFinal,
-              image: cart.items[0]?.image || '',
-            }}
-            customerName={`${nome} ${sobrenome}`}
-            customerEmail={email}
-            customerPhone={`${addrConfig.phonePrefix}${telefone}`}
-            onSuccess={(order: any) => {
-              localStorage.removeItem('zylumia_session_id');
-              localStorage.removeItem('zylumia_coupon');
-              window.location.href = `/checkout/sucesso?order=${order.id.substring(0,8).toUpperCase()}`;
-            }}
-            onError={() => alert('Erro no pagamento. Tente novamente.')}
-          />
+          <div style={{ display: 'grid', gridTemplateColumns: expressAvailable ? '1fr 1fr' : '1fr', gap: '10px' }}>
+            <ZylumiaPayPalButton
+              produto={{
+                name: cart.items.reduce((acc: number, item: any) => acc + (item.qty || item.quantity || 1), 0) === 1 ? cart.items[0].name : `${cart.items.reduce((acc: number, item: any) => acc + (item.qty || item.quantity || 1), 0)} itens (Zylumia)`,
+                price: totalFinal,
+                image: cart.items[0]?.image || '',
+              }}
+              customerName={`${nome} ${sobrenome}`}
+              customerEmail={email}
+              customerPhone={`${addrConfig.phonePrefix}${telefone}`}
+              onSuccess={(order: any) => {
+                localStorage.removeItem('zylumia_session_id');
+                localStorage.removeItem('zylumia_coupon');
+                window.location.href = `/checkout/sucesso?order=${order.id.substring(0,8).toUpperCase()}`;
+              }}
+              onError={() => alert('Erro no pagamento. Tente novamente.')}
+            />
+              <StripeExpressButtons
+                totalFinal={totalFinal}
+                customerEmail={email}
+                customerName={`${nome} ${sobrenome}`}
+                cartItems={cart.items}
+                onAvailable={setExpressAvailable}
+                onSuccess={(orderId) => { window.location.href = `/checkout/sucesso?order=${orderId}`; }}
+                onError={(msg) => alert(msg)}
+              />
+          </div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', margin: '16px 0 0 0' }}>
           <div style={{ flex: 1, height: '1px', background: '#e5e7eb' }}></div>
@@ -745,20 +756,31 @@ export default function Checkout() {
             <div style={{ textAlign: 'center', marginBottom: '16px', fontSize: '14px', color: '#374151' }}>
               Pagamento expresso
             </div>
-            <ZylumiaPayPalButton
-              produto={{
-                name: cart.items.reduce((acc: number, item: any) => acc + (item.qty || item.quantity || 1), 0) === 1 ? cart.items[0].name : `${cart.items.reduce((acc: number, item: any) => acc + (item.qty || item.quantity || 1), 0)} itens (Zylumia)`,
-                price: totalFinal
-              }}
-              customerName={`${nome} ${sobrenome}`}
-              customerEmail={email}
-              onSuccess={(order: any) => {
-                localStorage.removeItem('zylumia_session_id');
-                localStorage.removeItem('zylumia_coupon');
-                window.location.href = `/checkout/sucesso?order=${order.id.substring(0,8).toUpperCase()}`;
-              }}
-              onError={() => alert('Erro no pagamento. Tente novamente.')}
-            />
+            <div style={{ display: 'grid', gridTemplateColumns: expressAvailable ? '1fr 1fr' : '1fr', gap: '10px' }}>
+              <ZylumiaPayPalButton
+                produto={{
+                  name: cart.items.reduce((acc: number, item: any) => acc + (item.qty || item.quantity || 1), 0) === 1 ? cart.items[0].name : `${cart.items.reduce((acc: number, item: any) => acc + (item.qty || item.quantity || 1), 0)} itens (Zylumia)`,
+                  price: totalFinal
+                }}
+                customerName={`${nome} ${sobrenome}`}
+                customerEmail={email}
+                onSuccess={(order: any) => {
+                  localStorage.removeItem('zylumia_session_id');
+                  localStorage.removeItem('zylumia_coupon');
+                  window.location.href = `/checkout/sucesso?order=${order.id.substring(0,8).toUpperCase()}`;
+                }}
+                onError={() => alert('Erro no pagamento. Tente novamente.')}
+              />
+              <StripeExpressButtons
+                totalFinal={totalFinal}
+                customerEmail={email}
+                customerName={`${nome} ${sobrenome}`}
+                cartItems={cart.items}
+                onAvailable={setExpressAvailable}
+                onSuccess={(orderId) => { window.location.href = `/checkout/sucesso?order=${orderId}`; }}
+                onError={(msg) => alert(msg)}
+              />
+            </div>
           </div>
 
           <div className="left-col-divider" style={{ display: 'flex', alignItems: 'center', gap: '16px', margin: '24px 0' }}>
