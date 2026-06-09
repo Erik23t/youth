@@ -918,8 +918,8 @@ export default function Checkout() {
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <div style={{ width: '18px', height: '18px', borderRadius: '50%', border: '6px solid #7c3aed', background: '#fff' }}></div>
                 <div>
-                  <div style={{ fontWeight: 500 }}>Frete Padrão</div>
-                  <div style={{ fontSize: '12px', color: '#6b7280' }}>7-15 dias úteis</div>
+                  <div style={{ fontWeight: 600 }}>Frete Grátis</div>
+                  <div style={{ fontSize: '12px', color: '#059669', fontWeight: 500 }}>🚀 Entrega Rápida e Segura</div>
                 </div>
               </div>
               <div style={{ fontWeight: 500 }}>Grátis</div>
@@ -930,12 +930,13 @@ export default function Checkout() {
             <h2 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '4px', marginTop: 0, color: '#1a0533' }}>Pagamento</h2>
             <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '4px' }}>🔒 Todas as transações são seguras e criptografadas.</div>
             
-            <div className="stripe-container" style={{ border: '1px solid #ddd6fe', borderRadius: '10px', overflow: 'hidden' }}>
-              <div style={{ padding: '14px 16px', background: '#ede9fe', borderBottom: '1px solid #ddd6fe', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ fontWeight: 600, color: '#4c1d95' }}>Cartão de crédito / débito</div>
-                <div style={{ display: 'flex', gap: '4px' }}>
-                  <div style={{ width: '32px', height: '20px', background: '#fff', border: '1px solid #e5e7eb', borderRadius: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold', color: '#1a1f36' }}>VISA</div>
-                  <div style={{ width: '32px', height: '20px', background: '#fff', border: '1px solid #e5e7eb', borderRadius: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold', color: '#eb001b' }}>MC</div>
+            <div className="stripe-container" style={{ border: '1px solid #222', borderRadius: '10px', overflow: 'hidden' }}>
+              <div style={{ padding: '14px 16px', background: '#111', borderBottom: '1px solid #333', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ fontWeight: 600, color: '#fff' }}>Cartão de crédito / débito</div>
+                <div style={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="38" height="24" viewBox="0 0 38 24" style={{ borderRadius: '3px', border: '1px solid #555' }}><rect width="38" height="24" rx="3" fill="#fff"/><text x="4" y="17" fontFamily="Arial" fontWeight="bold" fontSize="13" fill="#1a1f71">VISA</text></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="38" height="24" viewBox="0 0 38 24" style={{ borderRadius: '3px', border: '1px solid #555' }}><rect width="38" height="24" rx="3" fill="#252525"/><circle cx="15" cy="12" r="7" fill="#EB001B"/><circle cx="23" cy="12" r="7" fill="#F79E1B"/><path d="M19 6.8a7 7 0 0 1 0 10.4A7 7 0 0 1 19 6.8z" fill="#FF5F00"/></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="38" height="24" viewBox="0 0 38 24" style={{ borderRadius: '3px', border: '1px solid #555' }}><rect width="38" height="24" rx="3" fill="#2E77BC"/><text x="4" y="17" fontFamily="Arial" fontWeight="bold" fontSize="10" fill="#fff">AMEX</text></svg>
                 </div>
               </div>
               <div style={{ padding: '20px', background: '#faf9ff' }}>
@@ -956,7 +957,7 @@ export default function Checkout() {
             style={{
               width: '100%',
               height: '56px',
-              background: '#7c3aed',
+              background: loading ? '#333' : '#000',
               color: '#fff',
               border: 'none',
               borderRadius: '8px',
@@ -1064,7 +1065,7 @@ export default function Checkout() {
                       onClick={aplicarCupom}
                       disabled={loadingCupom || !cupom}
                       style={{
-                        background: '#7c3aed',
+                        background: loading ? '#333' : '#000',
                         color: '#fff',
                         border: 'none',
                         borderRadius: '8px',
