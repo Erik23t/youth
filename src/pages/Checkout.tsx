@@ -3,6 +3,7 @@ import { Star, BadgeCheck, ShieldCheck, Truck, Users } from 'lucide-react';
 import ZylumiaPayPalButton from '../components/ZylumiaPayPalButton';
 import StripeCheckout from '../components/StripeCheckout';
 import StripeExpressButtons from '../components/StripeExpressButtons';
+import ZylumiaAuth from '../components/ZylumiaAuth';
 import { API } from '../config/api';
 import { withRetry } from '../services/errorService';
 import {
@@ -131,6 +132,7 @@ export default function Checkout() {
   const [policyModal, setPolicyModal] = useState<null | 'refund' | 'shipping' | 'privacy' | 'terms'>(null);
   const policyTitles: Record<string, string> = { refund:'Refund Policy', shipping:'Shipping Policy', privacy:'Privacy Policy', terms:'Terms of Service' };
   const stripeRef = useRef<any>(null);
+  const [showAuth, setShowAuth] = useState(false);
   const subtotal = cart?.items?.length ? cart.items.reduce((acc: number, item: any) => acc + (item.price * (item.qty || item.quantity || 1)), 0) : (cart?.subtotal || 0);
   const totalFinal = Math.max(subtotal - desconto, 0);
 
@@ -186,7 +188,7 @@ export default function Checkout() {
           <div className="co-dv" style={{ alignItems:'center', gap:'12px', margin:'0 0 24px' }}><div style={{ flex:1, height:'1px', background:'#e5e7eb' }} /><span style={{ fontSize:'13px', color:'#9ca3af' }}>OR</span><div style={{ flex:1, height:'1px', background:'#e5e7eb' }} /></div>
 
           <div style={{ marginBottom:'24px' }}>
-            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'10px' }}><h2 style={sH}>Contact</h2><span style={{ color:'#6b7280', fontSize:'13px' }}>Have an account? <a href="#" style={{ color:'#111827', textDecoration:'underline' }}>Log in</a></span></div>
+            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'10px' }}><h2 style={sH}>Contact</h2><button onClick={() => setShowAuth(true)} style={{ background:'none', border:'none', color:'#6b7280', fontSize:'13px', cursor:'pointer', padding:0 }}>Have an account? <span style={{ color:'#111827', textDecoration:'underline' }}>Log in</span></button></div>
             <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email address" style={inputStyle} />
           </div>
 
@@ -260,6 +262,19 @@ export default function Checkout() {
       </div>
 
       {policyModal && (<div onClick={() => setPolicyModal(null)} style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.55)', zIndex:9999, display:'flex', alignItems:'flex-end', justifyContent:'center' }}><div onClick={e => e.stopPropagation()} style={{ background:'#fff', borderRadius:'16px 16px 0 0', width:'100%', maxWidth:'640px', maxHeight:'85vh', display:'flex', flexDirection:'column', boxShadow:'0 -8px 32px rgba(0,0,0,0.12)' }}><div style={{ padding:'18px 20px 14px', borderBottom:'1px solid #f3f4f6', display:'flex', justifyContent:'space-between', alignItems:'center', flexShrink:0 }}><h3 style={{ fontSize:'17px', fontWeight:700, color:'#111', margin:0 }}>{policyTitles[policyModal]}</h3><button onClick={() => setPolicyModal(null)} style={{ background:'#f3f4f6', border:'none', borderRadius:'50%', width:'32px', height:'32px', cursor:'pointer', fontSize:'18px', color:'#374151', display:'flex', alignItems:'center', justifyContent:'center' }}>\u00d7</button></div><div style={{ overflowY:'auto', padding:'20px 20px 40px', flex:1 }}><PolicyModalContent type={policyModal} /></div></div></div>)}
+      <ZylumiaAuth
+        isOpen={showAuth}
+        onClose={() => setShowAuth(false)}
+        onSuccess={(user: any) => {
+          setShowAuth(false);
+          if (user?.email) setEmail(user.email);
+          if (user?.name) {
+            const parts = user.name.split(' ');
+            setNome(parts[0] || '');
+            setSobrenome(parts.slice(1).join(' ') || '');
+          }
+        }}
+      />
     </div>
   );
 }
