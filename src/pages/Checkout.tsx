@@ -258,7 +258,7 @@ const ReviewsAndGuarantees = () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       <div style={{ display: 'flex', gap: '16px' }}>
         <div style={{ color: '#111', flexShrink: 0 }}>
-          <ShieldCheck size={40} strokeWidth={1.5} />
+          <ShieldCheck size={40} strokeWidth={1.5} color="#841dc5" />
         </div>
         <div>
           <p style={{ fontWeight: 'bold', fontSize: '15px', color: '#111827', marginBottom: '4px' }}>Garantia de reembolso de 30 dias</p>
@@ -268,7 +268,7 @@ const ReviewsAndGuarantees = () => (
 
       <div style={{ display: 'flex', gap: '16px' }}>
         <div style={{ color: '#111', flexShrink: 0 }}>
-          <Truck size={40} strokeWidth={1.5} />
+          <Truck size={40} strokeWidth={1.5} color="#841dc5" />
         </div>
         <div>
           <p style={{ fontWeight: 'bold', fontSize: '15px', color: '#111827', marginBottom: '4px' }}>Frete grátis para todo Brasil</p>
@@ -278,7 +278,7 @@ const ReviewsAndGuarantees = () => (
 
       <div style={{ display: 'flex', gap: '16px' }}>
         <div style={{ color: '#111', flexShrink: 0 }}>
-          <Users size={40} strokeWidth={1.5} />
+          <Users size={40} strokeWidth={1.5} color="#841dc5" />
         </div>
         <div>
           <p style={{ fontWeight: 'bold', fontSize: '15px', color: '#111827', marginBottom: '4px' }}>Mais de 20.000 clientes satisfeitos</p>
