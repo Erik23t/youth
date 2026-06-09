@@ -756,7 +756,7 @@ export default function Checkout() {
             <div style={{ textAlign: 'center', marginBottom: '16px', fontSize: '14px', color: '#374151' }}>
               Pagamento expresso
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: expressAvailable ? '1fr 1fr' : '1fr', gap: '10px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column' as const, gap: '10px' }}>
               <ZylumiaPayPalButton
                 produto={{
                   name: cart.items.reduce((acc: number, item: any) => acc + (item.qty || item.quantity || 1), 0) === 1 ? cart.items[0].name : `${cart.items.reduce((acc: number, item: any) => acc + (item.qty || item.quantity || 1), 0)} itens (Zylumia)`,
@@ -914,12 +914,15 @@ export default function Checkout() {
 
           <div style={{ marginBottom: '32px' }}>
             <h2 style={{ fontSize: '18px', fontWeight: 500, marginBottom: '16px', marginTop: 0 }}>Método de envio</h2>
-            <div style={{ border: '1px solid #7c3aed', borderRadius: '8px', padding: '16px', background: '#f5f3ff', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ border: '1px solid #222', borderRadius: '8px', padding: '16px', background: '#f9fafb', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div style={{ width: '18px', height: '18px', borderRadius: '50%', border: '6px solid #7c3aed', background: '#fff' }}></div>
+                <div style={{ width: '18px', height: '18px', borderRadius: '50%', border: '6px solid #000', background: '#fff' }}></div>
                 <div>
-                  <div style={{ fontWeight: 600 }}>Frete Grátis</div>
-                  <div style={{ fontSize: '12px', color: '#059669', fontWeight: 500 }}>🚀 Entrega Rápida e Segura</div>
+                  <div style={{ fontWeight: 600 }}>Free Shipping</div>
+                  <div style={{ fontSize: '12px', color: '#374151', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 4v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                    Fast &amp; Secure Delivery
+                  </div>
                 </div>
               </div>
               <div style={{ fontWeight: 500 }}>Grátis</div>

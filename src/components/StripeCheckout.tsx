@@ -113,7 +113,7 @@ const CheckoutFormInner = forwardRef<any, any>(({ onSuccess, onError, customerPh
         <label style={{ fontSize: '12px', fontWeight: '500', color: '#374151', marginBottom: '6px', display: 'block' }}>
           Número do cartão
         </label>
-        <div style={{ padding: '12px', border: '1px solid #ddd6fe', borderRadius: '8px', background: '#faf9ff', minHeight: '44px' }}>
+        <div style={{ padding: '12px', border: '1px solid #222', borderRadius: '8px', background: '#fff', minHeight: '44px' }}>
           <CardNumberElement options={elementStyle} />
         </div>
       </div>
@@ -122,7 +122,7 @@ const CheckoutFormInner = forwardRef<any, any>(({ onSuccess, onError, customerPh
           <label style={{ fontSize: '12px', fontWeight: '500', color: '#374151', marginBottom: '6px', display: 'block' }}>
             Validade (MM/AA)
           </label>
-          <div style={{ padding: '12px', border: '1px solid #ddd6fe', borderRadius: '8px', background: '#faf9ff', minHeight: '44px' }}>
+          <div style={{ padding: '12px', border: '1px solid #222', borderRadius: '8px', background: '#fff', minHeight: '44px' }}>
             <CardExpiryElement options={elementStyle} />
           </div>
         </div>
@@ -130,7 +130,7 @@ const CheckoutFormInner = forwardRef<any, any>(({ onSuccess, onError, customerPh
           <label style={{ fontSize: '12px', fontWeight: '500', color: '#374151', marginBottom: '6px', display: 'block' }}>
             Código de segurança
           </label>
-          <div style={{ padding: '12px', border: '1px solid #ddd6fe', borderRadius: '8px', background: '#faf9ff', minHeight: '44px' }}>
+          <div style={{ padding: '12px', border: '1px solid #222', borderRadius: '8px', background: '#fff', minHeight: '44px' }}>
             <CardCvcElement options={elementStyle} />
           </div>
         </div>
@@ -146,10 +146,10 @@ const CheckoutFormInner = forwardRef<any, any>(({ onSuccess, onError, customerPh
           onChange={e => setCardName(e.target.value)}
           style={{
             width: '100%', padding: '12px',
-            border: '1px solid #ddd6fe', borderRadius: '8px',
+            border: '1px solid #222', borderRadius: '8px',
             fontSize: '14px', boxSizing: 'border-box' as any,
             outline: 'none', fontFamily: 'inherit',
-            background: '#faf9ff',
+            background: '#fff',
           }}
         />
       </div>
@@ -164,10 +164,10 @@ const CheckoutFormInner = forwardRef<any, any>(({ onSuccess, onError, customerPh
           onChange={e => setCardPhone(e.target.value)}
           style={{
             width: '100%', padding: '12px',
-            border: '1px solid #ddd6fe', borderRadius: '8px',
+            border: '1px solid #222', borderRadius: '8px',
             fontSize: '14px', boxSizing: 'border-box' as any,
             outline: 'none', fontFamily: 'inherit',
-            background: '#faf9ff',
+            background: '#fff',
           }}
         />
       </div>
