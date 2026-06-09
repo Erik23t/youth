@@ -86,7 +86,7 @@ export default function ZylumiaAuth({ isOpen, onClose, onSuccess }) {
         setErro('');
       } else {
         console.error('Servidor retornou erro:', data);
-        setErro(data.message || `Erro ao enviar código (${r.status}).`);
+        setErro(data.message || `Error sending código (${r.status}).`);
       }
     } catch (e) {
       console.error('Erro detalhado:', e);
@@ -96,7 +96,7 @@ export default function ZylumiaAuth({ isOpen, onClose, onSuccess }) {
     }
   }
 
-  async function handleVerificarCodigo(codigoFornecido) {
+  async function handleVerifyCodigo(codigoFornecido) {
     const codigoCompleto = typeof codigoFornecido === 'string' ? codigoFornecido : digitos.join('');
 
     if (codigoCompleto.length !== 6) {
@@ -179,7 +179,7 @@ export default function ZylumiaAuth({ isOpen, onClose, onSuccess }) {
     // Se todos preenchidos, verifica automaticamente
     const todos = novosDigitos.join('');
     if (todos.length === 6) {
-      handleVerificarCodigo(todos);
+      handleVerifyCodigo(todos);
     }
   }
 
@@ -205,7 +205,7 @@ export default function ZylumiaAuth({ isOpen, onClose, onSuccess }) {
       if (proximo) proximo.focus();
 
       if (pastedData.length === 6) {
-        handleVerificarCodigo(pastedData);
+        handleVerifyCodigo(pastedData);
       }
     }
   };
@@ -223,7 +223,7 @@ export default function ZylumiaAuth({ isOpen, onClose, onSuccess }) {
         {etapa === 'email' ? (
           <div className="animate-in fade-in duration-200">
             <div className="text-center mb-8">
-              <h2 className="text-2xl font-serif font-bold mb-2 text-gray-900">Entrar na minha conta</h2>
+              <h2 className="text-2xl font-serif font-bold mb-2 text-gray-900">Sign In na minha conta</h2>
             </div>
 
             <form onSubmit={handleEnviarCodigo}>
@@ -252,7 +252,7 @@ export default function ZylumiaAuth({ isOpen, onClose, onSuccess }) {
                 className="w-full text-white text-sm font-bold py-4 rounded-md transition-colors tracking-wider disabled:opacity-70"
                 style={{ backgroundColor: '#7c3aed' }}
               >
-                {loading ? 'Enviando...' : 'ENVIAR CÓDIGO'}
+                {loading ? 'Sending...' : 'ENVIAR CÓDIGO'}
               </button>
 
               {erro && (
@@ -266,10 +266,10 @@ export default function ZylumiaAuth({ isOpen, onClose, onSuccess }) {
           <div className="animate-in fade-in duration-200">
             <div className="text-center mb-8">
               <h2 className="text-2xl font-serif font-bold mb-2 text-gray-900">Digite o código</h2>
-              <p className="text-sm text-gray-500 mb-2">Enviamos um código de 6 dígitos para {email}</p>
+              <p className="text-sm text-gray-500 mb-2">We sent a code de 6 dígitos para {email}</p>
             </div>
 
-            <form onSubmit={(e) => { e.preventDefault(); handleVerificarCodigo(); }}>
+            <form onSubmit={(e) => { e.preventDefault(); handleVerifyCodigo(); }}>
               <div className="flex justify-between gap-2 mb-4" onPaste={handlePaste}>
                 {digitos.map((digit, index) => (
                   <input
@@ -300,7 +300,7 @@ export default function ZylumiaAuth({ isOpen, onClose, onSuccess }) {
                 className="w-full text-white text-sm font-bold py-4 rounded-md transition-colors tracking-wider disabled:opacity-70"
                 style={{ backgroundColor: '#7c3aed' }}
               >
-                {loading ? 'Verificando...' : 'VERIFICAR'}
+                {loading ? 'Verifying...' : 'VERIFY'}
               </button>
 
               {erro && (
@@ -320,7 +320,7 @@ export default function ZylumiaAuth({ isOpen, onClose, onSuccess }) {
                 }}
                 className="text-sm text-gray-500 hover:text-gray-900 underline"
               >
-                Reenviar código
+                Resend code
               </button>
             </div>
           </div>

@@ -25,9 +25,9 @@ async function runStripePayment(stripe: any, paymentMethod: string | { card: { t
     body: JSON.stringify({ sessionId: localStorage.getItem('zylumia_session_id'), customerEmail, customerName, couponCode: localStorage.getItem('zylumia_coupon') || undefined }),
   });
   const intentData = await intentRes.json();
-  if (!intentData.success || !intentData.clientSecret) { onError(intentData.message || 'Erro ao criar pagamento.'); return false; }
+  if (!intentData.success || !intentData.clientSecret) { onError(intentData.message || 'Error creating payment.'); return false; }
   const { error, paymentIntent } = await stripe.confirmCardPayment(intentData.clientSecret, { payment_method: paymentMethod }, { handleActions: false });
-  if (error) { onError(error.message || 'Erro.'); return false; }
+  if (error) { onError(error.message || 'Error.'); return false; }
   if (paymentIntent?.status === 'requires_action') {
     const { error: e2 } = await stripe.confirmCardPayment(intentData.clientSecret);
     if (e2) { onError(e2.message || ''); return false; }
@@ -41,7 +41,7 @@ async function runStripePayment(stripe: any, paymentMethod: string | { card: { t
     localStorage.removeItem('zylumia_session_id'); localStorage.removeItem('zylumia_coupon');
     onSuccess(confirmData.orderId || paymentIntent!.id.substring(0,8).toUpperCase()); return true;
   }
-  onError(confirmData.message || 'Erro ao confirmar.'); return false;
+  onError(confirmData.message || 'Error confirming payment.'); return false;
 }
 
 function Inner({ totalFinal, customerEmail, customerName, cartItems, onSuccess, onError, onAvailable }: Props) {
@@ -83,7 +83,7 @@ function Inner({ totalFinal, customerEmail, customerName, cartItems, onSuccess, 
       try {
         const ok = await runStripePayment(stripe, event.paymentMethod.id, { customerEmail: event.payerEmail||customerEmail, customerName: event.payerName||customerName, cartItems, onSuccess, onError });
         event.complete(ok ? 'success' : 'fail');
-      } catch (e: any) { event.complete('fail'); onError(e.message||'Erro.'); }
+      } catch (e: any) { event.complete('fail'); onError(e.message||'Error.'); }
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stripe, totalFinal]);

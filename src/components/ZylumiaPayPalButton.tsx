@@ -56,7 +56,7 @@ export default function ZylumiaPayPalButton({ produto, cartItems, customerName, 
             (window as any).gtag('event', 'add_payment_info', { currency: 'USD', value: produtoRef.current?.price || 0, payment_type: 'PayPal', items: [{ item_name: produtoRef.current?.name || 'Zylumia Skin Serum', price: produtoRef.current?.price || 0, quantity: 1 }] });
           }
           const emailFinal = customerEmailRef.current || user?.email || 'guest@zylumia.com';
-          const nameFinal = customerNameRef.current || user?.name || 'Cliente';
+          const nameFinal = customerNameRef.current || user?.name || 'Customer';
           const couponCode = localStorage.getItem('zylumia_coupon');
           // Sincroniza carrinho com backend antes de criar ordem PayPal
           const items = cartItemsRef.current;
@@ -84,7 +84,7 @@ export default function ZylumiaPayPalButton({ produto, cartItems, customerName, 
             // Capture is done server-side — frontend just sends orderID
             const u = JSON.parse(localStorage.getItem('zylumia_user') || 'null');
             const emailFinal = u?.email || customerEmailRef.current || 'guest@zylumia.com';
-            const nameFinal = u?.name || customerNameRef.current || 'Cliente';
+            const nameFinal = u?.name || customerNameRef.current || 'Customer';
             const r = await fetch(`${API}/api/paypal/capture-order`, {
               method: 'POST', headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -133,7 +133,7 @@ export default function ZylumiaPayPalButton({ produto, cartItems, customerName, 
           </div>
         </div>
       )}
-      {loading && <p style={{ textAlign: 'center', color: '#888' }}>Carregando PayPal...</p>}
+      {loading && <p style={{ textAlign: 'center', color: '#888' }}>Loading PayPal...</p>}
       {erro && <p style={{ color: '#ef4444', textAlign: 'center', fontSize: '14px' }}>{erro}</p>}
       <div ref={paypalRef} />
     </div>

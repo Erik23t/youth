@@ -50,7 +50,7 @@ export default function JourneyTimeline() {
           Sua Jornada para uma Pele <span className="italic">Livre de Pelos</span>
         </h2>
         <p className="text-gray-600 max-w-2xl mx-auto">
-          O que você pode esperar com o uso diário consistente do nosso sérum botânico.
+          What you can expect with consistent daily use of our botanical serum.
         </p>
       </div>
 

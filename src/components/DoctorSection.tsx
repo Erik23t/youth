@@ -5,7 +5,7 @@ export default function DoctorSection() {
         <div className="order-2 md:order-1">
           <img
             src="https://imagens.zylumia.com/cyperus-.png"
-            alt="Dermatologista"
+            alt="Dermatologist"
             width="800"
             height="600"
             loading="lazy"
@@ -15,7 +15,7 @@ export default function DoctorSection() {
         </div>
         <div className="order-1 md:order-2">
           <h2 className="text-3xl md:text-4xl font-serif text-gray-900 mb-8 leading-tight">
-            Comprovado clinicamente. Recomendado por dermatologistas. Mais de 50.000 clientes satisfeitos.
+            Clinically proven. Dermatologist recommended. Over 50,000 satisfied customers.
           </h2>
           <div className="w-16 h-px bg-gray-300 mb-8"></div>
           <div className="space-y-6 text-sm text-gray-600 leading-relaxed">

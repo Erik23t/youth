@@ -134,7 +134,7 @@ export default function AcompanhePedido() {
         )}
         {pedido.trackingCode && (
           <div style={{ marginTop: '16px' }}>
-            <a href={pedido.trackingUrl || '#'} target="_blank" rel="noreferrer" style={{ display: 'inline-block', padding: '10px 24px', background: '#3b82f6', color: 'white', borderRadius: '8px', textDecoration: 'none', fontSize: '14px', fontWeight: 'bold' }}>Rastrear: {pedido.trackingCode}</a>
+            <a href={pedido.trackingUrl || '#'} target="_blank" rel="noreferrer" style={{ display: 'inline-block', padding: '10px 24px', background: '#3b82f6', color: 'white', borderRadius: '8px', textDecoration: 'none', fontSize: '14px', fontWeight: 'bold' }}>Track: {pedido.trackingCode}</a>
           </div>
         )}
       </div>
@@ -149,7 +149,7 @@ export default function AcompanhePedido() {
       <div style={{ maxWidth: '600px', margin: '0 auto', padding: '60px 20px' }}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <div style={{ fontSize: '48px', marginBottom: '16px' }}>📦</div>
-          <h2 style={{ color: '#1a0533', fontSize: '28px' }}>Acompanhe seu Pedido</h2>
+          <h2 style={{ color: '#1a0533', fontSize: '28px' }}>Track Your Order</h2>
         </div>
         <div style={{ background: 'white', padding: '32px', borderRadius: '16px', border: '1px solid #ede9fe', boxShadow: '0 4px 20px rgba(120,60,180,0.08)', marginBottom: '32px' }}>
           <h3 style={{ color: '#1a0533', fontSize: '20px', marginBottom: '16px' }}>Tenho uma conta</h3>
@@ -165,7 +165,7 @@ export default function AcompanhePedido() {
           <div style={{ flex: 1, height: '1px', background: '#ede9fe' }}></div>
         </div>
         <div style={{ background: 'white', padding: '32px', borderRadius: '16px', border: '1px solid #ede9fe', boxShadow: '0 4px 20px rgba(120,60,180,0.08)' }}>
-          <h3 style={{ color: '#1a0533', fontSize: '20px', marginBottom: '16px' }}>Rastrear sem conta</h3>
+          <h3 style={{ color: '#1a0533', fontSize: '20px', marginBottom: '16px' }}>Track sem conta</h3>
           <p style={{ color: '#666', marginBottom: '24px', fontSize: '15px' }}>Busque seu pedido usando o e-mail e o numero da compra.</p>
           <div style={{ marginBottom: '16px' }}>
             <label style={{ display: 'block', marginBottom: '8px', color: '#1a0533', fontWeight: 'bold', fontSize: '14px' }}>E-mail usado na compra:</label>

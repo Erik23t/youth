@@ -56,7 +56,7 @@ export default function StickyBar({
               onClick={onAddToCart}
               className="w-auto bg-black hover:bg-gray-900 text-white text-[10px] md:text-sm font-bold py-2 px-3 md:py-3 md:px-8 rounded-sm transition-all shadow-lg tracking-wider whitespace-nowrap"
             >
-              ADICIONAR AO CARRINHO
+              ADD TO CART
             </button>
           )}
           <button

@@ -49,7 +49,7 @@ export default function CartSidebar({
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
                   </span>
-                  Seu carrinho está reservado!
+                  Your cart está reservado!
                 </span>
                 <span className="font-mono font-bold text-red-600 bg-red-50 px-2 py-1 rounded text-sm border border-red-100">
                   {formatTime(timeLeft)}
@@ -61,13 +61,13 @@ export default function CartSidebar({
                   style={{ width: `${(timeLeft / (15 * 60)) * 100}%` }}
                 ></div>
               </div>
-              <p className="text-[11px] text-gray-500 mt-1">Os itens no seu carrinho não estão garantidos. Finalize agora.</p>
+              <p className="text-[11px] text-gray-500 mt-1">Items in your cart are not reserved. Complete your purchase now.</p>
             </div>
           )}
           {cartItems.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-gray-500 space-y-4">
               <ShoppingCart className="w-12 h-12 opacity-20" />
-              <p>Seu carrinho está vazio.</p>
+              <p>Your cart está vazio.</p>
               <button
                 onClick={onClose}
                 className="mt-4 border border-gray-300 text-gray-900 px-6 py-2 rounded-sm text-sm font-bold hover:bg-gray-50 transition-colors"
@@ -114,7 +114,7 @@ export default function CartSidebar({
             </div>
             {appliedCoupon && (
               <div className="flex justify-between text-sm mb-2 text-green-600">
-                <span>Desconto (10%)</span>
+                <span>Discount (10%)</span>
                 <span>- US$ {discountAmount.toFixed(2).replace('.', ',')}</span>
               </div>
             )}
@@ -122,7 +122,7 @@ export default function CartSidebar({
               <span>Frete</span>
               <span className="flex items-center text-green-600 font-medium">
                 <Truck className="w-4 h-4 mr-1.5" />
-                Grátis
+                Free
               </span>
             </div>
             <div className="flex justify-between font-bold text-lg mb-3 pt-3 border-t border-gray-200 text-gray-900">
@@ -134,7 +134,7 @@ export default function CartSidebar({
               onClick={onCheckout}
               className="w-full bg-[#841dc5] hover:bg-[#6a179e] text-white py-4 rounded-sm text-base font-bold transition-colors tracking-wider"
             >
-              FINALIZAR COMPRA — US$ {(cartItems.reduce((acc, item) => acc + (item.price * (item.quantity || item.qty || 1)), 0) - discountAmount).toFixed(2).replace('.', ',')}
+              CHECKOUT — US$ {(cartItems.reduce((acc, item) => acc + (item.price * (item.quantity || item.qty || 1)), 0) - discountAmount).toFixed(2).replace('.', ',')}
             </button>
 
             {/* 365-Day Guarantee + Payments — layout compacto */}

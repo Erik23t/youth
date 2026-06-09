@@ -24,7 +24,7 @@ interface ProductDetailsProps {
 const productFaqs = [
   { q: "Benefícios", a: "O Zylumia™ foi clinicamente testado para proporcionar resultados reais e mensuráveis. Com uso contínuo, reduz o crescimento de novos pelos, enfraquece progressivamente os folículos capilares e prolonga o intervalo entre as sessões de depilação. Além disso, melhora a textura e a suavidade da pele, prevenindo irritações e pelos encravados. A fórmula é suave e adequada para todos os tipos de pele, inclusive peles sensíveis." },
   { q: "Como funciona o Zylumia™?", a: "O Zylumia™ age diretamente nos folículos capilares através do bloqueio localizado de andrógenos. Os compostos ativos inibem a enzima 5α-redutase e bloqueiam os receptores de andrógenos na raiz do pelo, reduzindo a produção de DHT e prevenindo a ativação do crescimento capilar. Esse mecanismo é eficaz em todas as cores de cabelo — incluindo fios brancos e loiros que o laser não consegue tratar — pois atua nas vias hormonais do folículo, e não no pigmento. O crescimento começa a diminuir em 1 a 2 semanas, com pelos progressivamente mais finos e esparsos com o uso contínuo." },
-  { q: "Como usar o Zylumia™?", a: "Incorpore facilmente à sua rotina de depilação: remova os pelos indesejados com seu método preferido (lâmina, cera ou depilador elétrico), aplique de 3 a 5 gotas do serum na pele limpa e seca, massageie suavemente até completa absorção e reaplique duas vezes ao dia para melhores resultados. Desfrute de uma pele mais macia por muito mais tempo." },
+  { q: "How to Use o Zylumia™?", a: "Incorpore facilmente à sua rotina de depilação: remova os pelos indesejados com seu método preferido (lâmina, cera ou depilador elétrico), aplique de 3 a 5 gotas do serum na pele limpa e seca, massageie suavemente até completa absorção e reaplique duas vezes ao dia para melhores resultados. Desfrute de uma pele mais macia por muito mais tempo." },
   { q: "Onde posso aplicar?", a: "O Zylumia™ pode ser usado com segurança em todas as áreas do corpo, incluindo rosto, axilas, virilha, pernas e braços. Para uso facial, evite a área dos olhos e mucosas." },
   { q: "Quais são os ingredientes? (100% Vegano)", a: "O Zylumia™ é formulado com ingredientes botânicos naturais, 100% veganos e livres de crueldade animal. A base contém óleo de oliva nutritivo e vitamina E para hidratar e reparar a pele após a depilação, prevenindo irritações e pelos encravados. O extrato de hortelã-pimenta proporciona sensação refrescante e calmante, enquanto o extrato de limão ilumina e uniformiza o tom da pele naturalmente. O ativo principal, o Cyperus Rotundus, atua diretamente nos folículos para inibir o crescimento capilar de forma eficaz e segura." },
   { q: "Isso afeta meus hormônios?", a: "O Zylumia™ é seguro para mulheres com questões hormonais pois age exclusivamente de forma localizada — na superfície da pele e nos folículos capilares da área aplicada. O serum não entra na corrente sanguínea e não afeta os níveis hormonais do organismo. Isso o torna seguro para uso por mulheres com SOP, em tratamento hormonal ou durante a menopausa. Recomendamos consultar o médico antes do uso durante a gravidez e a amamentação." },
@@ -64,7 +64,7 @@ export default function ProductDetails({
           <Star className="w-4 h-4 fill-current" />
           <StarHalf className="w-4 h-4 fill-current" />
         </div>
-        <span className="text-sm text-gray-600 ml-2 font-medium">(4.8 - 1356 avaliações)</span>
+        <span className="text-sm text-gray-600 ml-2 font-medium">(4.8 - 1356 reviews)</span>
       </div>
 
       {/* Title */}
@@ -73,7 +73,7 @@ export default function ProductDetails({
       </h1>
 
       <p className="text-base text-gray-600 mb-6 leading-relaxed">
-        {produto.descricao || 'Obtenha uma pele mais lisa e sem pelos com o único sérum botânico egípcio clinicamente comprovado para enfraquecer progressivamente os pelos indesejados.'}
+        {produto.descricao || 'Obtenha uma pele mais lisa e sem pelos com o único sérum botânico egípcio clinically proven para enfraquecer progressivamente os pelos indesejados.'}
       </p>
 
       <div className="bg-[#841dc5] text-white text-sm font-medium py-3 px-5 rounded-md flex items-center mb-8 shadow-sm">
@@ -104,7 +104,7 @@ export default function ProductDetails({
             <div className="flex flex-col">
               <span className="text-sm font-bold text-gray-900 flex items-center">
                 Assinatura mensal
-                <span className="ml-2 bg-[#7c3aed] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">20% OFF todo mês</span>
+                <span className="ml-2 bg-[#7c3aed] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">20% OFF todo month</span>
               </span>
               <span className="text-xs text-gray-500 mt-0.5">Cancele quando quiser. Sem taxas ocultas.</span>
             </div>
@@ -118,8 +118,8 @@ export default function ProductDetails({
         purchaseType={purchaseType}
         onSelectMonths={onSelectMonths}
         preco1mes={produto.preco1mes}
-        preco3meses={produto.preco3mes}
-        preco6meses={produto.preco6mes}
+        preco3months={produto.preco3mes}
+        preco6months={produto.preco6mes}
         mainImage=""
       />
 
@@ -148,8 +148,8 @@ export default function ProductDetails({
       <div className="mt-8">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-6 text-sm text-gray-800 mb-6">
-            <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-[#841dc5]" /> Garantia de reembolso de 365 dias</span>
-            <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-[#841dc5]" /> Frete grátis*</span>
+            <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-[#841dc5]" /> Money-back guarantee de 365 dias</span>
+            <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-[#841dc5]" /> Free shipping*</span>
           </div>
           <PaymentIcons />
         </div>

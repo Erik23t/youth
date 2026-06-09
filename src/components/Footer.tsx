@@ -72,7 +72,7 @@ export default function Footer({
         </div>
       </div>
       <div className="max-w-[1200px] mx-auto border-t border-gray-200 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600">
-        <p>© 2026 Zylumia. Todos os direitos reservados.</p>
+        <p>© 2026 Zylumia. All rights reserved.</p>
         <div className="flex space-x-4 mt-4 md:mt-0">
           <a href="/termos-de-servico" className="hover:text-gray-900 transition-colors">Termos de Serviço</a>
           <a href="/politica-de-privacidade" className="hover:text-gray-900 transition-colors">Política de Privacidade</a>

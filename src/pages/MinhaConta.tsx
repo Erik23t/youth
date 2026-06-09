@@ -11,14 +11,14 @@ export default function MinhaConta() {
   const [error, setError] = useState('');
   const [canceling, setCanceling] = useState(false);
 
-  // Mensagens
-  const [mensagens, setMensagens] = useState<any[]>([]);
+  // Messages
+  const [mensagens, setMessages] = useState<any[]>([]);
   const [msgNaoLidas, setMsgNaoLidas] = useState(0);
-  const [loadingMensagens, setLoadingMensagens] = useState(false);
+  const [loadingMessages, setLoadingMessages] = useState(false);
 
-  // Pedidos
-  const [pedidos, setPedidos] = useState<any[]>([]);
-  const [loadingPedidos, setLoadingPedidos] = useState(false);
+  // Orders
+  const [pedidos, setOrders] = useState<any[]>([]);
+  const [loadingOrders, setLoadingOrders] = useState(false);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('zylumia_user');
@@ -45,22 +45,22 @@ export default function MinhaConta() {
 
   useEffect(() => {
     if (activeTab !== 'mensagens') return;
-    carregarMensagens().then((msgs: any[]) => {
+    carregarMessages().then((msgs: any[]) => {
       if (msgs.length) marcarTodasLidas(msgs);
     });
-    const interval = setInterval(() => carregarMensagens(), 10000);
+    const interval = setInterval(() => carregarMessages(), 10000);
     return () => clearInterval(interval);
   }, [activeTab]);
 
   useEffect(() => {
     if (activeTab !== 'pedidos') return;
-    carregarPedidos();
-    const interval = setInterval(carregarPedidos, 30000);
+    carregarOrders();
+    const interval = setInterval(carregarOrders, 30000);
     return () => clearInterval(interval);
   }, [activeTab]);
 
-  const carregarPedidos = async () => {
-    setLoadingPedidos(true);
+  const carregarOrders = async () => {
+    setLoadingOrders(true);
     try {
       const token = localStorage.getItem('zylumia_token');
       const r = await fetch(`${API}/api/orders/meus-pedidos`, {
@@ -72,14 +72,14 @@ export default function MinhaConta() {
         const visiveis = (data.orders || []).filter(
           (p: any) => !p.hiddenByCustomer
         );
-        setPedidos(visiveis);
+        setOrders(visiveis);
       }
     } catch(e) {} finally {
-      setLoadingPedidos(false);
+      setLoadingOrders(false);
     }
   };
 
-  const excluirPedido = async (id: string) => {
+  const excluirOrder = async (id: string) => {
     if (!window.confirm('Remover este pedido da lista?')) return;
     try {
       const token = localStorage.getItem('zylumia_token');
@@ -90,7 +90,7 @@ export default function MinhaConta() {
       });
       const data = await r.json();
       if (data.success) {
-        setPedidos(prev => prev.filter((p: any) => p.id !== id));
+        setOrders(prev => prev.filter((p: any) => p.id !== id));
       } else {
         alert(data.message || 'Erro ao remover pedido.');
       }
@@ -135,8 +135,8 @@ export default function MinhaConta() {
     }
   };
 
-  const carregarMensagens = async (): Promise<any[]> => {
-    setLoadingMensagens(true);
+  const carregarMessages = async (): Promise<any[]> => {
+    setLoadingMessages(true);
     try {
       const token = localStorage.getItem('zylumia_token');
       const r = await fetch(`${API}/api/messages/minhas`, {
@@ -146,7 +146,7 @@ export default function MinhaConta() {
       const data = await r.json();
       if (data.success) {
         const msgs = data.messages || [];
-        setMensagens(msgs);
+        setMessages(msgs);
         const naoLidas = msgs.filter(
           (m: any) => m.status === 'REPLIED' && !m.clientRead
         ).length;
@@ -154,7 +154,7 @@ export default function MinhaConta() {
         return msgs;
       }
     } catch(e) {} finally {
-      setLoadingMensagens(false);
+      setLoadingMessages(false);
     }
     return [];
   };
@@ -167,7 +167,7 @@ export default function MinhaConta() {
         headers: { 'Authorization': `Bearer ${token}` },
         credentials: 'include'
       });
-      setMensagens(prev => prev.map(m =>
+      setMessages(prev => prev.map(m =>
         m.id === msgId ? {...m, clientRead: true} : m
       ));
       setMsgNaoLidas(prev => Math.max(0, prev - 1));
@@ -215,7 +215,7 @@ export default function MinhaConta() {
     <div className="min-h-screen bg-gray-50 pt-24 pb-12">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Minha Conta</h1>
+          <h1 className="text-3xl font-bold text-gray-900">My Account</h1>
           <a href="/" className="flex items-center text-sm font-medium text-gray-600 hover:text-[#841dc5] transition-colors">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Voltar para a loja
@@ -249,7 +249,7 @@ export default function MinhaConta() {
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${activeTab === 'pedidos' ? 'bg-purple-50 text-[#841dc5] font-medium' : 'text-gray-600 hover:bg-gray-50'}`}
                 >
                   <Package className="w-5 h-5" />
-                  Meus Pedidos
+                  My Orders
                 </button>
                 <button
                   onClick={() => setActiveTab('assinatura')}
@@ -267,7 +267,7 @@ export default function MinhaConta() {
                   }`}
                 >
                   <MessageCircle className="w-5 h-5" />
-                  Mensagens
+                  Messages
                   {msgNaoLidas > 0 && (
                     <span className="ml-auto bg-[#841dc5] text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
                       {msgNaoLidas}
@@ -308,9 +308,9 @@ export default function MinhaConta() {
               {activeTab === 'pedidos' && (
                 <div>
                   <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-2xl font-bold text-gray-900">Meus Pedidos</h2>
+                    <h2 className="text-2xl font-bold text-gray-900">My Orders</h2>
                     <button
-                      onClick={carregarPedidos}
+                      onClick={carregarOrders}
                       className="text-sm text-[#841dc5] hover:underline flex items-center gap-1"
                     >
                       <RefreshCw className="w-4 h-4" />
@@ -318,7 +318,7 @@ export default function MinhaConta() {
                     </button>
                   </div>
 
-                  {loadingPedidos ? (
+                  {loadingOrders ? (
                     <div className="flex justify-center py-12">
                       <Loader2 className="w-8 h-8 text-[#841dc5] animate-spin" />
                     </div>
@@ -362,7 +362,7 @@ export default function MinhaConta() {
                                   {s.icon} {s.label}
                                 </span>
                                 <button
-                                  onClick={() => excluirPedido(pedido.id)}
+                                  onClick={() => excluirOrder(pedido.id)}
                                   className="text-gray-300 hover:text-red-400 transition-colors"
                                   title="Remover da lista"
                                 >
@@ -456,7 +456,7 @@ export default function MinhaConta() {
                             <p className="font-bold text-gray-900">{subscription.planName || 'Zylumia Mensal'}</p>
                           </div>
                           <div>
-                            <p className="text-sm text-green-700 mb-1">Valor Mensal</p>
+                            <p className="text-sm text-green-700 mb-1">Amount Mensal</p>
                             <p className="font-bold text-gray-900">US$ {subscription.price?.toFixed(2).replace('.', ',')}</p>
                           </div>
                           <div>
@@ -510,10 +510,10 @@ export default function MinhaConta() {
               {activeTab === 'mensagens' && (
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                    💬 Minhas Mensagens
+                    💬 Minhas Messages
                   </h2>
 
-                  {loadingMensagens ? (
+                  {loadingMessages ? (
                     <div className="flex justify-center py-12">
                       <Loader2 className="w-8 h-8 text-[#841dc5] animate-spin" />
                     </div>

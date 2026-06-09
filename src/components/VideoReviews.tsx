@@ -40,7 +40,7 @@ export default function VideoReviews() {
                   <span className="text-sm font-medium text-gray-900">Tran B,</span>
                   <div className="flex items-center gap-1 bg-gray-100 px-2 py-0.5 rounded-full">
                     <CheckCircle2 className="w-3 h-3 text-[#c084fc] fill-current" />
-                    <span className="text-[11px] text-gray-600 font-medium">Comprador Verificado</span>
+                    <span className="text-[11px] text-gray-600 font-medium">Comprador Verified</span>
                   </div>
                 </div>
                 <p className="text-sm text-gray-700 leading-relaxed">
@@ -66,7 +66,7 @@ export default function VideoReviews() {
                   <span className="text-sm font-medium text-gray-900">Bri N,</span>
                   <div className="flex items-center gap-1 bg-gray-100 px-2 py-0.5 rounded-full">
                     <CheckCircle2 className="w-3 h-3 text-[#c084fc] fill-current" />
-                    <span className="text-[11px] text-gray-600 font-medium">Comprador Verificado</span>
+                    <span className="text-[11px] text-gray-600 font-medium">Comprador Verified</span>
                   </div>
                 </div>
                 <p className="text-sm text-gray-700 leading-relaxed">
@@ -92,7 +92,7 @@ export default function VideoReviews() {
                   <span className="text-sm font-medium text-gray-900">Dana A,</span>
                   <div className="flex items-center gap-1 bg-gray-100 px-2 py-0.5 rounded-full">
                     <CheckCircle2 className="w-3 h-3 text-[#c084fc] fill-current" />
-                    <span className="text-[11px] text-gray-600 font-medium">Comprador Verificado</span>
+                    <span className="text-[11px] text-gray-600 font-medium">Comprador Verified</span>
                   </div>
                 </div>
                 <p className="text-sm text-gray-700 leading-relaxed">

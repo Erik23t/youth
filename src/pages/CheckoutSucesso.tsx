@@ -96,7 +96,7 @@ export default function CheckoutSucesso() {
           cursor: 'pointer'
         }}
       >
-        VOLTAR À LOJA
+        BACK TO STORE
       </button>
     </div>
   )
@@ -109,7 +109,7 @@ export default function CheckoutSucesso() {
     <div style={{ textAlign: 'center', padding: '80px 20px', maxWidth: '600px', margin: '0 auto' }}>
       <div style={{ fontSize: '64px', marginBottom: '16px' }}>🎉</div>
       <h1 style={{ color: '#1a0533', fontSize: '28px', marginBottom: '8px' }}>
-        Pedido Confirmado!
+        Order Confirmed!
       </h1>
       <p style={{ color: '#10b981', fontSize: '20px', fontWeight: 'bold', marginBottom: '8px' }}>
         ✅ Pagamento aprovado

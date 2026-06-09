@@ -56,7 +56,7 @@ export default function Contato() {
       <div style={{ minHeight: 'calc(100vh - 60px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '32px' }}>
         <div style={{ textAlign: 'center', maxWidth: '400px' }}>
           <div style={{ fontSize: '48px', marginBottom: '16px' }}>💬</div>
-          <h2 style={{ color: '#7c3aed', marginBottom: '8px' }}>Fale Conosco</h2>
+          <h2 style={{ color: '#7c3aed', marginBottom: '8px' }}>Contact Us</h2>
           <p style={{ color: '#6b7280', marginBottom: '24px' }}>Faca login para enviar uma mensagem para nossa equipe.</p>
           <a href="/" style={{ display: 'inline-block', background: '#7c3aed', color: '#fff', padding: '14px 32px', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold' }}>FAZER LOGIN</a>
         </div>
@@ -68,21 +68,21 @@ export default function Contato() {
     <div style={{ minHeight: '100vh', background: '#faf9ff' }}>
       <PageHeader />
       <div style={{ maxWidth: '800px', margin: '0 auto', padding: '60px 24px', fontFamily: 'Georgia, serif' }}>
-        <h1 style={{ color: '#7c3aed', fontSize: '28px', marginBottom: '8px' }}>💬 Fale Conosco</h1>
+        <h1 style={{ color: '#7c3aed', fontSize: '28px', marginBottom: '8px' }}>💬 Contact Us</h1>
         <p style={{ color: '#6b7280', marginBottom: '40px' }}>Ola, {user.name || user.email}! Respondemos em ate 24h.</p>
         <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: '12px', padding: '32px', marginBottom: '40px' }}>
-          <h2 style={{ fontSize: '18px', marginBottom: '20px', color: '#111' }}>Nova Mensagem</h2>
+          <h2 style={{ fontSize: '18px', marginBottom: '20px', color: '#111' }}>Nova Message</h2>
           <form onSubmit={handleEnviar}>
             <div style={{ marginBottom: '16px' }}>
-              <input type="text" value={subject} onChange={e => setSubject(e.target.value)} placeholder="Assunto (opcional)" style={{ width: '100%', padding: '12px', border: '1px solid #e5e7eb', borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box' }} />
+              <input type="text" value={subject} onChange={e => setSubject(e.target.value)} placeholder="Subject (opcional)" style={{ width: '100%', padding: '12px', border: '1px solid #e5e7eb', borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box' }} />
             </div>
             <div style={{ marginBottom: '16px' }}>
               <textarea value={message} onChange={e => setMessage(e.target.value)} placeholder="Como podemos ajudar?" required rows={4} style={{ width: '100%', padding: '12px', border: '1px solid #e5e7eb', borderRadius: '8px', fontSize: '14px', resize: 'vertical', boxSizing: 'border-box' }} />
             </div>
             {erro && <p style={{ color: '#ef4444', fontSize: '14px', marginBottom: '12px' }}>{erro}</p>}
-            {enviado && <p style={{ color: '#10b981', fontSize: '14px', marginBottom: '12px' }}>Mensagem enviada!</p>}
+            {enviado && <p style={{ color: '#10b981', fontSize: '14px', marginBottom: '12px' }}>Message enviada!</p>}
             <button type="submit" disabled={loading || !message.trim()} style={{ background: loading ? '#9ca3af' : '#7c3aed', color: '#fff', border: 'none', borderRadius: '8px', padding: '14px 32px', fontSize: '16px', fontWeight: 'bold', cursor: loading ? 'not-allowed' : 'pointer' }}>
-              {loading ? 'Enviando...' : 'ENVIAR'}
+              {loading ? 'Enviando...' : 'SEND'}
             </button>
           </form>
         </div>

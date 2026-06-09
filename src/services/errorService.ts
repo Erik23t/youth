@@ -1,25 +1,25 @@
 export type ErrorContext = 'carrinho' | 'pagamento' | 'auth' | 'cupom' | 'pedido' | 'rede' | 'geral'
 
 const MENSAGENS: Record<string, string> = {
-  'Failed to fetch': 'Erro de conexao. Verifique sua internet.',
-  'NetworkError':    'Erro de conexao. Verifique sua internet.',
-  'Load failed':     'Erro de conexao. Verifique sua internet.',
-  '401':             'Sessao expirada. Faca login novamente.',
-  '403':             'Acesso negado.',
-  '404':             'Recurso nao encontrado.',
-  '429':             'Muitas tentativas. Aguarde alguns segundos.',
-  '500':             'Erro interno do servidor. Tente novamente.',
-  '503':             'Servico temporariamente indisponivel.',
+  'Failed to fetch': 'Connection error. Check your internet.',
+  'NetworkError':    'Connection error. Check your internet.',
+  'Load failed':     'Connection error. Check your internet.',
+  '401':             'Session expired. Please log in again.',
+  '403':             'Access denied.',
+  '404':             'Resource not found.',
+  '429':             'Too many attempts. Wait a few seconds.',
+  '500':             'Internal server error. Try again.',
+  '503':             'Service temporarily unavailable.',
 }
 
 const CONTEXTO: Record<ErrorContext, string> = {
-  carrinho:  'Erro ao atualizar o carrinho.',
-  pagamento: 'Erro ao processar o pagamento. Tente novamente.',
-  auth:      'Erro de autenticacao. Faca login novamente.',
-  cupom:     'Nao foi possivel aplicar o cupom.',
-  pedido:    'Erro ao carregar pedido.',
-  rede:      'Erro de conexao.',
-  geral:     'Algo deu errado. Tente novamente.',
+  carrinho:  'Error updating cart.',
+  pagamento: 'Error processing payment. Try again.',
+  auth:      'Authentication error. Please log in again.',
+  cupom:     'Could not apply coupon.',
+  pedido:    'Error loading order.',
+  rede:      'Connection error.',
+  geral:     'Something went wrong. Try again.',
 }
 
 function resolverMensagem(err: unknown, context: ErrorContext): string {
@@ -78,7 +78,7 @@ export async function withRetry<T>(
       const isNetwork = err instanceof Error &&
         (err.message.includes('fetch') || err.message.includes('Network') || err.message.includes('Load failed'))
       if (isNetwork === false || i === tentativas - 1) throw err
-      mostrarToast('Erro de conexao. Tentando novamente (' + (i + 1) + '/' + (tentativas - 1) + ')...', 'aviso')
+      mostrarToast('Connection error. Tentando novamente (' + (i + 1) + '/' + (tentativas - 1) + ')...', 'aviso')
       await new Promise(r => setTimeout(r, delayMs * (i + 1)))
     }
   }

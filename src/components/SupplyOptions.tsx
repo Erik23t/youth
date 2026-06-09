@@ -36,7 +36,7 @@ export default function SupplyOptions({
             />
             <div>
               <div className="text-xs text-gray-500">1 frasco</div>
-              <div className="text-base font-medium text-gray-800">Suprimento para 1 mês</div>
+              <div className="text-base font-medium text-gray-800">1-Month Supply</div>
             </div>
           </div>
           <div className="text-right flex flex-col items-end">
@@ -67,7 +67,7 @@ export default function SupplyOptions({
             />
             <div>
               <div className="text-xs text-gray-500">2 frascos</div>
-              <div className="text-base font-medium text-gray-800">Suprimento para 3 meses</div>
+              <div className="text-base font-medium text-gray-800">3-Month Supply</div>
             </div>
           </div>
           <div className="text-right flex flex-col items-end">
@@ -108,7 +108,7 @@ export default function SupplyOptions({
             />
             <div>
               <div className="text-xs text-gray-500">3 frascos</div>
-              <div className="text-base font-medium text-gray-800">Suprimento para 6 meses</div>
+              <div className="text-base font-medium text-gray-800">6-Month Supply</div>
             </div>
           </div>
           <div className="text-right flex flex-col items-end">

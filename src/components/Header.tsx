@@ -20,17 +20,17 @@ export default function Header({
       {/* Top Banner */}
       <div className="bg-black text-white text-[10px] md:text-xs py-2 overflow-hidden whitespace-nowrap flex items-center">
         <div className="animate-marquee inline-block font-medium tracking-wider">
-          <span className="mx-6 md:mx-10">⚠️ Estoque Baixo — Garanta o Seu Antes que Acabe</span>
+          <span className="mx-6 md:mx-10">⚠️ Low Stock — Get Yours Before It's Gone</span>
           <span className="mx-2 text-gray-400">•</span>
-          <span className="mx-6 md:mx-10">Últimas Unidades Disponíveis — Frete Grátis + Garantia de 1 Ano</span>
+          <span className="mx-6 md:mx-10">Last Units Available — Free Shipping + 1-Year Guarantee</span>
           <span className="mx-2 text-gray-400">•</span>
-          <span className="mx-6 md:mx-10">⚠️ Estoque Baixo — Garanta o Seu Antes que Acabe</span>
+          <span className="mx-6 md:mx-10">⚠️ Low Stock — Get Yours Before It's Gone</span>
           <span className="mx-2 text-gray-400">•</span>
-          <span className="mx-6 md:mx-10">Últimas Unidades Disponíveis — Frete Grátis + Garantia de 1 Ano</span>
+          <span className="mx-6 md:mx-10">Last Units Available — Free Shipping + 1-Year Guarantee</span>
           <span className="mx-2 text-gray-400">•</span>
-          <span className="mx-6 md:mx-10">⚠️ Estoque Baixo — Garanta o Seu Antes que Acabe</span>
+          <span className="mx-6 md:mx-10">⚠️ Low Stock — Get Yours Before It's Gone</span>
           <span className="mx-2 text-gray-400">•</span>
-          <span className="mx-6 md:mx-10">Últimas Unidades Disponíveis — Frete Grátis + Garantia de 1 Ano</span>
+          <span className="mx-6 md:mx-10">Last Units Available — Free Shipping + 1-Year Guarantee</span>
           <span className="mx-2 text-gray-400">•</span>
         </div>
       </div>
@@ -45,13 +45,13 @@ export default function Header({
         </div>
 
         <nav className="hidden lg:flex flex-1 space-x-6 text-[11px] font-semibold text-gray-500 tracking-wider">
-          <a href="#lar" className="hover:text-gray-900 transition-colors">LAR</a>
-          <a href="#comprar" className="hover:text-gray-900 transition-colors">COMPRAR</a>
-          <a href="#depoimentos" className="hover:text-gray-900 transition-colors">DEPOIMENTOS</a>
-          <a href="#contato" className="hover:text-gray-900 transition-colors">CONTATO</a>
-          <a href="/contato" className="hover:text-gray-900 transition-colors">FALE CONOSCO</a>
-          <a href="/acompanhe-seu-pedido" className="hover:text-gray-900 transition-colors">ACOMPANHE SEU PEDIDO</a>
-          <a href="/minha-conta" className="hover:text-gray-900 transition-colors">GERENCIAR ASSINATURA</a>
+          <a href="#lar" className="hover:text-gray-900 transition-colors">HOME</a>
+          <a href="#comprar" className="hover:text-gray-900 transition-colors">SHOP</a>
+          <a href="#depoimentos" className="hover:text-gray-900 transition-colors">REVIEWS</a>
+          <a href="#contato" className="hover:text-gray-900 transition-colors">CONTACT</a>
+          <a href="/contato" className="hover:text-gray-900 transition-colors">CONTACT US</a>
+          <a href="/acompanhe-seu-pedido" className="hover:text-gray-900 transition-colors">TRACK ORDER</a>
+          <a href="/minha-conta" className="hover:text-gray-900 transition-colors">MANAGE SUBSCRIPTION</a>
         </nav>
 
         <div className="text-3xl font-serif font-bold tracking-tighter text-center flex-1 lg:flex-none">Zylumia</div>
@@ -71,13 +71,13 @@ export default function Header({
                 onClick={onLogout}
                 className="text-xs text-red-500 hover:text-red-700 font-bold transition-colors hidden md:inline-block"
               >
-                Sair
+                Log out
               </button>
             </div>
           ) : (
             <button
               onClick={onOpenAuth}
-              aria-label="Fazer login"
+              aria-label="Log in"
               className="relative cursor-pointer hover:text-gray-900 transition-colors text-gray-600"
             >
               <User className="w-5 h-5" />
@@ -101,7 +101,7 @@ export default function Header({
 
           {/* Cart Icon */}
           <button
-            aria-label="Abrir carrinho"
+            aria-label="Open cart"
             className="relative cursor-pointer hover:text-gray-900 transition-colors"
             onClick={onOpenCart}
           >
@@ -130,13 +130,13 @@ export default function Header({
               />
             </div>
             <nav className="flex flex-col p-4 space-y-6 text-sm font-semibold text-gray-700 tracking-wider">
-              <a href="#lar" className="hover:text-[#841dc5] transition-colors" onClick={() => setIsMobileMenuOpen(false)}>LAR</a>
-              <a href="#comprar" className="hover:text-[#841dc5] transition-colors" onClick={() => setIsMobileMenuOpen(false)}>COMPRAR</a>
-              <a href="#depoimentos" className="hover:text-[#841dc5] transition-colors" onClick={() => setIsMobileMenuOpen(false)}>DEPOIMENTOS</a>
-              <a href="#contato" className="hover:text-[#841dc5] transition-colors" onClick={() => setIsMobileMenuOpen(false)}>CONTATO</a>
-              <a href="/contato" className="hover:text-[#841dc5] transition-colors" onClick={() => setIsMobileMenuOpen(false)}>FALE CONOSCO</a>
-              <a href="/acompanhe-seu-pedido" className="hover:text-[#841dc5] transition-colors" onClick={() => setIsMobileMenuOpen(false)}>ACOMPANHE SEU PEDIDO</a>
-              <a href="/minha-conta" className="hover:text-[#841dc5] transition-colors" onClick={() => setIsMobileMenuOpen(false)}>GERENCIAR ASSINATURA</a>
+              <a href="#lar" className="hover:text-[#841dc5] transition-colors" onClick={() => setIsMobileMenuOpen(false)}>HOME</a>
+              <a href="#comprar" className="hover:text-[#841dc5] transition-colors" onClick={() => setIsMobileMenuOpen(false)}>SHOP</a>
+              <a href="#depoimentos" className="hover:text-[#841dc5] transition-colors" onClick={() => setIsMobileMenuOpen(false)}>REVIEWS</a>
+              <a href="#contato" className="hover:text-[#841dc5] transition-colors" onClick={() => setIsMobileMenuOpen(false)}>CONTACT</a>
+              <a href="/contato" className="hover:text-[#841dc5] transition-colors" onClick={() => setIsMobileMenuOpen(false)}>CONTACT US</a>
+              <a href="/acompanhe-seu-pedido" className="hover:text-[#841dc5] transition-colors" onClick={() => setIsMobileMenuOpen(false)}>TRACK ORDER</a>
+              <a href="/minha-conta" className="hover:text-[#841dc5] transition-colors" onClick={() => setIsMobileMenuOpen(false)}>MANAGE SUBSCRIPTION</a>
             </nav>
           </div>
         </div>

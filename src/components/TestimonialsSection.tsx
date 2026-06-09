@@ -74,7 +74,7 @@ export default function TestimonialsSection({ depoimentos, onOpenVideo }: Testim
                     {review.verified && (
                       <div className="flex items-center gap-1 bg-purple-50 rounded-full px-2 py-0.5">
                         <CheckCircle2 className="w-3 h-3 text-[#7e3fb0]" />
-                        <span className="text-[10px] text-[#7e3fb0] font-medium uppercase tracking-wider">Comprador Verificado</span>
+                        <span className="text-[10px] text-[#7e3fb0] font-medium uppercase tracking-wider">Comprador Verified</span>
                       </div>
                     )}
                   </div>

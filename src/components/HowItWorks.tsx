@@ -4,16 +4,16 @@ export default function HowItWorks() {
     <section className="max-w-[1200px] mx-auto px-4 md:px-12 py-16 md:py-24">
       <div className="grid md:grid-cols-2 gap-12 items-center">
         <div className="order-2 md:order-1">
-          <h2 className="text-3xl md:text-4xl font-serif text-gray-900 mb-12 text-center md:text-left">Como funciona</h2>
+          <h2 className="text-3xl md:text-4xl font-serif text-gray-900 mb-12 text-center md:text-left">How It Works</h2>
 
           <div className="relative border-l-2 border-[#f3e8ff] ml-3 md:ml-4 space-y-10 pb-4">
             {/* Step 1 */}
             <div className="relative pl-8">
               <div className="absolute -left-[11px] top-1 w-5 h-5 rounded-full bg-[#841dc5] border-4 border-[#f3e8ff]"></div>
-              <span className="inline-block bg-[#841dc5] text-white px-3 py-1 rounded-full text-xs font-bold mb-3">Semana 1</span>
-              <h3 className="text-lg font-medium text-[#24283b] mb-2">Penetrar e atingir o alvo</h3>
+              <span className="inline-block bg-[#841dc5] text-white px-3 py-1 rounded-full text-xs font-bold mb-3">Week 1</span>
+              <h3 className="text-lg font-medium text-[#24283b] mb-2">Penetrate and target</h3>
               <p className="text-sm text-gray-600 leading-relaxed">
-                O extrato de Cyperus rotundus é absorvido profundamente pela pele, atingindo os folículos capilares diretamente na raiz, onde o crescimento do cabelo realmente começa.
+                Cyperus rotundus extract is deeply absorbed into the skin, reaching hair follicles directly at the root, where hair growth actually begins.
               </p>
             </div>
 

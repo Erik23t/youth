@@ -332,7 +332,7 @@ function PaginaPrincipal({ produto = zylumiaSérum }: { produto?: ProductData })
 export default function App() {
   return (
     <BrowserRouter>
-      <Suspense fallback={<div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',fontSize:'14px',color:'#7c3aed'}}>Carregando...</div>}>
+      <Suspense fallback={<div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',fontSize:'14px',color:'#7c3aed'}}>Loading...</div>}>
       <Routes>
         <Route path="/"                        element={<PaginaPrincipal produto={zylumiaSérum} />} />
         <Route path={templateProduto.rota}     element={<PaginaPrincipal produto={templateProduto} />} />

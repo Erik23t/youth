@@ -11,7 +11,7 @@ export default function StepsSection() {
           {/* Step 1 */}
           <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col">
             <div className="aspect-square overflow-hidden">
-              <img src="https://imagens.zylumia.com/cyperus7.png" alt="Passo 1" className="w-full h-full object-cover" loading="lazy" />
+              <img src="https://imagens.zylumia.com/cyperus7.png" alt="Step 1" className="w-full h-full object-cover" loading="lazy" />
             </div>
             <div className="p-6 md:p-8 flex-grow flex flex-col">
               <div className="flex items-start gap-4 mb-4">
@@ -27,7 +27,7 @@ export default function StepsSection() {
           {/* Step 2 */}
           <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col">
             <div className="aspect-square overflow-hidden">
-              <img src="https://imagens.zylumia.com/cyperus8.png" alt="Passo 2" className="w-full h-full object-cover" loading="lazy" />
+              <img src="https://imagens.zylumia.com/cyperus8.png" alt="Step 2" className="w-full h-full object-cover" loading="lazy" />
             </div>
             <div className="p-6 md:p-8 flex-grow flex flex-col">
               <div className="flex items-start gap-4 mb-4">
@@ -35,7 +35,7 @@ export default function StepsSection() {
                 <h3 className="text-lg font-medium text-gray-900 mt-1">Seque completamente com leves batidinhas.</h3>
               </div>
               <p className="text-sm text-gray-600 leading-relaxed">
-                Aplique o sérum suavemente na área tratada, dando leves batidinhas até que esteja completamente seca. O sérum é melhor absorvido pela pele seca, para máxima eficácia.
+                Apply the serum suavemente na área tratada, dando leves batidinhas até que esteja completamente seca. O sérum é melhor absorvido pela pele seca, para máxima eficácia.
               </p>
             </div>
           </div>
@@ -43,7 +43,7 @@ export default function StepsSection() {
           {/* Step 3 */}
           <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col">
             <div className="aspect-square overflow-hidden">
-              <img src="https://imagens.zylumia.com/cyperus9.png" alt="Passo 3" className="w-full h-full object-cover" loading="lazy" />
+              <img src="https://imagens.zylumia.com/cyperus9.png" alt="Step 3" className="w-full h-full object-cover" loading="lazy" />
             </div>
             <div className="p-6 md:p-8 flex-grow flex flex-col">
               <div className="flex items-start gap-4 mb-4">
