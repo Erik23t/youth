@@ -118,8 +118,8 @@ export default function ProductDetails({
         purchaseType={purchaseType}
         onSelectMonths={onSelectMonths}
         preco1mes={produto.preco1mes}
-        preco3months={produto.preco3mes}
-        preco6months={produto.preco6mes}
+        preco3meses={produto.preco3mes}
+        preco6meses={produto.preco6mes}
         mainImage=""
       />
 
