@@ -707,7 +707,7 @@ export default function Checkout() {
           <div style={{ textAlign: 'center', marginBottom: '12px', fontSize: '14px', color: '#374151' }}>
             Pagamento expresso
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: expressAvailable ? '1fr 1fr' : '1fr', gap: '10px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             <ZylumiaPayPalButton
               produto={{
                 name: cart.items.reduce((acc: number, item: any) => acc + (item.qty || item.quantity || 1), 0) === 1 ? cart.items[0].name : `${cart.items.reduce((acc: number, item: any) => acc + (item.qty || item.quantity || 1), 0)} itens (Zylumia)`,
