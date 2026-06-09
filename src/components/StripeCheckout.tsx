@@ -85,10 +85,10 @@ const CheckoutFormInner = forwardRef<any, any>(({ customerPhone, customerName: c
             <CardNumberElement options={elementStyle} />
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
-            <div style={{ padding: '11px 12px', background: '#fff', borderRight: '1px solid #d1d5db', minHeight: '44px', display: 'flex', alignItems: 'center' }}>
+            <div style={{ padding: '11px 12px', background: '#fff', borderRight: '1px solid #d1d5db', minHeight: '44px' }}>
               <CardExpiryElement options={elementStyle} />
             </div>
-            <div style={{ padding: '11px 12px', background: '#fff', minHeight: '44px', display: 'flex', alignItems: 'center' }}>
+            <div style={{ padding: '11px 12px', background: '#fff', minHeight: '44px' }}>
               <CardCvcElement options={elementStyle} />
             </div>
           </div>
