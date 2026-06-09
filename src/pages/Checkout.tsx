@@ -257,7 +257,7 @@ const ReviewsAndGuarantees = () => (
     {/* Guarantees with purple icons */}
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       <div style={{ display: 'flex', gap: '16px' }}>
-        <div style={{ color: '#c084fc', flexShrink: 0 }}>
+        <div style={{ color: '#111', flexShrink: 0 }}>
           <ShieldCheck size={40} strokeWidth={1.5} />
         </div>
         <div>
@@ -267,7 +267,7 @@ const ReviewsAndGuarantees = () => (
       </div>
 
       <div style={{ display: 'flex', gap: '16px' }}>
-        <div style={{ color: '#c084fc', flexShrink: 0 }}>
+        <div style={{ color: '#111', flexShrink: 0 }}>
           <Truck size={40} strokeWidth={1.5} />
         </div>
         <div>
@@ -277,7 +277,7 @@ const ReviewsAndGuarantees = () => (
       </div>
 
       <div style={{ display: 'flex', gap: '16px' }}>
-        <div style={{ color: '#c084fc', flexShrink: 0 }}>
+        <div style={{ color: '#111', flexShrink: 0 }}>
           <Users size={40} strokeWidth={1.5} />
         </div>
         <div>
@@ -698,7 +698,7 @@ export default function Checkout() {
       {/* MOBILE HEADER - logo + breadcrumb + PayPal */}
       <div className="mobile-header">
         <div style={{ textAlign: 'center', marginBottom: '8px' }}>
-          <h1 style={{ fontSize: '28px', fontWeight: 'bold', color: '#7c3aed', margin: 0, fontFamily: 'Georgia, serif' }}>Zylumia</h1>
+          <h1 style={{ fontSize: '28px', fontWeight: 'bold', color: '#000', margin: 0, fontFamily: 'Georgia, serif' }}>Zylumia</h1>
         </div>
         <div style={{ textAlign: 'center', fontSize: '12px', color: '#6b7280', marginBottom: '16px' }}>
           Carrinho &gt; <span style={{ color: '#374151', fontWeight: 500 }}>Informações</span> &gt; Pagamento
@@ -746,7 +746,7 @@ export default function Checkout() {
         {/* COLUNA ESQUERDA (formulário) */}
         <div className="left-col">
           <div className="left-col-header" style={{ marginBottom: '24px' }}>
-            <h1 style={{ fontSize: '28px', fontWeight: 'bold', color: '#7c3aed', margin: 0, fontFamily: 'Georgia, serif' }}>Zylumia</h1>
+            <h1 style={{ fontSize: '28px', fontWeight: 'bold', color: '#000', margin: 0, fontFamily: 'Georgia, serif' }}>Zylumia</h1>
             <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '8px' }}>
               Carrinho &gt; <span style={{ color: '#374151', fontWeight: 500 }}>Informações</span> &gt; Pagamento
             </div>
