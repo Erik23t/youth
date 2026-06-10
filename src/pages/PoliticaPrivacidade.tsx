@@ -18,11 +18,11 @@ const Linha = () => <hr style={s.sep} />;
 export default function PoliticaPrivacidade() {
   return (
     <div style={s.page}>
-      <h1 style={s.title}>Política de Privacidade</h1>
-      <p style={s.updated}>Última atualização: 10 de agosto de 2025</p>
+      <h1 style={s.title}>Privacy Policy</h1>
+      <p style={s.updated}>Last updated: 10 de agosto de 2025</p>
 
       <p style={s.intro}>
-        A Zylumia opera esta loja e site para oferecer uma experiência de compra personalizada. Esta Política descreve como coletamos, utilizamos e divulgamos suas informações pessoais quando você visita ou realiza uma compra em nosso site. Ao utilizar nossos serviços, você confirma que leu e compreendeu esta Política de Privacidade.
+        A Zylumia opera esta loja e site para oferecer uma experiência de compra personalizada. Esta Política descreve como coletamos, utilizamos e divulgamos suas informações pessoais quando você visita ou realiza uma compra em nosso site. Ao utilizar nossos serviços, você confirma que leu e compreendeu esta Privacy Policy.
       </p>
 
       <h2 style={s.h2}>Informações Pessoais que Coletamos</h2>

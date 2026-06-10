@@ -28,7 +28,7 @@ export default function StatsSection({ showStats }: StatsSectionProps) {
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">Menos</h3>
               <p className="text-gray-600 text-sm max-w-[250px] mx-auto">
-                Tempo gasto em rotinas diárias de depilação.
+                Time spent on daily hair removal routines.
               </p>
             </div>
             <div className="flex flex-col items-center pt-8 md:pt-0">
@@ -37,14 +37,14 @@ export default function StatsSection({ showStats }: StatsSectionProps) {
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">Clientes</h3>
               <p className="text-gray-600 text-sm max-w-[250px] mx-auto">
-                Jogaram fora suas lâminas de barbear e pinças para sempre.
+                Threw away their razors and tweezers forever.
               </p>
             </div>
             <div className="flex flex-col items-center pt-8 md:pt-0">
               <div className="text-5xl md:text-6xl font-serif font-bold text-[#841dc5] mb-4">
                 <AnimatedNumber end={93} suffix="%" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Relatório</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Report</h3>
               <p className="text-gray-600 text-sm max-w-[250px] mx-auto">
                 Um crescimento mais suave e menos resistente em poucas semanas.
               </p>

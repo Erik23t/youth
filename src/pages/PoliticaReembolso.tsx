@@ -59,7 +59,7 @@ const estilos = {
   }
 };
 
-function RodapeContato({ mensagem }: { mensagem: string }) {
+function RodapeContact({ mensagem }: { mensagem: string }) {
   return (
     <div style={{ 
       background: '#f9f6ff', border: '1px solid #ede9fe',
@@ -76,11 +76,11 @@ function RodapeContato({ mensagem }: { mensagem: string }) {
   );
 }
 
-export default function PoliticaReembolso() {
+export default function PoliticaRefund() {
   return (
     <div style={estilos.pagina}>
-      <h1 style={estilos.titulo}>Devoluções e Reembolsos</h1>
-      <p style={estilos.dataAtualizacao}>Última atualização: março de 2026</p>
+      <h1 style={estilos.titulo}>Devoluções e Refunds</h1>
+      <p style={estilos.dataAtualizacao}>Last updated: março de 2026</p>
 
       <div style={estilos.atencao}>
         ⚠️ ATENÇÃO: Não oferecemos devoluções com frete gratuito. Os custos 
@@ -128,12 +128,12 @@ export default function PoliticaReembolso() {
 
       <div style={estilos.separador} />
 
-      <h2 style={estilos.secaoTitulo}>3. Como Iniciar uma Devolução</h2>
+      <h2 style={estilos.secaoTitulo}>3. Como Iniciar uma Return</h2>
       {[
         { passo: 'Passo 1', titulo: 'Envie um e-mail para zylumiaa@gmail.com com:', itens: ['Número do pedido', 'Motivo da devolução', 'Lista dos produtos (com fotos se possível)', 'Comprovante de entrega'] },
         { passo: 'Passo 2', titulo: 'Aguarde a autorização', desc: 'Analisaremos sua solicitação e responderemos em até 2 dias úteis com as instruções completas.' },
         { passo: 'Passo 3', titulo: 'Envie o produto com rastreamento', desc: 'Após a autorização, embale o produto com cuidado e envie com serviço de rastreamento.' },
-        { passo: 'Passo 4', titulo: 'Reembolso processado', desc: 'Após recebermos e verificarmos o produto, processamos o reembolso em até 14 dias úteis.' },
+        { passo: 'Passo 4', titulo: 'Refund processado', desc: 'Após recebermos e verificarmos o produto, processamos o reembolso em até 14 dias úteis.' },
       ].map((item, i) => (
         <div key={i} style={{ marginBottom: '16px', padding: '16px 20px', background: '#f9f6ff', borderRadius: '8px', borderLeft: '4px solid #7c3aed' }}>
           <div style={{ color: '#7c3aed', fontWeight: 'bold', marginBottom: '4px' }}>{item.passo} — {item.titulo}</div>
@@ -150,14 +150,14 @@ export default function PoliticaReembolso() {
 
       <div style={estilos.separador} />
 
-      <h2 style={estilos.secaoTitulo}>4. Prazos de Reembolso</h2>
+      <h2 style={estilos.secaoTitulo}>4. Prazos de Refund</h2>
       <ul style={{ color: '#555', lineHeight: '2', fontSize: '15px', paddingLeft: '20px' }}>
         <li><strong>Cartão de crédito/débito:</strong> até 14 dias úteis após recebermos a devolução.</li>
         <li><strong>PayPal:</strong> até 5 dias úteis após recebermos a devolução.</li>
         <li><strong>Transferência bancária:</strong> até 3 dias úteis após recebermos a devolução.</li>
       </ul>
 
-      <RodapeContato mensagem="Dúvidas sobre devolução ou reembolso? Entre em contato com o número do seu pedido. Respondemos em até 24 horas úteis." />
+      <RodapeContact mensagem="Dúvidas sobre devolução ou reembolso? Entre em contato com o número do seu pedido. Respondemos em até 24 horas úteis." />
     </div>
   );
 }

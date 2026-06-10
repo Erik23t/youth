@@ -49,7 +49,7 @@ export default function CartSidebar({
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
                   </span>
-                  Your cart está reservado!
+                  Your cart is reserved!
                 </span>
                 <span className="font-mono font-bold text-red-600 bg-red-50 px-2 py-1 rounded text-sm border border-red-100">
                   {formatTime(timeLeft)}
@@ -67,7 +67,7 @@ export default function CartSidebar({
           {cartItems.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-gray-500 space-y-4">
               <ShoppingCart className="w-12 h-12 opacity-20" />
-              <p>Your cart está vazio.</p>
+              <p>Your cart is empty.</p>
               <button
                 onClick={onClose}
                 className="mt-4 border border-gray-300 text-gray-900 px-6 py-2 rounded-sm text-sm font-bold hover:bg-gray-50 transition-colors"
@@ -96,7 +96,7 @@ export default function CartSidebar({
                       <div className="flex items-center border border-gray-200 rounded-sm px-3 py-1">
                         <span className="text-sm font-medium">{item.quantity || item.qty || 1}</span>
                       </div>
-                      <p className="text-sm font-bold">$ {item.price.toFixed(2).replace('.', ',')}</p>
+                      <p className="text-sm font-bold">$ {item.price.toFixed(2).replace('.','.')}</p>
                     </div>
                   </div>
                 </div>
@@ -110,12 +110,12 @@ export default function CartSidebar({
           <div className="p-4 border-t border-gray-100 bg-gray-50">
             <div className="flex justify-between text-sm mb-2 text-gray-600">
               <span>Subtotal</span>
-              <span>US$ {cartItems.reduce((acc, item) => acc + (item.price * (item.quantity || item.qty || 1)), 0).toFixed(2).replace('.', ',')}</span>
+              <span>US$ {cartItems.reduce((acc, item) => acc + (item.price * (item.quantity || item.qty || 1)), 0).toFixed(2).replace('.','.')}</span>
             </div>
             {appliedCoupon && (
               <div className="flex justify-between text-sm mb-2 text-green-600">
                 <span>Discount (10%)</span>
-                <span>- US$ {discountAmount.toFixed(2).replace('.', ',')}</span>
+                <span>- US$ {discountAmount.toFixed(2).replace('.','.')}</span>
               </div>
             )}
             <div className="flex justify-between text-sm mb-4 text-gray-600">
@@ -127,17 +127,17 @@ export default function CartSidebar({
             </div>
             <div className="flex justify-between font-bold text-lg mb-3 pt-3 border-t border-gray-200 text-gray-900">
               <span>Total</span>
-              <span>US$ {(cartItems.reduce((acc, item) => acc + (item.price * (item.quantity || item.qty || 1)), 0) - discountAmount).toFixed(2).replace('.', ',')}</span>
+              <span>US$ {(cartItems.reduce((acc, item) => acc + (item.price * (item.quantity || item.qty || 1)), 0) - discountAmount).toFixed(2).replace('.','.')}</span>
             </div>
 
             <button
               onClick={onCheckout}
               className="w-full bg-[#841dc5] hover:bg-[#6a179e] text-white py-4 rounded-sm text-base font-bold transition-colors tracking-wider"
             >
-              CHECKOUT — US$ {(cartItems.reduce((acc, item) => acc + (item.price * (item.quantity || item.qty || 1)), 0) - discountAmount).toFixed(2).replace('.', ',')}
+              CHECKOUT — US$ {(cartItems.reduce((acc, item) => acc + (item.price * (item.quantity || item.qty || 1)), 0) - discountAmount).toFixed(2).replace('.','.')}
             </button>
 
-            {/* 365-Day Guarantee + Payments — layout compacto */}
+            {/* 365-Day Guarantee + Payments — compact layout */}
             <div style={{ marginTop: '8px', textAlign: 'center' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px', marginBottom: '6px' }}>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

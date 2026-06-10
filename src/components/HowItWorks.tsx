@@ -30,20 +30,20 @@ export default function HowItWorks() {
             {/* Step 3 */}
             <div className="relative pl-8">
               <div className="absolute -left-[11px] top-1 w-5 h-5 rounded-full bg-[#841dc5] border-4 border-[#f3e8ff]"></div>
-              <span className="inline-block bg-[#841dc5] text-white px-3 py-1 rounded-full text-xs font-bold mb-3">1 Mês</span>
+              <span className="inline-block bg-[#841dc5] text-white px-3 py-1 rounded-full text-xs font-bold mb-3">1 Month</span>
               <h3 className="text-lg font-medium text-[#24283b] mb-2">Suavizar e afinar</h3>
               <p className="text-sm text-gray-600 leading-relaxed">
-                O uso contínuo enfraquece o crescimento de novos fios de cabelo, fazendo com que cada ciclo de crescimento produza cabelos mais finos, macios e menos visíveis com o tempo.
+                Continued use weakens new hair strand growth, making each growth cycle produce thinner, softer and less visible hair over time.
               </p>
             </div>
 
             {/* Step 4 */}
             <div className="relative pl-8">
               <div className="absolute -left-[11px] top-1 w-5 h-5 rounded-full bg-[#841dc5] border-4 border-[#f3e8ff]"></div>
-              <span className="inline-block bg-[#841dc5] text-white px-3 py-1 rounded-full text-xs font-bold mb-3">3 Meses</span>
+              <span className="inline-block bg-[#841dc5] text-white px-3 py-1 rounded-full text-xs font-bold mb-3">3 Months</span>
               <h3 className="text-lg font-medium text-[#24283b] mb-2">Acalma e protege</h3>
               <p className="text-sm text-gray-600 leading-relaxed">
-                O extrato de hortelã-pimenta proporciona alívio refrescante, enquanto o extrato de limão atenua manchas escuras causadas pela depilação. A vitamina E e o azeite de oliva hidratam e protegem profundamente a pele, prevenindo irritações e mantendo-a macia.
+                Peppermint extract provides refreshing relief, while lemon extract reduces dark spots caused by hair removal. Vitamin E and olive oil deeply moisturize and protect the skin, preventing irritation and keeping it soft.
               </p>
             </div>
           </div>

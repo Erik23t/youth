@@ -62,7 +62,7 @@ export default function AssinaturaSucesso() {
             </div>
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Assinatura Ativa!</h2>
             <p className="text-gray-600 mb-8">
-              Obrigado por assinar Zylumia. Seu pedido será processado e enviado em breve. 
+              Thank you por assinar Zylumia. Seu pedido será processado e enviado em breve. 
               Você receberá um e-mail com os detalhes da sua assinatura.
             </p>
             <a 

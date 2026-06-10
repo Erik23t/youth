@@ -20,7 +20,7 @@ export default function ClinicalResults() {
             <div className="p-6 md:p-8 flex-grow">
               <h3 className="text-lg font-medium text-gray-900 mb-3">Slower Growth</h3>
               <p className="text-sm text-gray-600 leading-relaxed">
-                Ao atingir o pelo na raiz, nosso sérum estende o tempo entre o growth visível, dando aos usuários períodos mais longos de pele lisa.
+                By targeting hair at the root, our serum extends the time between visible growth, giving users longer periods of smooth skin.
               </p>
             </div>
           </div>
@@ -38,7 +38,7 @@ export default function ClinicalResults() {
             <div className="p-6 md:p-8 flex-grow">
               <h3 className="text-lg font-medium text-gray-900 mb-3">Thinner and Softer Hair</h3>
               <p className="text-sm text-gray-600 leading-relaxed">
-                A análise microscópica de 300 amostras de pelos mostrou afinamento significativo dos fios individuais. Os participantes relataram que os pelos ficaram mais macios e menos perceptíveis ao toque.
+                Microscopic analysis of 300 hair samples showed significant thinning of individual strands. Participants reported that hair became softer and less perceptible to the touch.
               </p>
             </div>
           </div>
@@ -50,13 +50,13 @@ export default function ClinicalResults() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
               <div className="absolute bottom-6 left-6 flex flex-col items-start">
                 <AnimatedCircularProgress percentage={78} />
-                <span className="text-white text-sm font-medium drop-shadow-md">reduction na frequência de depilação</span>
+                <span className="text-white text-sm font-medium drop-shadow-md">reduction in hair removal frequency</span>
               </div>
             </div>
             <div className="p-6 md:p-8 flex-grow">
               <h3 className="text-lg font-medium text-gray-900 mb-3">Less Daily Maintenance</h3>
               <p className="text-sm text-gray-600 leading-relaxed">
-                Os participantes passaram da remoção diária/a cada poucos dias para uma manutenção semanal ou menos frequente, reduzindo drasticamente o tempo gasto com pelos indesejados.
+                Participants went from daily/every-few-days removal to weekly or less frequent maintenance, drastically reducing time spent on unwanted hair.
               </p>
             </div>
           </div>

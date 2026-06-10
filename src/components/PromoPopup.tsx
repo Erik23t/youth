@@ -43,7 +43,7 @@ export default function PromoPopup({
           <X className="w-5 h-5" />
         </button>
         <div className="px-10 py-12 text-center">
-          {/* Cronômetro */}
+          {/* Timer */}
           <div className="flex items-center justify-center gap-2 mb-5">
             <div className="flex flex-col items-center">
               <div className="bg-[#841dc5] text-white text-2xl font-bold rounded-lg w-14 h-14 flex items-center justify-center font-mono">

@@ -42,11 +42,11 @@ export default function SupplyOptions({
           <div className="text-right flex flex-col items-end">
             {purchaseType === 'subscribe' ? (
               <>
-                <div className="text-[#10b981] font-bold text-lg">US$ {(preco1mes * 0.8).toFixed(2).replace('.', ',')}</div>
-                <div className="text-[11px] text-gray-500 mt-0.5 line-through">US$ {preco1mes.toFixed(2).replace('.', ',')}</div>
+                <div className="text-[#10b981] font-bold text-lg">US$ {(preco1mes * 0.8).toFixed(2)}</div>
+                <div className="text-[11px] text-gray-500 mt-0.5 line-through">US$ {preco1mes.toFixed(2)}</div>
               </>
             ) : (
-              <div className="text-gray-900 font-bold text-lg">US$ {preco1mes.toFixed(2).replace('.', ',')}</div>
+              <div className="text-gray-900 font-bold text-lg">US$ {preco1mes.toFixed(2)}</div>
             )}
           </div>
         </label>
@@ -73,18 +73,18 @@ export default function SupplyOptions({
           <div className="text-right flex flex-col items-end">
             {purchaseType === 'subscribe' ? (
               <>
-                <div className="text-[#10b981] font-bold text-lg">US$ {(preco3meses * 0.8).toFixed(2).replace('.', ',')}</div>
+                <div className="text-[#10b981] font-bold text-lg">US$ {(preco3meses * 0.8).toFixed(2)}</div>
                 <div className="text-[11px] text-gray-600 mt-0.5 flex flex-col items-end">
-                  <span className="line-through">US$ {preco3meses.toFixed(2).replace('.', ',')}</span>
-                  <span className="text-[#841dc5] font-medium">US$ {((preco3meses * 0.8) / 3).toFixed(2).replace('.', ',')}/mês</span>
+                  <span className="line-through">US$ {preco3meses.toFixed(2)}</span>
+                  <span className="text-[#841dc5] font-medium">US$ {((preco3meses * 0.8) / 3).toFixed(2)}/month</span>
                 </div>
               </>
             ) : (
               <>
-                <div className="text-gray-900 font-bold text-lg">US$ {preco3meses.toFixed(2).replace('.', ',')}</div>
+                <div className="text-gray-900 font-bold text-lg">US$ {preco3meses.toFixed(2)}</div>
                 <div className="text-[11px] text-gray-600 mt-0.5 flex flex-col items-end">
-                  <span className="line-through">US$ {(preco1mes * 3).toFixed(2).replace('.', ',')}</span>
-                  <span className="text-[#841dc5] font-medium">US$ {(preco3meses / 3).toFixed(2).replace('.', ',')}/mês</span>
+                  <span className="line-through">US$ {(preco1mes * 3).toFixed(2)}</span>
+                  <span className="text-[#841dc5] font-medium">US$ {(preco3meses / 3).toFixed(2)}/month</span>
                 </div>
               </>
             )}
@@ -114,18 +114,18 @@ export default function SupplyOptions({
           <div className="text-right flex flex-col items-end">
             {purchaseType === 'subscribe' ? (
               <>
-                <div className="text-[#10b981] font-bold text-lg">US$ {(preco6meses * 0.8).toFixed(2).replace('.', ',')}</div>
+                <div className="text-[#10b981] font-bold text-lg">US$ {(preco6meses * 0.8).toFixed(2)}</div>
                 <div className="text-[11px] text-gray-600 mt-0.5 flex flex-col items-end">
-                  <span className="line-through">US$ {preco6meses.toFixed(2).replace('.', ',')}</span>
-                  <span className="text-[#841dc5] font-medium">US$ {((preco6meses * 0.8) / 6).toFixed(2).replace('.', ',')}/mês</span>
+                  <span className="line-through">US$ {preco6meses.toFixed(2)}</span>
+                  <span className="text-[#841dc5] font-medium">US$ {((preco6meses * 0.8) / 6).toFixed(2)}/month</span>
                 </div>
               </>
             ) : (
               <>
-                <div className="text-gray-900 font-bold text-lg">US$ {preco6meses.toFixed(2).replace('.', ',')}</div>
+                <div className="text-gray-900 font-bold text-lg">US$ {preco6meses.toFixed(2)}</div>
                 <div className="text-[11px] text-gray-600 mt-0.5 flex flex-col items-end">
-                  <span className="line-through">US$ {(preco1mes * 6).toFixed(2).replace('.', ',')}</span>
-                  <span className="text-[#841dc5] font-medium">US$ {(preco6meses / 6).toFixed(2).replace('.', ',')}/mês</span>
+                  <span className="line-through">US$ {(preco1mes * 6).toFixed(2)}</span>
+                  <span className="text-[#841dc5] font-medium">US$ {(preco6meses / 6).toFixed(2)}/month</span>
                 </div>
               </>
             )}

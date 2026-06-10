@@ -20,13 +20,13 @@ export default function DoctorSection() {
           <div className="w-16 h-px bg-gray-300 mb-8"></div>
           <div className="space-y-6 text-sm text-gray-600 leading-relaxed">
             <p>
-              Nossa fórmula avançada de Cyperus Rotundus foi clinicamente estudada por suas propriedades inibidoras do crescimento capilar, tornando-a a alternativa natural que os profissionais de saúde realmente recomendam aos seus pacientes.
+              Our advanced Cyperus Rotundus formula has been clinically studied for its hair growth inhibiting properties, making it the natural alternative healthcare professionals actually recommend to their patients.
             </p>
             <p>
-              Ao contrário de produtos químicos agressivos ou tratamentos a laser caros, o Zylumia atua suavemente com os processos naturais da sua pele para diminuir gradualmente o crescimento do pelo, sem irritação ou efeitos colaterais. Milhares de mulheres já descobriram uma pele mais macia e com intervalos maiores entre as sessões de depilação.
+              Unlike harsh chemicals or expensive laser treatments, Zylumia works gently with your skin's natural processes to gradually slow hair growth, without irritation or side effects. Thousands of women have already discovered smoother skin and longer intervals between hair removal sessions.
             </p>
             <p>
-              Junte-se à crescente comunidade de mulheres confiantes que optaram por usar inibidores de pelos de nível profissional em casa.
+              Join the growing community of confident women who have chosen to use professional-grade hair inhibitors at home.
             </p>
           </div>
         </div>

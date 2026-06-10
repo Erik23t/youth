@@ -151,7 +151,7 @@ export default function CheckoutSucesso() {
             cursor: 'pointer'
           }}
         >
-          CONTINUAR COMPRANDO
+          CONTINUE SHOPPING
         </button>
       </div>
     </div>

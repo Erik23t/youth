@@ -5,7 +5,7 @@ export default function PaymentIcons() {
     <div className="text-center mb-8">
       <div className="flex items-center justify-center gap-6 text-sm text-gray-800 mb-6">
         <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-[#841dc5]" /> Garantia de reembolso de 365 dias</span>
-        <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-[#841dc5]" /> Frete grátis*</span>
+        <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-[#841dc5]" /> Free shipping*</span>
       </div>
 
       <div className="flex items-center justify-center gap-2 flex-wrap">

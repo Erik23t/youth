@@ -18,7 +18,7 @@ export default function FeaturedReview() {
             </div>
           </div>
           <p className="text-sm text-gray-600 leading-relaxed mt-2">
-            Em apenas UMA semana de uso deste sérum, minha barba por fazer simplesmente parou de aparecer!! Por cerca de US$ 60, vale cada centavo! Gastei pelo menos 10 vezes mais em tratamentos que não precisarei mais.
+            In just ONE week of using this serum, my stubble simply stopped appearing!! For about US$ 60, it is worth every penny! I have spent at least 10 times more on treatments I will no longer need.
           </p>
         </div>
       </div>

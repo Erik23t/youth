@@ -9,7 +9,7 @@ export default function AssinaturaCancelada() {
           <XCircle className="w-12 h-12 text-red-600" />
         </div>
         
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">Assinatura Cancelada</h2>
+        <h2 className="text-3xl font-bold text-gray-900 mb-4">Subscription Cancelled</h2>
         
         <p className="text-gray-600 mb-8">
           O processo de assinatura foi cancelado. Nenhuma cobrança foi realizada no seu cartão.

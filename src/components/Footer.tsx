@@ -19,25 +19,25 @@ export default function Footer({
         <div>
           <div className="text-2xl font-serif font-bold tracking-tighter mb-4 text-gray-900">Zylumia</div>
           <p className="text-sm text-gray-500 leading-relaxed">
-            Redefinindo os cuidados com a pele através da ciência e da natureza. Fórmulas limpas, resultados reais.
+            Redefining skincare through science and nature. Clean formulas, real results.
           </p>
         </div>
         <div>
-          <h3 className="text-xs font-bold tracking-wider mb-4 text-gray-900">POLÍTICAS</h3>
+          <h3 className="text-xs font-bold tracking-wider mb-4 text-gray-900">POLICIES</h3>
           <ul className="space-y-3 text-sm text-gray-500">
-            <li><a href="/politica-de-privacidade" className="hover:text-gray-900 transition-colors">Política de Privacidade</a></li>
-            <li><a href="/termos-de-servico" className="hover:text-gray-900 transition-colors">Termos de Serviço</a></li>
-            <li><a href="/politica-de-frete" className="hover:text-gray-900 transition-colors">Política de Envio</a></li>
-            <li><a href="/politica-de-reembolso" className="hover:text-gray-900 transition-colors">Política de Reembolso</a></li>
+            <li><a href="/politica-de-privacidade" className="hover:text-gray-900 transition-colors">Privacy Policy</a></li>
+            <li><a href="/termos-de-servico" className="hover:text-gray-900 transition-colors">Terms of Service</a></li>
+            <li><a href="/politica-de-frete" className="hover:text-gray-900 transition-colors">Shipping Policy</a></li>
+            <li><a href="/politica-de-reembolso" className="hover:text-gray-900 transition-colors">Refund Policy</a></li>
             <li><a href="/contato" className="hover:text-gray-900 transition-colors">Contate-nos</a></li>
           </ul>
         </div>
         <div>
-          <h3 className="text-xs font-bold tracking-wider mb-4 text-gray-900">SUPORTE</h3>
+          <h3 className="text-xs font-bold tracking-wider mb-4 text-gray-900">SUPPORT</h3>
           <ul className="space-y-3 text-sm text-gray-500">
-            <li><a href="/perguntas-frequentes" className="hover:text-gray-900 transition-colors">Perguntas Frequentes</a></li>
-            <li><a href="/politica-de-frete" className="hover:text-gray-900 transition-colors">Política de Frete</a></li>
-            <li><a href="/politica-de-reembolso" className="hover:text-gray-900 transition-colors">Devoluções e Reembolsos</a></li>
+            <li><a href="/perguntas-frequentes" className="hover:text-gray-900 transition-colors">FAQs</a></li>
+            <li><a href="/politica-de-frete" className="hover:text-gray-900 transition-colors">Shipping Policy</a></li>
+            <li><a href="/politica-de-reembolso" className="hover:text-gray-900 transition-colors">Returns & Refunds</a></li>
             <li><a href="/acompanhe-seu-pedido" className="hover:text-gray-900 transition-colors">Acompanhe seu Pedido</a></li>
             <li><a href="/contato" className="hover:text-gray-900 transition-colors">Contate-nos</a></li>
           </ul>
@@ -74,8 +74,8 @@ export default function Footer({
       <div className="max-w-[1200px] mx-auto border-t border-gray-200 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600">
         <p>© 2026 Zylumia. All rights reserved.</p>
         <div className="flex space-x-4 mt-4 md:mt-0">
-          <a href="/termos-de-servico" className="hover:text-gray-900 transition-colors">Termos de Serviço</a>
-          <a href="/politica-de-privacidade" className="hover:text-gray-900 transition-colors">Política de Privacidade</a>
+          <a href="/termos-de-servico" className="hover:text-gray-900 transition-colors">Terms of Service</a>
+          <a href="/politica-de-privacidade" className="hover:text-gray-900 transition-colors">Privacy Policy</a>
         </div>
       </div>
     </footer>

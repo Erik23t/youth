@@ -140,7 +140,7 @@ export default function ProductDetails({
           onClick={onAddToCart}
           className="w-full bg-[#841dc5] hover:bg-[#6a179e] text-white text-sm font-bold py-4 rounded-sm transition-colors mb-4 tracking-wider"
         >
-          ADICIONAR AO CARRINHO
+          ADD TO CART
         </button>
       )}
 

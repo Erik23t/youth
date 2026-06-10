@@ -37,13 +37,13 @@ export function useCoupon() {
         const discount = data.discount || parseFloat((subtotal * ((data.coupon.discountPercent || 0) / 100)).toFixed(2)) || 0
         setDiscountAmount(discount)
       } else {
-        setCouponMessage(data.message || '❌ Cupom inválido.')
+        setCouponMessage(data.message || '❌ Invalid coupon.')
         setAppliedCoupon(null)
         setDiscountAmount(0)
         localStorage.removeItem('zylumia_coupon')
       }
     } catch {
-      setCouponMessage('Erro ao aplicar cupom.')
+      setCouponMessage('Error applying coupon.')
     }
   }
 

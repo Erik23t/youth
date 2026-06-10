@@ -178,7 +178,7 @@ export default function AcompanhePedido() {
           {erroVisitante && <div style={{ color: '#ef4444', marginBottom: '16px', fontSize: '14px', padding: '12px', background: '#fef2f2', borderRadius: '8px' }}>{erroVisitante}</div>}
           <button onClick={buscarPedidoVisitante} disabled={loadingVisitante} style={{ width: '100%', padding: '14px', background: 'white', color: '#7c3aed', border: '2px solid #7c3aed', borderRadius: '8px', fontSize: '16px', fontWeight: 'bold', cursor: loadingVisitante ? 'not-allowed' : 'pointer', opacity: loadingVisitante ? 0.7 : 1 }}
             onMouseOver={e => { if(!loadingVisitante) e.currentTarget.style.background = '#f3e8ff' }} onMouseOut={e => { if(!loadingVisitante) e.currentTarget.style.background = 'white' }}>
-            {loadingVisitante ? 'BUSCANDO...' : 'BUSCAR MEU PEDIDO'}
+            {loadingVisitante ? 'BUSCANDO...' : 'SEARCH MEU PEDIDO'}
           </button>
           <p style={{ marginTop: '24px', fontSize: '13px', color: '#888', textAlign: 'center', background: '#f8fafc', padding: '12px', borderRadius: '8px' }}>
             O numero do pedido esta na confirmacao de compra recebida por e-mail. Exemplo: #E5741B80

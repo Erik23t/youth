@@ -334,12 +334,12 @@ export default function MinhaConta() {
                     <div className="space-y-4">
                       {pedidos.map((pedido: any) => {
                         const statusConfig: any = {
-                          PENDING:    { label: 'Pendente',   icon: '⏳', bg: 'bg-yellow-100', text: 'text-yellow-700' },
-                          PAID:       { label: 'Pago',       icon: '✅', bg: 'bg-green-100',  text: 'text-green-700'  },
+                          PENDING:    { label: 'Pending',   icon: '⏳', bg: 'bg-yellow-100', text: 'text-yellow-700' },
+                          PAID:       { label: 'Paid',       icon: '✅', bg: 'bg-green-100',  text: 'text-green-700'  },
                           PROCESSING: { label: 'Preparando', icon: '⚙️', bg: 'bg-blue-100',   text: 'text-blue-700'   },
-                          SHIPPED:    { label: 'Enviado',    icon: '📦', bg: 'bg-purple-100', text: 'text-purple-700' },
-                          DELIVERED:  { label: 'Entregue',   icon: '🎉', bg: 'bg-green-100',  text: 'text-green-700'  },
-                          CANCELLED:  { label: 'Cancelado',  icon: '❌', bg: 'bg-red-100',    text: 'text-red-700'    },
+                          SHIPPED:    { label: 'Shipped',    icon: '📦', bg: 'bg-purple-100', text: 'text-purple-700' },
+                          DELIVERED:  { label: 'Delivered',   icon: '🎉', bg: 'bg-green-100',  text: 'text-green-700'  },
+                          CANCELLED:  { label: 'Cancelled',  icon: '❌', bg: 'bg-red-100',    text: 'text-red-700'    },
                         };
                         const s = statusConfig[pedido.status] || statusConfig.PENDING;
 
@@ -391,7 +391,7 @@ export default function MinhaConta() {
                                   border: '1px solid #e5e7eb'
                                 }}
                               />
-                              {/* Itens do pedido */}
+                              {/* Items do pedido */}
                               <div className="flex-1">
                                 {pedido.items?.map((item: any, i: number) => (
                                   <div key={i} className="flex justify-between text-sm text-gray-600 py-1 border-b border-gray-50 last:border-0">
@@ -457,7 +457,7 @@ export default function MinhaConta() {
                           </div>
                           <div>
                             <p className="text-sm text-green-700 mb-1">Amount Mensal</p>
-                            <p className="font-bold text-gray-900">US$ {subscription.price?.toFixed(2).replace('.', ',')}</p>
+                            <p className="font-bold text-gray-900">US$ {subscription.price?.toFixed(2)}</p>
                           </div>
                           <div>
                             <p className="text-sm text-green-700 mb-1">Próxima Cobrança</p>

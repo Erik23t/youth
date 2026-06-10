@@ -20,7 +20,7 @@ export default function HeroBanner({
   return (
     <div id="lar" className="w-full h-[100vh] bg-gray-100 relative overflow-hidden">
 
-      {/* Banner — imagem do Sanity ou carrossel de imagens */}
+      {/* Banner — Sanity image or carousel */}
       {heroImage ? (
         <img
           src={heroImage}
@@ -51,9 +51,9 @@ export default function HeroBanner({
         ))
       )}
 
-      {/* Overlay com imagem responsiva — desktop/mobile */}
+      {/* Responsive image overlay — desktop/mobile */}
       <div className="absolute inset-0 z-20">
-        {/* Desktop — fetchPriority high para LCP */}
+        {/* Desktop — fetchPriority high for LCP */}
         <img
           src="https://imagens.zylumia.com/zylumia.png"
           alt="Zylumia"
@@ -64,7 +64,7 @@ export default function HeroBanner({
           loading="eager"
           className="hidden md:block w-full h-full object-cover"
         />
-        {/* Mobile — fetchPriority high, é o LCP real */}
+        {/* Mobile — fetchPriority high, is the real LCP */}
         <img
           src="https://imagens.zylumia.com/zylumia-serum.png"
           alt="Zylumia"

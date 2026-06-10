@@ -15,11 +15,11 @@ const s = {
 
 const Linha = () => <hr style={s.sep} />;
 
-export default function PoliticaFrete() {
+export default function PoliticaShipping() {
   return (
     <div style={s.page}>
-      <h1 style={s.title}>Política de Envio</h1>
-      <p style={s.updated}>Última atualização: agosto de 2025</p>
+      <h1 style={s.title}>Shipping Policy</h1>
+      <p style={s.updated}>Last updated: agosto de 2025</p>
 
       <p style={s.intro}>
         Nos esforçamos para processar e entregar seus pedidos com agilidade e total transparência. Leia abaixo todos os detalhes sobre prazos, rastreamento e responsabilidades de envio.
@@ -61,7 +61,7 @@ export default function PoliticaFrete() {
 
       <Linha />
 
-      <h2 style={s.h2}>Rastreamento do Pedido</h2>
+      <h2 style={s.h2}>Tracking do Pedido</h2>
       <p style={s.p}>
         Assim que seu pedido for despachado, você receberá o código de rastreamento por e-mail. O rastreamento pode levar de 24 a 48 horas para exibir atualizações após o envio.
       </p>

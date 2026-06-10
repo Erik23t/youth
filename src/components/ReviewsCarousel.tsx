@@ -58,7 +58,7 @@ export default function ReviewsCarousel({ reviews }: ReviewsCarouselProps) {
           Amado por mais de 100.000 pessoas <span className="italic">Clientes sem pelos</span>
         </h2>
         <p className="text-gray-600 mb-6">
-          Experiências reais de clientes que se libertaram da depilação diária.
+          Real experiences from customers who freed themselves from daily hair removal.
         </p>
         <div className="flex items-center justify-center gap-3 text-sm text-gray-700 bg-white inline-flex px-4 py-2 rounded-full shadow-sm">
           <div className="flex gap-0.5">
@@ -68,7 +68,7 @@ export default function ReviewsCarousel({ reviews }: ReviewsCarouselProps) {
               </div>
             ))}
           </div>
-          <span>Excelente! 4.8/5 com base em mais de 4.700 avaliações de clientes.</span>
+          <span>Excellent! 4.8/5 based on over 4,700 customer reviews.</span>
         </div>
       </div>
 
@@ -116,7 +116,7 @@ export default function ReviewsCarousel({ reviews }: ReviewsCarouselProps) {
           <button
             onClick={() => scrollCarousel('left')}
             className="w-10 h-10 rounded-full bg-white shadow-sm border border-gray-200 flex items-center justify-center text-gray-600 hover:text-[#841dc5] hover:border-[#841dc5] transition-colors"
-            aria-label="Anterior"
+            aria-label="Previous"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
@@ -128,7 +128,7 @@ export default function ReviewsCarousel({ reviews }: ReviewsCarouselProps) {
           <button
             onClick={() => scrollCarousel('right')}
             className="w-10 h-10 rounded-full bg-white shadow-sm border border-gray-200 flex items-center justify-center text-gray-600 hover:text-[#841dc5] hover:border-[#841dc5] transition-colors"
-            aria-label="Próximo"
+            aria-label="Next"
           >
             <ChevronRight className="w-5 h-5" />
           </button>

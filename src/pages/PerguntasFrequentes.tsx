@@ -59,7 +59,7 @@ const estilos = {
   }
 };
 
-function RodapeContato({ mensagem }: { mensagem: string }) {
+function RodapeContact({ mensagem }: { mensagem: string }) {
   return (
     <div style={{ 
       background: '#f9f6ff', border: '1px solid #ede9fe',
@@ -99,7 +99,7 @@ const faqs = [
     categoria: '🚚 Envio e Entrega',
     perguntas: [
       { p: 'Qual é o prazo de entrega?', r: 'Processamos todos os pedidos em até 24 horas úteis. O prazo de entrega é de 5 a 10 dias úteis após o despacho. Você receberá um código de rastreamento por e-mail assim que o pedido for enviado.' },
-      { p: 'Vocês entregam em toda a Europa?', r: 'Sim! Entregamos em toda a Europa, incluindo Portugal, Espanha, França, Alemanha, Itália, Holanda, Bélgica, Suíça e muitos outros países. Frete grátis em pedidos acima de €50.' },
+      { p: 'Vocês entregam em toda a Europa?', r: 'Sim! Entregamos em toda a Europa, incluindo Portugal, Espanha, França, Alemanha, Itália, Holanda, Bélgica, Suíça e muitos outros países. Shipping grátis em pedidos acima de €50.' },
       { p: 'Como rastrear meu pedido?', r: 'Assim que seu pedido for despachado, você receberá um e-mail com o código de rastreamento. Use a nossa página "Acompanhe seu Pedido" para consultar o status em tempo real.' },
     ]
   },
@@ -117,7 +117,7 @@ export default function PerguntasFrequentes() {
 
   return (
     <div style={estilos.pagina}>
-      <h1 style={estilos.titulo}>Perguntas Frequentes</h1>
+      <h1 style={estilos.titulo}>Frequently Asked Questions</h1>
       <p style={estilos.dataAtualizacao}>Encontre respostas para as dúvidas mais comuns</p>
 
       {faqs.map((cat, ci) => (
@@ -163,7 +163,7 @@ export default function PerguntasFrequentes() {
         </div>
       ))}
 
-      <RodapeContato mensagem="Não encontrou o que procurava? Respondemos em até 24 horas úteis." />
+      <RodapeContact mensagem="Não encontrou o que procurava? Respondemos em até 24 horas úteis." />
     </div>
   );
 }

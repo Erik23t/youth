@@ -42,7 +42,7 @@ export function useNewsletter(onPromoClose?: () => void) {
         setMessage({ text: '❌ Digite um e-mail válido.', type: 'error' })
       }
     } catch {
-      setMessage({ text: '❌ Erro ao cadastrar. Tente novamente.', type: 'error' })
+      setMessage({ text: '❌ Registration error. Tente novamente.', type: 'error' })
     } finally {
       setLoading(false)
     }

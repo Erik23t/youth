@@ -314,13 +314,13 @@ export default function Admin() {
         fetchCustomers();
         fetchNewsletter();
       }
-      if (activeTab === 'Pedidos') fetchOrders();
-      if (activeTab === 'Clientes') fetchCustomers();
+      if (activeTab === 'Orders') fetchOrders();
+      if (activeTab === 'Customers') fetchCustomers();
       if (activeTab === 'Newsletter') fetchNewsletter();
-      if (activeTab === 'Relatórios') fetchOrders();
-      if (activeTab === 'Cupons') fetchCoupons();
-      if (activeTab === 'Assinaturas') fetchSubscriptions();
-      if (activeTab === 'Mensagens') fetchMessages();
+      if (activeTab === 'Reports') fetchOrders();
+      if (activeTab === 'Coupons') fetchCoupons();
+      if (activeTab === 'Subscriptions') fetchSubscriptions();
+      if (activeTab === 'Messages') fetchMessages();
     }
   }, [autenticado, activeTab, reportPeriod]);
 
@@ -624,7 +624,7 @@ export default function Admin() {
           `• Códigos OTP removidos: ${data.deleted.otpCodes}\n` +
           `• Carrinhos removidos: ${data.deleted.carts}\n` +
           `• Carrinhos abandonados: ${data.deleted.abandonedCarts}\n` +
-          `• Cupons expirados: ${data.deleted.expiredCoupons}`
+          `• Coupons expirados: ${data.deleted.expiredCoupons}`
         )
       } else {
         alert(`❌ Erro: ${data?.message || 'Tente novamente.'}`)
@@ -683,7 +683,7 @@ export default function Admin() {
 
       <div style={{ padding: '32px', maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ display: 'flex', gap: '16px', marginBottom: '32px', borderBottom: '2px solid #ede9fe', paddingBottom: '16px', overflowX: 'auto' }}>
-          {['Dashboard', 'Pedidos', 'Clientes', 'Newsletter', 'Relatórios', 'Cupons', 'Assinaturas', 'Mensagens'].map(tab => (
+          {['Dashboard', 'Orders', 'Customers', 'Newsletter', 'Reports', 'Coupons', 'Subscriptions', 'Messages'].map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -730,15 +730,15 @@ export default function Admin() {
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px', marginBottom: '32px' }}>
               <div style={{ background: 'white', border: '1px solid #ede9fe', borderRadius: '12px', padding: '24px' }}>
-                <h3 style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px', fontFamily: 'sans-serif' }}>Total Pedidos</h3>
+                <h3 style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px', fontFamily: 'sans-serif' }}>Total Orders</h3>
                 <p style={{ margin: 0, fontSize: '28px', color: '#1a0533', fontWeight: 'bold' }}>{dashboardData.totalOrders || 0}</p>
               </div>
               <div style={{ background: 'white', border: '1px solid #ede9fe', borderRadius: '12px', padding: '24px' }}>
-                <h3 style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px', fontFamily: 'sans-serif' }}>Receita Total</h3>
+                <h3 style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px', fontFamily: 'sans-serif' }}>Total Revenue</h3>
                 <p style={{ margin: 0, fontSize: '28px', color: '#1a0533', fontWeight: 'bold' }}>US$ {dashboardData.totalRevenue?.toFixed(2) || '0.00'}</p>
               </div>
               <div style={{ background: 'white', border: '1px solid #ede9fe', borderRadius: '12px', padding: '24px' }}>
-                <h3 style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px', fontFamily: 'sans-serif' }}>Pedidos Pagos</h3>
+                <h3 style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px', fontFamily: 'sans-serif' }}>Orders Pagos</h3>
                 <p style={{ margin: 0, fontSize: '28px', color: '#1a0533', fontWeight: 'bold' }}>{dashboardData.paidOrders || 0}</p>
               </div>
               <div style={{ background: 'white', border: '1px solid #ede9fe', borderRadius: '12px', padding: '24px' }}>
@@ -752,7 +752,7 @@ export default function Admin() {
                 <p style={{ margin: '4px 0 0 0', color: '#666', fontSize: '14px', fontFamily: 'sans-serif' }}>{dashboardData.weekOrders || 0} pedidos</p>
               </div>
               <div style={{ background: 'white', border: '1px solid #ede9fe', borderRadius: '12px', padding: '24px' }}>
-                <h3 style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px', fontFamily: 'sans-serif' }}>Clientes</h3>
+                <h3 style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px', fontFamily: 'sans-serif' }}>Customers</h3>
                 <p style={{ margin: 0, fontSize: '28px', color: '#1a0533', fontWeight: 'bold' }}>{dashboardData.totalCustomers || 0}</p>
               </div>
               <div style={{ background: 'white', border: '1px solid #ede9fe', borderRadius: '12px', padding: '24px' }}>
@@ -792,10 +792,10 @@ export default function Admin() {
           </div>
         )}
 
-        {activeTab === 'Pedidos' && (
+        {activeTab === 'Orders' && (
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-              <h2 style={{ color: '#1a0533', margin: 0 }}>Pedidos</h2>
+              <h2 style={{ color: '#1a0533', margin: 0 }}>Orders</h2>
               <select 
                 value={orderFilter} 
                 onChange={e => setOrderFilter(e.target.value)}
@@ -866,11 +866,11 @@ export default function Admin() {
           </div>
         )}
 
-        {activeTab === 'Clientes' && (
+        {activeTab === 'Customers' && (
           <div>
             {/* Header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
-              <h2 style={{ color: '#1a0533', margin: 0 }}>Clientes ({customers.length})</h2>
+              <h2 style={{ color: '#1a0533', margin: 0 }}>Customers ({customers.length})</h2>
               <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                 {broadcastSelected.length > 0 && (
                   <span style={{ fontSize: '13px', background: '#ede9fe', color: '#6d28d9', padding: '4px 12px', borderRadius: '20px', fontWeight: 500 }}>
@@ -1106,10 +1106,10 @@ export default function Admin() {
           </div>
         )}
 
-        {activeTab === 'Relatórios' && (
+        {activeTab === 'Reports' && (
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
-              <h2 style={{ color: '#1a0533', margin: 0 }}>Relatórios</h2>
+              <h2 style={{ color: '#1a0533', margin: 0 }}>Reports</h2>
               <div style={{ display: 'flex', gap: '8px' }}>
                 {[7, 30, 90].map(days => (
                   <button
@@ -1144,11 +1144,11 @@ export default function Admin() {
                     </p>
                   </div>
                   <div style={{ background: 'white', border: '1px solid #ede9fe', borderRadius: '12px', padding: '24px' }}>
-                    <h3 style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px', fontFamily: 'sans-serif' }}>Total Pedidos</h3>
+                    <h3 style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px', fontFamily: 'sans-serif' }}>Total Orders</h3>
                     <p style={{ margin: 0, fontSize: '28px', color: '#1a0533', fontWeight: 'bold' }}>{reportsData.totalOrders || 0}</p>
                   </div>
                   <div style={{ background: 'white', border: '1px solid #ede9fe', borderRadius: '12px', padding: '24px' }}>
-                    <h3 style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px', fontFamily: 'sans-serif' }}>Receita Total</h3>
+                    <h3 style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px', fontFamily: 'sans-serif' }}>Total Revenue</h3>
                     <p style={{ margin: 0, fontSize: '28px', color: '#1a0533', fontWeight: 'bold' }}>US$ {reportsData.totalRevenue?.toFixed(2) || '0.00'}</p>
                   </div>
                   <div style={{ background: 'white', border: '1px solid #ede9fe', borderRadius: '12px', padding: '24px' }}>
@@ -1164,7 +1164,7 @@ export default function Admin() {
                       <thead>
                         <tr style={{ borderBottom: '2px solid #eee' }}>
                           <th style={{ padding: '12px' }}>Data</th>
-                          <th style={{ padding: '12px' }}>Pedidos</th>
+                          <th style={{ padding: '12px' }}>Orders</th>
                           <th style={{ padding: '12px' }}>Receita</th>
                         </tr>
                       </thead>
@@ -1217,9 +1217,9 @@ export default function Admin() {
           </div>
         )}
 
-        {activeTab === 'Cupons' && (
+        {activeTab === 'Coupons' && (
           <div>
-            <h2 style={{ color: '#1a0533', marginBottom: '24px' }}>Cupons de Desconto</h2>
+            <h2 style={{ color: '#1a0533', marginBottom: '24px' }}>Coupons de Desconto</h2>
             
             <div style={{ background: 'white', border: '1px solid #ede9fe', borderRadius: '12px', padding: '24px', marginBottom: '32px' }}>
               <h3 style={{ margin: '0 0 16px 0', color: '#1a0533', fontSize: '18px' }}>Criar Novo Cupom</h3>
@@ -1345,9 +1345,9 @@ export default function Admin() {
           </div>
         )}
 
-        {activeTab === 'Assinaturas' && (
+        {activeTab === 'Subscriptions' && (
           <div>
-            <h2 style={{ color: '#1a0533', marginBottom: '24px' }}>Assinaturas</h2>
+            <h2 style={{ color: '#1a0533', marginBottom: '24px' }}>Subscriptions</h2>
             
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px', marginBottom: '32px' }}>
               <div style={{ background: 'white', border: '1px solid #ede9fe', borderRadius: '12px', padding: '24px' }}>
@@ -1410,10 +1410,10 @@ export default function Admin() {
           </div>
         )}
 
-        {activeTab === 'Mensagens' && (
+        {activeTab === 'Messages' && (
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-              <h2 style={{ color: '#1a0533', margin: 0 }}>Mensagens dos Clientes</h2>
+              <h2 style={{ color: '#1a0533', margin: 0 }}>Messages dos Customers</h2>
               <button
                 onClick={fetchMessages}
                 style={{ background: '#f3f4f6', border: '1px solid #d1d5db', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}
@@ -1597,7 +1597,7 @@ export default function Admin() {
                 <div style={{ marginBottom: '24px', background: '#f9fafb', padding: '16px', borderRadius: '8px', border: '1px solid #e5e7eb' }}>
                   <p style={{ margin: '0 0 8px 0', color: '#4b5563', fontSize: '14px' }}><strong>Último login:</strong> {selectedCustomer.lastLogin ? new Date(selectedCustomer.lastLogin).toLocaleDateString() : '-'}</p>
                   <p style={{ margin: '0 0 8px 0', color: '#4b5563', fontSize: '14px' }}><strong>Total de pedidos:</strong> {customerDetails?.pedidos?.length || 0}</p>
-                  <p style={{ margin: 0, color: '#4b5563', fontSize: '14px' }}><strong>Total gasto:</strong> US$ {(customerDetails?.pedidos || []).reduce((acc: number, o: any) => acc + (o.total || 0), 0).toFixed(2).replace('.', ',')}</p>
+                  <p style={{ margin: 0, color: '#4b5563', fontSize: '14px' }}><strong>Total spent:</strong> US$ {(customerDetails?.pedidos || []).reduce((acc: number, o: any) => acc + (o.total || 0), 0).toFixed(2).replace('.', ',')}</p>
                 </div>
 
                 <div style={{ marginBottom: '24px' }}>
@@ -1638,7 +1638,7 @@ export default function Admin() {
                   {customerDetails?.assinatura ? (
                     <div style={{ background: '#ecfdf5', border: '1px solid #a7f3d0', padding: '16px', borderRadius: '8px' }}>
                       <p style={{ margin: '0 0 8px 0', color: '#065f46', fontSize: '14px', fontWeight: 'bold' }}>
-                        ✅ Ativa — {(customerDetails.assinatura.items && customerDetails.assinatura.items[0]?.name) || 'Kit'} — US$ {(customerDetails.assinatura.total || 0).toFixed(2).replace('.', ',')}/mês
+                        ✅ Active — {(customerDetails.assinatura.items && customerDetails.assinatura.items[0]?.name) || 'Kit'} — US$ {(customerDetails.assinatura.total || 0).toFixed(2).replace('.', ',')}/mês
                       </p>
                       <p style={{ margin: 0, color: '#047857', fontSize: '14px' }}>
                         <strong>Próxima cobrança:</strong> {customerDetails.assinatura.nextBillingDate ? new Date(customerDetails.assinatura.nextBillingDate).toLocaleDateString() : '-'}

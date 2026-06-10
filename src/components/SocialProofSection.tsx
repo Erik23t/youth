@@ -7,7 +7,7 @@ export default function SocialProofSection() {
             Junte-se a mais de 100.000 pessoas que se libertaram.
           </h2>
           <p className="text-gray-600 mb-10 text-lg">
-            Transformações reais de nossos clientes que escolheram um caminho melhor.
+            Real transformations from our customers who chose a better path.
           </p>
 
           <div className="space-y-8">
@@ -16,7 +16,7 @@ export default function SocialProofSection() {
                 <div className="text-5xl font-light text-[#7e3fb0]">6x</div>
                 <div>
                   <h3 className="text-xl text-gray-900 font-medium mb-1">Menos</h3>
-                  <p className="text-gray-500 text-sm">Tempo gasto em rotinas diárias de depilação.</p>
+                  <p className="text-gray-500 text-sm">Time spent on daily hair removal routines.</p>
                 </div>
               </div>
             </div>
@@ -26,7 +26,7 @@ export default function SocialProofSection() {
                 <div className="text-5xl font-light text-[#7e3fb0]">55 mil+</div>
                 <div>
                   <h3 className="text-xl text-gray-900 font-medium mb-1">Clientes</h3>
-                  <p className="text-gray-500 text-sm">Jogaram fora suas lâminas de barbear e pinças para sempre.</p>
+                  <p className="text-gray-500 text-sm">Threw away their razors and tweezers forever.</p>
                 </div>
               </div>
             </div>
@@ -35,7 +35,7 @@ export default function SocialProofSection() {
               <div className="flex items-start gap-6">
                 <div className="text-5xl font-light text-[#7e3fb0]">93%</div>
                 <div>
-                  <h3 className="text-xl text-gray-900 font-medium mb-1">Relatório</h3>
+                  <h3 className="text-xl text-gray-900 font-medium mb-1">Report</h3>
                   <p className="text-gray-500 text-sm">Um crescimento mais suave e menos resistente em poucas semanas.</p>
                 </div>
               </div>

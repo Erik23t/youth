@@ -19,7 +19,7 @@ export default function NewsletterSection({ email, setEmail, loading, message, o
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Seu e-mail"
+            placeholder="Your email"
             required
             className="flex-1 border border-gray-300 p-3 rounded-l-sm focus:outline-none focus:border-gray-900 text-sm bg-white"
           />

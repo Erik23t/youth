@@ -59,7 +59,7 @@ const estilos = {
   }
 };
 
-function RodapeContato({ mensagem }: { mensagem: string }) {
+function RodapeContact({ mensagem }: { mensagem: string }) {
   return (
     <div style={{ 
       background: '#f9f6ff', border: '1px solid #ede9fe',
@@ -80,7 +80,7 @@ export default function TermosCondicoes() {
   const secoes = [
     {
       titulo: '1. Aceitação dos Termos',
-      texto: 'Ao visitar nosso site ou usar nossos serviços, você concorda com estes Termos e Condições e com todas as outras políticas aqui mencionadas, incluindo a Política de Privacidade e a Política de Frete.'
+      texto: 'Ao visitar nosso site ou usar nossos serviços, você concorda com estes Terms & Conditions e com todas as outras políticas aqui mencionadas, incluindo a Privacy Policy e a Shipping Policy.'
     },
     {
       titulo: '2. Pedidos e Pagamentos',
@@ -91,12 +91,12 @@ export default function TermosCondicoes() {
       texto: 'Nos esforçamos para fornecer informações precisas e completas sobre os produtos. As imagens dos produtos são meramente ilustrativas e podem diferir ligeiramente do produto real.'
     },
     {
-      titulo: '4. Política de Envio',
-      texto: 'Consulte nossa Política de Frete para obter detalhes sobre o tempo de processamento, métodos e custos de envio e entrega.'
+      titulo: '4. Shipping Policy',
+      texto: 'Consulte nossa Shipping Policy para obter detalhes sobre o tempo de processamento, métodos e custos de envio e entrega.'
     },
     {
-      titulo: '5. Devoluções e Reembolsos',
-      texto: 'Leia nossa Política de Devoluções e Reembolsos para obter instruções completas. De acordo com a legislação europeia (Diretiva 2011/83/UE), você tem o direito de retirada no prazo de 14 dias após o recebimento do produto.'
+      titulo: '5. Devoluções e Refunds',
+      texto: 'Leia nossa Política de Devoluções e Refunds para obter instruções completas. De acordo com a legislação europeia (Diretiva 2011/83/UE), você tem o direito de retirada no prazo de 14 dias após o recebimento do produto.'
     },
     {
       titulo: '6. Propriedade Intelectual',
@@ -108,18 +108,18 @@ export default function TermosCondicoes() {
     },
     {
       titulo: '8. Lei Aplicável',
-      texto: 'Estes Termos e Condições são regidos pela legislação da União Europeia e do país onde a Zylumia está registada. Qualquer litígio será submetido à jurisdição competente do referido país.'
+      texto: 'Estes Terms & Conditions são regidos pela legislação da União Europeia e do país onde a Zylumia está registada. Qualquer litígio será submetido à jurisdição competente do referido país.'
     },
     {
       titulo: '9. Alterações aos Termos',
-      texto: 'A Zylumia reserva-se o direito de modificar estes Termos e Condições a qualquer momento. As alterações entram em vigor imediatamente após a publicação no site.'
+      texto: 'A Zylumia reserva-se o direito de modificar estes Terms & Conditions a qualquer momento. As alterações entram em vigor imediatamente após a publicação no site.'
     },
   ];
 
   return (
     <div style={estilos.pagina}>
-      <h1 style={estilos.titulo}>Termos e Condições</h1>
-      <p style={estilos.dataAtualizacao}>Última atualização: março de 2026</p>
+      <h1 style={estilos.titulo}>Terms & Conditions</h1>
+      <p style={estilos.dataAtualizacao}>Last updated: março de 2026</p>
       {secoes.map((s, i) => (
         <div key={i}>
           <h2 style={estilos.secaoTitulo}>{s.titulo}</h2>
@@ -127,7 +127,7 @@ export default function TermosCondicoes() {
           {i < secoes.length - 1 && <div style={estilos.separador} />}
         </div>
       ))}
-      <RodapeContato mensagem="Dúvidas ou comentários? Obrigada por escolher a Zylumia!" />
+      <RodapeContact mensagem="Dúvidas ou comentários? Obrigada por escolher a Zylumia!" />
     </div>
   );
 }

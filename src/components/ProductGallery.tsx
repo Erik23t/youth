@@ -59,14 +59,14 @@ export default function ProductGallery({ mainImage, images, onSelectImage }: Pro
           <>
             <button
               onClick={goPrev}
-              aria-label="Imagem anterior"
+              aria-label="Previous image"
               className="md:hidden absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow text-gray-700 hover:bg-white transition-colors z-10"
             >
               ‹
             </button>
             <button
               onClick={goNext}
-              aria-label="Próxima imagem"
+              aria-label="Next image"
               className="md:hidden absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow text-gray-700 hover:bg-white transition-colors z-10"
             >
               ›
